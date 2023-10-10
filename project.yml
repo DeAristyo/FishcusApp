@@ -1,0 +1,15 @@
+name: TadikaApp
+targets:
+  - MyApp:
+      type: application
+      platform: iOS
+      sources:
+        - Sources
+  - MyAppTests:
+      type: unit-test
+      platform: iOS
+      sources:
+        - Tests
+      dependencies:
+        - target: MyApp
+        - XCTest
