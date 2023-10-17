@@ -7,24 +7,76 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A5C3E4B72AD928ED00B6AD1D /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C3E4B62AD928ED00B6AD1D /* WidgetKit.framework */; };
+		A5C3E4B92AD928ED00B6AD1D /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A5C3E4B82AD928ED00B6AD1D /* SwiftUI.framework */; };
+		A5C3E4BC2AD928ED00B6AD1D /* TadikaWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E4BB2AD928ED00B6AD1D /* TadikaWidgetBundle.swift */; };
+		A5C3E4BE2AD928ED00B6AD1D /* TadikaWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E4BD2AD928ED00B6AD1D /* TadikaWidgetLiveActivity.swift */; };
+		A5C3E4C02AD928ED00B6AD1D /* TadikaWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E4BF2AD928ED00B6AD1D /* TadikaWidget.swift */; };
+		A5C3E4C22AD928ED00B6AD1D /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5C3E4C12AD928ED00B6AD1D /* AppIntent.swift */; };
+		A5C3E4C42AD928F600B6AD1D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A5C3E4C32AD928F600B6AD1D /* Assets.xcassets */; };
+		A5C3E4C82AD928F600B6AD1D /* TadikaWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A5C3E4B42AD928ED00B6AD1D /* TadikaWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		CC9103732AD7DCA60055547F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103722AD7DCA60055547F /* AppDelegate.swift */; };
 		CC9103752AD7DCA60055547F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103742AD7DCA60055547F /* SceneDelegate.swift */; };
-		CC9103772AD7DCA60055547F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103762AD7DCA60055547F /* ViewController.swift */; };
+		CC9103772AD7DCA60055547F /* Main.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103762AD7DCA60055547F /* Main.swift */; };
 		CC91037C2AD7DCA60055547F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC91037B2AD7DCA60055547F /* Assets.xcassets */; };
 		CC91037F2AD7DCA60055547F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC91037D2AD7DCA60055547F /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		A5C3E4C62AD928F600B6AD1D /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1F08DD1AB04996DD863786AA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A5C3E4B32AD928ED00B6AD1D;
+			remoteInfo = TadikaWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A5C3E4CC2AD928F600B6AD1D /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A5C3E4C82AD928F600B6AD1D /* TadikaWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		A5C3E4B42AD928ED00B6AD1D /* TadikaWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = TadikaWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A5C3E4B62AD928ED00B6AD1D /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A5C3E4B82AD928ED00B6AD1D /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A5C3E4BB2AD928ED00B6AD1D /* TadikaWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TadikaWidgetBundle.swift; sourceTree = "<group>"; };
+		A5C3E4BD2AD928ED00B6AD1D /* TadikaWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TadikaWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		A5C3E4BF2AD928ED00B6AD1D /* TadikaWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TadikaWidget.swift; sourceTree = "<group>"; };
+		A5C3E4C12AD928ED00B6AD1D /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		A5C3E4C32AD928F600B6AD1D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A5C3E4C52AD928F600B6AD1D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A5C3E4CD2ADE78B400B6AD1D /* TadikaApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TadikaApp.entitlements; sourceTree = "<group>"; };
+		A5C3E4CE2ADE7FFC00B6AD1D /* TadikaWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = TadikaWidgetExtension.entitlements; sourceTree = "<group>"; };
 		CC9103702AD7DCA60055547F /* TadikaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TadikaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC9103722AD7DCA60055547F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC9103742AD7DCA60055547F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		CC9103762AD7DCA60055547F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		CC9103762AD7DCA60055547F /* Main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Main.swift; sourceTree = "<group>"; };
 		CC91037B2AD7DCA60055547F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC91037E2AD7DCA60055547F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC9103802AD7DCA60055547F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		A5C3E4B12AD928ED00B6AD1D /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5C3E4B92AD928ED00B6AD1D /* SwiftUI.framework in Frameworks */,
+				A5C3E4B72AD928ED00B6AD1D /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC91036D2AD7DCA60055547F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -38,7 +90,10 @@
 		2D5324B34D78FA84201E891B = {
 			isa = PBXGroup;
 			children = (
+				A5C3E4CE2ADE7FFC00B6AD1D /* TadikaWidgetExtension.entitlements */,
 				CC9103712AD7DCA60055547F /* TadikaApp */,
+				A5C3E4BA2AD928ED00B6AD1D /* TadikaWidget */,
+				A5C3E4B52AD928ED00B6AD1D /* Frameworks */,
 				40A9F81E24FF5261E202F702 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -47,16 +102,80 @@
 			isa = PBXGroup;
 			children = (
 				CC9103702AD7DCA60055547F /* TadikaApp.app */,
+				A5C3E4B42AD928ED00B6AD1D /* TadikaWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		A5C3E4AB2AD7E2BC00B6AD1D /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		A5C3E4AC2AD7E2C500B6AD1D /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CC9103762AD7DCA60055547F /* Main.swift */,
+				A5C3E4AF2AD7E2F700B6AD1D /* ViewController */,
+				A5C3E4AE2AD7E2EA00B6AD1D /* Components */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		A5C3E4AD2AD7E2CE00B6AD1D /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A5C3E4AE2AD7E2EA00B6AD1D /* Components */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		A5C3E4AF2AD7E2F700B6AD1D /* ViewController */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewController;
+			sourceTree = "<group>";
+		};
+		A5C3E4B52AD928ED00B6AD1D /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A5C3E4B62AD928ED00B6AD1D /* WidgetKit.framework */,
+				A5C3E4B82AD928ED00B6AD1D /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A5C3E4BA2AD928ED00B6AD1D /* TadikaWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A5C3E4BB2AD928ED00B6AD1D /* TadikaWidgetBundle.swift */,
+				A5C3E4BD2AD928ED00B6AD1D /* TadikaWidgetLiveActivity.swift */,
+				A5C3E4BF2AD928ED00B6AD1D /* TadikaWidget.swift */,
+				A5C3E4C12AD928ED00B6AD1D /* AppIntent.swift */,
+				A5C3E4C32AD928F600B6AD1D /* Assets.xcassets */,
+				A5C3E4C52AD928F600B6AD1D /* Info.plist */,
+			);
+			path = TadikaWidget;
 			sourceTree = "<group>";
 		};
 		CC9103712AD7DCA60055547F /* TadikaApp */ = {
 			isa = PBXGroup;
 			children = (
+				A5C3E4CD2ADE78B400B6AD1D /* TadikaApp.entitlements */,
+				A5C3E4AB2AD7E2BC00B6AD1D /* Model */,
+				A5C3E4AC2AD7E2C500B6AD1D /* View */,
+				A5C3E4AD2AD7E2CE00B6AD1D /* ViewModel */,
 				CC9103722AD7DCA60055547F /* AppDelegate.swift */,
 				CC9103742AD7DCA60055547F /* SceneDelegate.swift */,
-				CC9103762AD7DCA60055547F /* ViewController.swift */,
 				CC91037B2AD7DCA60055547F /* Assets.xcassets */,
 				CC91037D2AD7DCA60055547F /* LaunchScreen.storyboard */,
 				CC9103802AD7DCA60055547F /* Info.plist */,
@@ -67,6 +186,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A5C3E4B32AD928ED00B6AD1D /* TadikaWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A5C3E4C92AD928F600B6AD1D /* Build configuration list for PBXNativeTarget "TadikaWidgetExtension" */;
+			buildPhases = (
+				A5C3E4B02AD928ED00B6AD1D /* Sources */,
+				A5C3E4B12AD928ED00B6AD1D /* Frameworks */,
+				A5C3E4B22AD928ED00B6AD1D /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TadikaWidgetExtension;
+			productName = TadikaWidgetExtension;
+			productReference = A5C3E4B42AD928ED00B6AD1D /* TadikaWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		CC91036F2AD7DCA60055547F /* TadikaApp */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CC9103832AD7DCA60055547F /* Build configuration list for PBXNativeTarget "TadikaApp" */;
@@ -74,10 +210,12 @@
 				CC91036C2AD7DCA60055547F /* Sources */,
 				CC91036D2AD7DCA60055547F /* Frameworks */,
 				CC91036E2AD7DCA60055547F /* Resources */,
+				A5C3E4CC2AD928F600B6AD1D /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A5C3E4C72AD928F600B6AD1D /* PBXTargetDependency */,
 			);
 			name = TadikaApp;
 			productName = TadikaApp;
@@ -94,6 +232,9 @@
 				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					A5C3E4B32AD928ED00B6AD1D = {
+						CreatedOnToolsVersion = 15.0;
+					};
 					CC91036F2AD7DCA60055547F = {
 						CreatedOnToolsVersion = 15.0;
 					};
@@ -112,11 +253,20 @@
 			projectRoot = "";
 			targets = (
 				CC91036F2AD7DCA60055547F /* TadikaApp */,
+				A5C3E4B32AD928ED00B6AD1D /* TadikaWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		A5C3E4B22AD928ED00B6AD1D /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5C3E4C42AD928F600B6AD1D /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC91036E2AD7DCA60055547F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -129,17 +279,36 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A5C3E4B02AD928ED00B6AD1D /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A5C3E4BE2AD928ED00B6AD1D /* TadikaWidgetLiveActivity.swift in Sources */,
+				A5C3E4C22AD928ED00B6AD1D /* AppIntent.swift in Sources */,
+				A5C3E4C02AD928ED00B6AD1D /* TadikaWidget.swift in Sources */,
+				A5C3E4BC2AD928ED00B6AD1D /* TadikaWidgetBundle.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CC91036C2AD7DCA60055547F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CC9103772AD7DCA60055547F /* ViewController.swift in Sources */,
+				CC9103772AD7DCA60055547F /* Main.swift in Sources */,
 				CC9103732AD7DCA60055547F /* AppDelegate.swift in Sources */,
 				CC9103752AD7DCA60055547F /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A5C3E4C72AD928F600B6AD1D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A5C3E4B32AD928ED00B6AD1D /* TadikaWidgetExtension */;
+			targetProxy = A5C3E4C62AD928F600B6AD1D /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		CC91037D2AD7DCA60055547F /* LaunchScreen.storyboard */ = {
@@ -270,16 +439,94 @@
 			};
 			name = Release;
 		};
+		A5C3E4CA2AD928F600B6AD1D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TadikaWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TadikaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TadikaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ir.TadikaApp.TadikaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		A5C3E4CB2AD928F600B6AD1D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TadikaWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = TadikaWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = TadikaWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ir.TadikaApp.TadikaWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		CC9103812AD7DCA60055547F /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TadikaApp/TadikaApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -312,13 +559,15 @@
 		CC9103822AD7DCA60055547F /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CODE_SIGN_ENTITLEMENTS = TadikaApp/TadikaApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -352,6 +601,15 @@
 			buildConfigurations = (
 				7AC3337CDBAAD08B9958F701 /* Debug */,
 				A1851F5C6142676831634325 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		A5C3E4C92AD928F600B6AD1D /* Build configuration list for PBXNativeTarget "TadikaWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A5C3E4CA2AD928F600B6AD1D /* Debug */,
+				A5C3E4CB2AD928F600B6AD1D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
