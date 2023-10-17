@@ -13,6 +13,21 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        let helloWorld = UILabel()
+        
+        helloWorld.text = "Hello World"
+        helloWorld.font = UIFont.systemFont(ofSize: 20)
+        helloWorld.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.backgroundColor = .systemBackground
+        
+        view.addSubview(helloWorld)
+        
+        NSLayoutConstraint.activate([
+            helloWorld.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            helloWorld.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
     }
 
 
