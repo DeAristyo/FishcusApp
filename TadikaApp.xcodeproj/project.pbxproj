@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		CC4A3CBC2AE02251005EB249 /* CoreHapticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC4A3CBB2AE02251005EB249 /* CoreHapticViewController.swift */; };
 		CC9103732AD7DCA60055547F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103722AD7DCA60055547F /* AppDelegate.swift */; };
 		CC9103752AD7DCA60055547F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103742AD7DCA60055547F /* SceneDelegate.swift */; };
 		CC9103772AD7DCA60055547F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103762AD7DCA60055547F /* ViewController.swift */; };
@@ -19,6 +20,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		CC4A3CBB2AE02251005EB249 /* CoreHapticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreHapticViewController.swift; sourceTree = "<group>"; };
 		CC9103702AD7DCA60055547F /* TadikaApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TadikaApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC9103722AD7DCA60055547F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CC9103742AD7DCA60055547F /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -59,9 +61,18 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		CC4A3CBA2AE0222A005EB249 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				CC4A3CBB2AE02251005EB249 /* CoreHapticViewController.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		CC9103712AD7DCA60055547F /* TadikaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CC4A3CBA2AE0222A005EB249 /* Services */,
 				CCAACF9F2ADE883A004BB5B3 /* View */,
 				CC9103722AD7DCA60055547F /* AppDelegate.swift */,
 				CC9103742AD7DCA60055547F /* SceneDelegate.swift */,
@@ -155,6 +166,7 @@
 			files = (
 				CC9103772AD7DCA60055547F /* ViewController.swift in Sources */,
 				CCAACFA52ADEF5AF004BB5B3 /* ReusableViewController.swift in Sources */,
+				CC4A3CBC2AE02251005EB249 /* CoreHapticViewController.swift in Sources */,
 				CCAACFA32ADE8879004BB5B3 /* FocusViewController.swift in Sources */,
 				CC9103732AD7DCA60055547F /* AppDelegate.swift in Sources */,
 				CC9103752AD7DCA60055547F /* SceneDelegate.swift in Sources */,

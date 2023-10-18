@@ -8,14 +8,24 @@
 import UIKit
 
 class HomeViewController: UIViewController {
-
+    
     
     let countDownTimer = CountdownRingView()
+    private var showInfo1 = false
+    private var showInfo2 = false
+    private var focusIsBegin = false
     private var titleHi : UILabel = {
         let title  = UILabel()
         
         title.text = "Hi, "
-        title.font = UIFont.systemFont(ofSize: 24, weight: .regular)
+        title.layer.zPosition = 8
+        title.textColor = UIColor(named: "regular-text")
+        title.layer.shadowColor = UIColor.black.cgColor
+        title.layer.shadowRadius = 0.5
+        title.layer.shadowOpacity = 0.1
+        title.layer.shadowOffset = CGSize(width: 3, height: 3)
+        title.layer.masksToBounds = false
+        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
         return title
@@ -25,6 +35,12 @@ class HomeViewController: UIViewController {
         let title  = UILabel()
         
         title.text = "Player!"
+        title.textColor = UIColor(named: "highlight-text")
+        title.layer.shadowColor = UIColor.black.cgColor
+        title.layer.shadowRadius = 0.5
+        title.layer.shadowOpacity = 0.1
+        title.layer.shadowOffset = CGSize(width: 3, height: 3)
+        title.layer.masksToBounds = false
         title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
@@ -34,24 +50,22 @@ class HomeViewController: UIViewController {
     private var titleInfo : UILabel = {
         let title  = UILabel()
         
-        title.text = "Ready to fish more?  "
-        title.font = UIFont.systemFont(ofSize: 24, weight: .regular)
+        title.text = "Ready to fish?  "
+        title.textColor = UIColor(named: "regular-text")
+        title.layer.shadowColor = UIColor.black.cgColor
+        title.layer.shadowRadius = 0.5
+        title.layer.shadowOpacity = 0.1
+        title.layer.shadowOffset = CGSize(width: 3, height: 3)
+        title.layer.masksToBounds = false
+        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
         return title
     }()
     
-    private var bgImage: UIImageView = {
-        let bgImage = UIImageView()
-        bgImage.image = UIImage(named: "bg")
-        bgImage.contentMode = .scaleAspectFill
-        bgImage.translatesAutoresizingMaskIntoConstraints = false
-        
-        return bgImage
-    }()
     
     private var stackView: UIStackView = {
-       let stackView = UIStackView()
+        let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 0
         stackView.alignment = .leading
@@ -60,80 +74,43 @@ class HomeViewController: UIViewController {
         return stackView
     }()
     
-    private var circleShape: UIView = {
-        let circle = UIView()
-        circle.frame = CGRect(x: 0, y: 0, width: 58, height: 58)
-        circle.layer.backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
-        circle.layer.cornerRadius = 29
-        circle.clipsToBounds = true
-        circle.translatesAutoresizingMaskIntoConstraints = false
+    //    private var progressRank : UIProgressView = {
+    //        let progress =  UIProgressView()
+    //        progress.progress = 0.4
+    //        progress.layer.cornerRadius = 10
+    //        progress.layer.sublayers![1].backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
+    //        progress.clipsToBounds = true
+    //        progress.layer.sublayers![1].cornerRadius = 10
+    //        progress.subviews[1].clipsToBounds = true
+    //        progress.translatesAutoresizingMaskIntoConstraints = false
+    //
+    //        return progress
+    //    }()
+    //
+    private var bgFocus: UIImageView = {
+        var view = UIImageView()
+        view.image = UIImage(named: "bg-1")
+        view.layer.zPosition = 0
+        view.contentMode = .scaleAspectFill
         
-        
-        return circle
-    }()
-    
-    private var rankTitle: UILabel = {
-        var view = UILabel()
-        
-        view.textColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1)
-        view.font = UIFont.systemFont(ofSize: 18, weight: .bold)
-        var paragraphStyle = NSMutableParagraphStyle()
-        paragraphStyle.lineHeightMultiple = 1.02
-        // Line height: 22 pt
-        // (identical to box height)
-        view.attributedText = NSMutableAttributedString(string: "FisherNovice", attributes: [NSAttributedString.Key.paragraphStyle: paragraphStyle])
         view.translatesAutoresizingMaskIntoConstraints = false
-       
         return view
     }()
     
-    private var progressRank : UIProgressView = {
-        let progress =  UIProgressView()
-        progress.progress = 0.4
-        progress.layer.cornerRadius = 10
-        progress.layer.sublayers![1].backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
-        progress.clipsToBounds = true
-        progress.layer.sublayers![1].cornerRadius = 10
-        progress.subviews[1].clipsToBounds = true
-        progress.translatesAutoresizingMaskIntoConstraints = false
-        
-        return progress
-    }()
-    
-    private var bgFocus: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 393, height: 518)
-        let layer0 = CAGradientLayer()
-        layer0.colors = [
-        UIColor(red: 0.616, green: 0.776, blue: 0.882, alpha: 1).cgColor,
-        UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
-        ]
-        layer0.locations = [0, 1]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-        layer0.position = view.center
-        view.layer.addSublayer(layer0)
+    private var mainBg: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "bg-2")
+        view.layer.zPosition = -1
+        view.contentMode = .scaleAspectFill
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
-    }()
-    
-    private var fishing: UIImageView = {
-       let fishing =  UIImageView()
-        fishing.image = UIImage(named: "fishing")
-        fishing.contentMode = .scaleAspectFit
-        fishing.layer.zPosition = 1
-        fishing.translatesAutoresizingMaskIntoConstraints = false
-        
-        return fishing
     }()
     
     private var bgCircle : UIView = {
-       let circle = UIView()
+        let circle = UIView()
         circle.clipsToBounds = true
-        circle.layer.backgroundColor =  UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 0.5).cgColor
+        circle.layer.backgroundColor =  UIColor(red: 0.831, green: 0.8, blue: 0.624, alpha: 0.4).cgColor
         circle.layer.cornerRadius = 81
         circle.translatesAutoresizingMaskIntoConstraints =  false
         
@@ -142,9 +119,9 @@ class HomeViewController: UIViewController {
     }()
     
     private var innerCircle : UIView = {
-       let circle = UIView()
+        let circle = UIView()
         circle.clipsToBounds = true
-        circle.layer.backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 0.7).cgColor
+        circle.layer.backgroundColor = UIColor(red: 0.831, green: 0.8, blue: 0.624, alpha: 0.6).cgColor
         circle.layer.cornerRadius = 64
         circle.translatesAutoresizingMaskIntoConstraints =  false
         
@@ -153,37 +130,70 @@ class HomeViewController: UIViewController {
     }()
     
     private var btnFocus: UIButton = {
-       
+        
         let btn =  UIButton()
         btn.setTitle("Focus", for: .normal)
-        btn.layer.backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
+        btn.layer.backgroundColor = UIColor(red: 0.976, green: 0.902, blue: 0.839, alpha: 1).cgColor
         btn.layer.cornerRadius = 45
         btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        btn.setTitleColor(UIColor(named: "primaryColor"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         
         return btn
         
     }()
     
+    private var userInfoOverlay: UserInfoOverlay = {
+        let view =  UserInfoOverlay()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    private var userInfoOverlay2: UserInfoOverlay2 = {
+        let view =  UserInfoOverlay2()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
     
     
-
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
-        
-    
         
         countDownTimer.translatesAutoresizingMaskIntoConstraints = false
         countDownTimer.layer.zPosition = 10
         countDownTimer.alpha = 0.0
+        userInfoOverlay.alpha = 0.0
+        userInfoOverlay2.alpha = 0.0
+    
+        
         view.addSubview(countDownTimer)
         
         NSLayoutConstraint.activate([
             countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        view.addSubview(userInfoOverlay)
+    
+        NSLayoutConstraint.activate([
+            userInfoOverlay.topAnchor.constraint(equalTo: view.topAnchor),
+            userInfoOverlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userInfoOverlay.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            userInfoOverlay.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(userInfoOverlay2)
+    
+        NSLayoutConstraint.activate([
+            userInfoOverlay2.topAnchor.constraint(equalTo: view.topAnchor),
+            userInfoOverlay2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            userInfoOverlay2.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            userInfoOverlay2.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
         view.addSubview(stackView)
@@ -203,52 +213,9 @@ class HomeViewController: UIViewController {
             titleInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 39)
         ])
         
-        view.addSubview(circleShape)
-        
-        NSLayoutConstraint.activate([
-            circleShape.topAnchor.constraint(equalTo: titleInfo.bottomAnchor, constant: 15),
-            circleShape.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 57),
-            circleShape.widthAnchor.constraint(equalToConstant: 58),
-            circleShape.heightAnchor.constraint(equalToConstant: 58)
-        ])
+        view.addSubview(mainBg)
         
         
-        let myTitle =  UILabel()
-        myTitle.text = "You are a "
-        myTitle.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        myTitle.textColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1)
-        myTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(myTitle)
-        
-        NSLayoutConstraint.activate([
-            myTitle.topAnchor.constraint(equalTo: titleInfo.bottomAnchor, constant: 18),
-            myTitle.leadingAnchor.constraint(equalTo: circleShape.trailingAnchor, constant: 18)
-        ])
-        
-        view.addSubview(rankTitle)
-        
-        NSLayoutConstraint.activate([
-            rankTitle.topAnchor.constraint(equalTo: titleInfo.bottomAnchor, constant: 18),
-            rankTitle.leadingAnchor.constraint(equalTo: myTitle.trailingAnchor, constant: 0)
-        ])
-        
-        view.addSubview(progressRank)
-        
-        NSLayoutConstraint.activate([
-            progressRank.topAnchor.constraint(equalTo: myTitle.bottomAnchor, constant: 9),
-            progressRank.leadingAnchor.constraint(equalTo: circleShape.trailingAnchor, constant: 18),
-            progressRank.widthAnchor.constraint(equalToConstant: 203),
-            progressRank.heightAnchor.constraint(equalToConstant: 21)
-        ])
-        
-        view.addSubview(fishing)
-        
-        NSLayoutConstraint.activate([
-            fishing.topAnchor.constraint(equalTo: progressRank.bottomAnchor, constant: 85),
-            fishing.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            fishing.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
         
         view.addSubview(bgFocus)
         
@@ -270,7 +237,7 @@ class HomeViewController: UIViewController {
             bgCircle.heightAnchor.constraint(equalToConstant: 162)
         ])
         
-      
+        
         view.addSubview(innerCircle)
         
         NSLayoutConstraint.activate([
@@ -292,22 +259,60 @@ class HomeViewController: UIViewController {
         
         btnFocus.addTarget(self, action: #selector(focusStart), for: .touchUpInside)
         
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap(_:)))
+        view.addGestureRecognizer(tapGesture)
+        
+    }
+    
+    @objc func handleTap(_ gesture : UITapGestureRecognizer){
+        
+        if gesture.state == .ended {
+            if showInfo1 == false {
+                showInfo1 = true
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.userInfoOverlay.alpha = 1.0
+                })
+            }else{
+                UIView.animate(withDuration: 0.3, animations: {
+                    self.userInfoOverlay.alpha = 0.0
+                })
+                
+                if showInfo2 == false && showInfo1 == true {
+                    showInfo2 = true
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.userInfoOverlay2.alpha = 1.0
+                    })
+                }else{
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.userInfoOverlay2.alpha = 0.0
+                    })
+                    
+                    focusIsBegin = true
+                }
+            }
+            
+           
+        }
     }
     
     @objc func focusStart(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.countDownTimer.alpha = 1.0
-        })
-        countDownTimer.startCountdown()
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
-            self.nextScreen()
+        if focusIsBegin{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.countDownTimer.alpha = 1.0
+            })
+            countDownTimer.startCountdown()
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
+                self.nextScreen()
+            }
         }
+        
     }
     
     func nextScreen(){
         let vc = FocusViewController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
-
+    
 }

@@ -24,60 +24,15 @@ class FocusViewController: UIViewController {
     let motionManager = CMMotionManager()
     let motionThreshold: Double = 5.0 // Adjust the threshold as needed
     
-    private var bgFocus: UIView = {
-        var view = UIView()
-        view.frame = CGRect(x: 0, y: 0, width: 393, height: 518)
-        let layer0 = CAGradientLayer()
-        layer0.colors = [
-        UIColor(red: 0.616, green: 0.776, blue: 0.882, alpha: 1).cgColor,
-        UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
-        ]
-        layer0.locations = [0, 1]
-        layer0.startPoint = CGPoint(x: 0.25, y: 0.5)
-        layer0.endPoint = CGPoint(x: 0.75, y: 0.5)
-        layer0.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
-        layer0.bounds = view.bounds.insetBy(dx: -0.5*view.bounds.size.width, dy: -0.5*view.bounds.size.height)
-        layer0.position = view.center
-        view.layer.addSublayer(layer0)
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
     
-    private var fishing: UIImageView = {
+    private var mainBg: UIImageView = {
        let fishing =  UIImageView()
-        fishing.image = UIImage(named: "fishing")
-        fishing.contentMode = .scaleAspectFit
+        fishing.image = UIImage(named: "bg-3")
+        fishing.contentMode = .scaleAspectFill
         fishing.layer.zPosition = 1
         fishing.translatesAutoresizingMaskIntoConstraints = false
         
         return fishing
-    }()
-    
-    private var iconMusic: UIImageView = {
-        let music = UIImageView()
-        music.image = UIImage(systemName: "music.note")
-        music.tintColor = .white
-        music.contentMode = .center
-        music.backgroundColor = .gray
-        music.clipsToBounds = true
-        music.layer.cornerRadius = 10
-        music.translatesAutoresizingMaskIntoConstraints = false
-        
-        return music
-    }()
-    
-    private var iconPlay: UIImageView = {
-        let play = UIImageView()
-        play.image = UIImage(systemName: "play.fill")
-        play.tintColor = .white
-        play.contentMode = .center
-        play.backgroundColor = .gray
-        play.clipsToBounds = true
-        play.layer.cornerRadius = 10
-        play.translatesAutoresizingMaskIntoConstraints = false
-        
-        return play
     }()
     
     private var iconStop: UIImageView = {
@@ -85,13 +40,16 @@ class FocusViewController: UIViewController {
         stop.image = UIImage(systemName: "stop.fill")
         stop.tintColor = .white
         stop.contentMode = .center
-        stop.backgroundColor = .gray
+        stop.backgroundColor = UIColor(named: "primaryColor")
         stop.clipsToBounds = true
         stop.layer.cornerRadius = 10
+        stop.layer.zPosition = 10
         stop.translatesAutoresizingMaskIntoConstraints = false
     
         return stop
     }()
+    
+    private var text
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -103,26 +61,7 @@ class FocusViewController: UIViewController {
 //        timerLabel.text = "00:00:00"
 //        view.addSubview(timerLabel)
         
-        
-        
-        view.addSubview(iconMusic)
-        
-        NSLayoutConstraint.activate([
-            iconMusic.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            iconMusic.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            iconMusic.widthAnchor.constraint(equalToConstant: 40),
-            iconMusic.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
-        view.addSubview(iconPlay)
-        
-        NSLayoutConstraint.activate([
-            iconPlay.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            iconPlay.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
-            iconPlay.widthAnchor.constraint(equalToConstant: 40),
-            iconPlay.heightAnchor.constraint(equalToConstant: 40)
-        ])
-        
+      
         view.addSubview(iconStop)
         
         NSLayoutConstraint.activate([
@@ -132,26 +71,17 @@ class FocusViewController: UIViewController {
             iconStop.heightAnchor.constraint(equalToConstant: 40)
         ])
         
-        view.addSubview(fishing)
+        view.addSubview(mainBg)
         
         NSLayoutConstraint.activate([
-            fishing.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -12),
-            fishing.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            fishing.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+            mainBg.topAnchor.constraint(equalTo: view.topAnchor),
+            mainBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        view.addSubview(bgFocus)
-        
-        NSLayoutConstraint.activate([
-            bgFocus.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            bgFocus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            bgFocus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bgFocus.heightAnchor.constraint(equalToConstant: 300)
-        ])
-        
-        
-        
-                
+       
+
         // Create and start the timer
         startTimer()
         
@@ -183,6 +113,7 @@ class FocusViewController: UIViewController {
         // Update the timer label with the current time
         timerStart += 1
         let currentTime = timerToString(time: TimeInterval(timerStart))
+        print(currentTime)
         timerLabel.text = currentTime
     }
     

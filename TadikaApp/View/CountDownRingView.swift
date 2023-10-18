@@ -11,8 +11,8 @@ class CountdownRingView: UIView {
     private var circleLayer: CAShapeLayer!
     
     // Properties to customize the ring
-    var ringColor: UIColor = .blue
-    var ringWidth: CGFloat = 70.0
+    var ringColor: UIColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1)
+    var ringWidth: CGFloat = 50.0
     
     // The duration for the countdown in seconds
     var countdownDuration: TimeInterval = 03.0
@@ -39,7 +39,7 @@ class CountdownRingView: UIView {
         
         // Create a circular path
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        let radius = (min(bounds.width, bounds.height) - ringWidth) / 1.0
+        let radius = (min(bounds.width, bounds.height) - ringWidth) 
         let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: 3 * CGFloat.pi / 2, clockwise: true)
         circleLayer.path = path.cgPath
         
