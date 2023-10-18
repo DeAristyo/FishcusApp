@@ -2,13 +2,15 @@
 //  HomeViewController.swift
 //  TadikaApp
 //
-//  Created by Vicky Irwanto on 16/10/23.
+//  Created by Vicky Irwanto on 17/10/23.
 //
 
 import UIKit
 
 class HomeViewController: UIViewController {
 
+    
+    let countDownTimer = CountdownRingView()
     private var titleHi : UILabel = {
         let title  = UILabel()
         
@@ -172,6 +174,18 @@ class HomeViewController: UIViewController {
         // Do any additional setup after loading the view.
         view.backgroundColor = .systemBackground
         
+    
+        
+        countDownTimer.translatesAutoresizingMaskIntoConstraints = false
+        countDownTimer.layer.zPosition = 10
+        countDownTimer.alpha = 0.0
+        view.addSubview(countDownTimer)
+        
+        NSLayoutConstraint.activate([
+            countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
@@ -278,13 +292,22 @@ class HomeViewController: UIViewController {
         
         btnFocus.addTarget(self, action: #selector(focusStart), for: .touchUpInside)
         
-        
-        
     }
     
     @objc func focusStart(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.countDownTimer.alpha = 1.0
+        })
+        countDownTimer.startCountdown()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
+            self.nextScreen()
+        }
+    }
+    
+    func nextScreen(){
         let vc = FocusViewController()
-        self.navigationController?.pushViewController(vc, animated: false)
+        self.navigationController?.pushViewController(vc, animated: true)
     }
 
 }
