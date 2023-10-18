@@ -12,6 +12,10 @@
 		CC9103772AD7DCA60055547F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9103762AD7DCA60055547F /* ViewController.swift */; };
 		CC91037C2AD7DCA60055547F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CC91037B2AD7DCA60055547F /* Assets.xcassets */; };
 		CC91037F2AD7DCA60055547F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CC91037D2AD7DCA60055547F /* LaunchScreen.storyboard */; };
+		CCAACFA12ADE8848004BB5B3 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAACFA02ADE8848004BB5B3 /* HomeViewController.swift */; };
+		CCAACFA32ADE8879004BB5B3 /* FocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAACFA22ADE8879004BB5B3 /* FocusViewController.swift */; };
+		CCAACFA52ADEF5AF004BB5B3 /* ReusableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAACFA42ADEF5AF004BB5B3 /* ReusableViewController.swift */; };
+		CCAACFA72ADF00CF004BB5B3 /* CountDownRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCAACFA62ADF00CF004BB5B3 /* CountDownRingView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +26,10 @@
 		CC91037B2AD7DCA60055547F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CC91037E2AD7DCA60055547F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CC9103802AD7DCA60055547F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CCAACFA02ADE8848004BB5B3 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		CCAACFA22ADE8879004BB5B3 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
+		CCAACFA42ADEF5AF004BB5B3 /* ReusableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewController.swift; sourceTree = "<group>"; };
+		CCAACFA62ADF00CF004BB5B3 /* CountDownRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownRingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,6 +62,7 @@
 		CC9103712AD7DCA60055547F /* TadikaApp */ = {
 			isa = PBXGroup;
 			children = (
+				CCAACF9F2ADE883A004BB5B3 /* View */,
 				CC9103722AD7DCA60055547F /* AppDelegate.swift */,
 				CC9103742AD7DCA60055547F /* SceneDelegate.swift */,
 				CC9103762AD7DCA60055547F /* ViewController.swift */,
@@ -62,6 +71,17 @@
 				CC9103802AD7DCA60055547F /* Info.plist */,
 			);
 			path = TadikaApp;
+			sourceTree = "<group>";
+		};
+		CCAACF9F2ADE883A004BB5B3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				CCAACFA02ADE8848004BB5B3 /* HomeViewController.swift */,
+				CCAACFA22ADE8879004BB5B3 /* FocusViewController.swift */,
+				CCAACFA42ADEF5AF004BB5B3 /* ReusableViewController.swift */,
+				CCAACFA62ADF00CF004BB5B3 /* CountDownRingView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -134,8 +154,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				CC9103772AD7DCA60055547F /* ViewController.swift in Sources */,
+				CCAACFA52ADEF5AF004BB5B3 /* ReusableViewController.swift in Sources */,
+				CCAACFA32ADE8879004BB5B3 /* FocusViewController.swift in Sources */,
 				CC9103732AD7DCA60055547F /* AppDelegate.swift in Sources */,
 				CC9103752AD7DCA60055547F /* SceneDelegate.swift in Sources */,
+				CCAACFA72ADF00CF004BB5B3 /* CountDownRingView.swift in Sources */,
+				CCAACFA12ADE8848004BB5B3 /* HomeViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
