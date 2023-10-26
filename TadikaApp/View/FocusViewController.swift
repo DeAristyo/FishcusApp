@@ -8,11 +8,12 @@
 import UIKit
 import CoreMotion
 import CoreHaptics
+import WidgetKit
 
 class FocusViewController: UIViewController {
-   
     
-   
+    
+    
     var timer: Timer?
     var engine: CHHapticEngine?
     var showInfo = false
@@ -34,7 +35,7 @@ class FocusViewController: UIViewController {
     
     
     private var mainBg: UIImageView = {
-       let fishing =  UIImageView()
+        let fishing =  UIImageView()
         fishing.image = UIImage(named: "bg-3")
         fishing.contentMode = .scaleAspectFill
         fishing.layer.zPosition = 1
@@ -53,7 +54,7 @@ class FocusViewController: UIViewController {
         stop.layer.cornerRadius = 10
         stop.layer.zPosition = 10
         stop.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return stop
     }()
     
@@ -67,21 +68,21 @@ class FocusViewController: UIViewController {
         stop.layer.cornerRadius = 10
         stop.layer.zPosition = 12
         stop.translatesAutoresizingMaskIntoConstraints = false
-    
+        
         return stop
     }()
     
     
-     var timerPauseContainer: TimerPause = {
-         let view = TimerPause()
-         view.layer.zPosition = 11
-         view.translatesAutoresizingMaskIntoConstraints = false
-         
-         return view
-     }()
+    var timerPauseContainer: TimerPause = {
+        let view = TimerPause()
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     private var endFocus: EndFocus = {
-       let view = EndFocus()
+        let view = EndFocus()
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -89,7 +90,7 @@ class FocusViewController: UIViewController {
     }()
     
     private var infoIcon: UIImageView = {
-       let image = UIImageView()
+        let image = UIImageView()
         image.image = UIImage(systemName: "info.circle.fill")
         image.tintColor = .white
         image.contentMode = .center
@@ -101,7 +102,7 @@ class FocusViewController: UIViewController {
     }()
     
     private var infoLabel: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.layer.backgroundColor = UIColor.white.cgColor
         view.layer.cornerRadius = 25
         view.layer.zPosition = 12
@@ -135,7 +136,7 @@ class FocusViewController: UIViewController {
     }()
     
     private var btnContinue: UIImageView = {
-       let image = UIImageView()
+        let image = UIImageView()
         image.image = UIImage(named: "btn-finish")
         image.contentMode = .center
         image.layer.zPosition = 12
@@ -153,7 +154,7 @@ class FocusViewController: UIViewController {
     }()
     
     private var btnBackHome: UIImageView = {
-       let image = UIImageView()
+        let image = UIImageView()
         image.image = UIImage(named: "btn-backmain")
         image.contentMode = .center
         image.layer.zPosition = 13
@@ -191,7 +192,7 @@ class FocusViewController: UIViewController {
         
         return view
     }()
-     
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -213,8 +214,8 @@ class FocusViewController: UIViewController {
         userGuide4.alpha = 0.0
         
         // Create and configure a UILabel to display the timer
-//        timerLabel.text = "00:00:00"
-//        view.addSubview(timerLabel)
+        //        timerLabel.text = "00:00:00"
+        //        view.addSubview(timerLabel)
         
         view.addSubview(userGuide4)
         
@@ -291,7 +292,7 @@ class FocusViewController: UIViewController {
         NSLayoutConstraint.activate([
             timerPauseContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
-       
+        
         view.addSubview(iconStop)
         
         NSLayoutConstraint.activate([
@@ -328,8 +329,8 @@ class FocusViewController: UIViewController {
             mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-       
-
+        
+        
         // Create and start the timer
         startTimer()
         
@@ -354,10 +355,10 @@ class FocusViewController: UIViewController {
         iconStop.isUserInteractionEnabled = true
         iconStop.addGestureRecognizer(stopEndGesture)
         
-//        timerPauseContainer.showInfoAction = { [weak self] in
-//            self?.showInfo.toggle()
-//            print("showInfo is now \(self?.showInfo ?? false)")
-//        }
+        //        timerPauseContainer.showInfoAction = { [weak self] in
+        //            self?.showInfo.toggle()
+        //            print("showInfo is now \(self?.showInfo ?? false)")
+        //        }
         
         let infoGesture =  UITapGestureRecognizer(target: self, action: #selector(infoShow))
         infoIcon.isUserInteractionEnabled = true
@@ -413,6 +414,9 @@ class FocusViewController: UIViewController {
             self.endHome.alpha = 1.0
             self.btnBackHome.alpha = 1.0
         })
+        let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+        sharedDefaults?.set("idle", forKey: "widgetState")
+        WidgetCenter.shared.reloadAllTimelines()
     }
     
     @objc func btnHome(){
@@ -438,7 +442,7 @@ class FocusViewController: UIViewController {
     
     @objc func stopBtnFocus(){
         complexSuccess()
-       stopTimer()
+        stopTimer()
     }
     
     @objc func cancelEndFocus(){
@@ -464,7 +468,20 @@ class FocusViewController: UIViewController {
             if timer != nil {
                 timer?.invalidate()
                 startTimer()
+                let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+                sharedDefaults?.set("focus", forKey: "widgetState")
+                WidgetCenter.shared.reloadAllTimelines()
             }
+        }
+    }
+    
+    func stopPause(){
+        if timer != nil {
+            timer?.invalidate()
+            startTimer()
+            let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+            sharedDefaults?.set("focus", forKey: "widgetState")
+            WidgetCenter.shared.reloadAllTimelines()
         }
     }
     
@@ -490,10 +507,14 @@ class FocusViewController: UIViewController {
             
             if timer != nil {
                 timer?.invalidate()
-//                showStopTimerAlert()
+                //                showStopTimerAlert()
                 timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+                
+                let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+                sharedDefaults?.set("pause", forKey: "widgetState")
+                WidgetCenter.shared.reloadAllTimelines()
             }
-           
+            
         }
     }
     
@@ -503,7 +524,6 @@ class FocusViewController: UIViewController {
         let currentTime = timerToString(time: TimeInterval(timerStart))
         print(currentTime)
         timerLabel.text = currentTime
-        
     }
     
     func timerToString(time: TimeInterval) -> String

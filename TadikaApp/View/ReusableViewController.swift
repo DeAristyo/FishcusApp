@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import WidgetKit
 
 class UserInfoOverlay : UIView {
     
@@ -306,6 +307,10 @@ class TimerPause: UIView {
             let currentPauseTime = convertTimerToString(time: TimeInterval(totalPauseTimer))
             print(currentPauseTime)
             label2.text = currentPauseTime
+            
+            let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+            sharedDefaults?.set(currentPauseTime, forKey: "currentTime")
+            WidgetCenter.shared.reloadAllTimelines()
         }else{
             timer?.invalidate()
         }

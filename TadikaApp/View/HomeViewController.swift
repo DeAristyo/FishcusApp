@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import Foundation
+import WidgetKit
 
 class HomeViewController: UIViewController {
     
@@ -160,7 +162,7 @@ class HomeViewController: UIViewController {
     }()
     
     
-
+    
     
     
     override func viewDidLoad() {
@@ -175,10 +177,10 @@ class HomeViewController: UIViewController {
         countDownTimer.alpha = 0.0
         userInfoOverlay.alpha = 0.0
         userInfoOverlay2.alpha = 0.0
-
+        
         
         view.addSubview(countDownTimer)
-    
+        
         
         NSLayoutConstraint.activate([
             countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -186,7 +188,7 @@ class HomeViewController: UIViewController {
         ])
         
         view.addSubview(userInfoOverlay)
-    
+        
         NSLayoutConstraint.activate([
             userInfoOverlay.topAnchor.constraint(equalTo: view.topAnchor),
             userInfoOverlay.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -195,7 +197,7 @@ class HomeViewController: UIViewController {
         ])
         
         view.addSubview(userInfoOverlay2)
-    
+        
         NSLayoutConstraint.activate([
             userInfoOverlay2.topAnchor.constraint(equalTo: view.topAnchor),
             userInfoOverlay2.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -297,10 +299,10 @@ class HomeViewController: UIViewController {
                 UIView.animate(withDuration: 0.3, animations: {
                     self.userInfoOverlay2.alpha = 0.0
                 })
-                    
+                
             }
             
-           
+            
         }
     }
     
@@ -313,7 +315,11 @@ class HomeViewController: UIViewController {
             UIView.animate(withDuration: 0.3, animations: {
                 self.userInfoOverlay2.alpha = 0.0
             })
+            
             countDownTimer.startCountdown()
+            let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
+            sharedDefaults?.set("focus", forKey: "widgetState")
+            WidgetCenter.shared.reloadAllTimelines()
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
                 self.nextScreen()
