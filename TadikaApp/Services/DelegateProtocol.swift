@@ -8,12 +8,9 @@
 import UIKit
 
 protocol DelegateProtocol: AnyObject{
-    func changeShowInfo(sender: TimerPause)
+    func changeShowInfo()
 }
 
-protocol CustomViewDelegate: AnyObject {
-    func navigateToNextScreen()
-}
 
 
 

@@ -7,80 +7,116 @@
 
 import UIKit
 
-protocol MyViewDelegate: AnyObject {
-    func didTapButton()
+protocol TimerViewDelegate: AnyObject {
+    func didPressInfoButton()
 }
 
-class MyView: UIView {
-    let myButton: UIButton = {
+class TimerView: UIView {
+    
+    weak var delegate: TimerViewDelegate?
+    
+    private let titleLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let timerLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let infoButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("Show Info", for: .normal)
-        button.setTitleColor(UIColor.black, for: .normal)
+        button.setTitle("Info", for: .normal)
+        button.isUserInteractionEnabled = true
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
-    weak var delegate: MyViewDelegate?
-    
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        fatalError("init(coder:) has not been implemented")
-    
-    }
+    private var timer: Timer?
+    private var countdown: Int = 60
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupView()
     }
     
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupView()
+    }
     
-    private func setupView(){
-        addSubview(myButton)
+    private func setupView() {
+        addSubview(titleLabel)
+        addSubview(timerLabel)
+        addSubview(infoButton)
+        
+        titleLabel.text = "Title"
+        timerLabel.text = "\(countdown)"
+        
+        infoButton.addTarget(self, action: #selector(didPressInfoButton), for: .touchUpInside)
+        
         NSLayoutConstraint.activate([
-            myButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            myButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            myButton.widthAnchor.constraint(equalToConstant: 200),
-            myButton.heightAnchor.constraint(equalToConstant: 50)
+            
+            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -120),
+            
+            timerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
+            timerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            
+            infoButton.centerXAnchor.constraint(equalTo: centerXAnchor),
+            infoButton.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: 20),
+            infoButton.widthAnchor.constraint(equalToConstant: 200),
+            infoButton.heightAnchor.constraint(equalToConstant: 50)
         ])
-        myButton.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        
+        startTimer()
+        
     }
     
-    @objc func buttonTapped() {
-        delegate?.didTapButton()
+    private func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
     }
     
+    @objc private func updateTimer() {
+        countdown -= 1
+        timerLabel.text = "\(countdown)"
+        
+        if countdown <= 0 {
+            timer?.invalidate()
+            timer = nil
+        }
+    }
     
+    @objc func didPressInfoButton() {
+        delegate?.didPressInfoButton()
+    }
 }
 
-class ViewController: UIViewController, MyViewDelegate {
-    func didTapButton() {
-        print(showInfo)
-        showInfo.toggle()
-        print(showInfo)
-    }
-    
-    
-    var showInfo = false
-    let myView = MyView()
-    
+
+class ViewController: UIViewController, TimerViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
-        view.addSubview(myView)
-        view.backgroundColor = .systemBackground
-        myView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let timerView = TimerView()
+        timerView.delegate = self
+        timerView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(timerView)
+        
         NSLayoutConstraint.activate([
-            myView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            myView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            myView.widthAnchor.constraint(equalToConstant: 200),
-            myView.heightAnchor.constraint(equalToConstant: 50)
+            timerView.topAnchor.constraint(equalTo: view.topAnchor),
+            timerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            timerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            timerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
-        myView.delegate = self
-        
     }
-
-
+    
+    func didPressInfoButton() {
+        // Show other information here
+        print("Info button pressed")
+    }
+    
+    
 }
-

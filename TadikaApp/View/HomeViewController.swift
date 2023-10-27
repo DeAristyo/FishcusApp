@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private var showInfo1 = false
     private var showInfo2 = false
     private var focusIsBegin = false
+    
     private var titleHi : UILabel = {
         let title  = UILabel()
         
@@ -24,6 +25,7 @@ class HomeViewController: UIViewController {
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
+        title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -36,10 +38,11 @@ class HomeViewController: UIViewController {
         let title  = UILabel()
         
         title.text = "Player!"
-        title.textColor = UIColor(named: "highlight-text")
+        title.textColor = UIColor(named: "primaryColor")
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
+        title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -56,6 +59,7 @@ class HomeViewController: UIViewController {
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
+        title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
@@ -69,6 +73,7 @@ class HomeViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 0
+        stackView.layer.zPosition = 2
         stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
@@ -91,7 +96,7 @@ class HomeViewController: UIViewController {
     
     private var bgFocus: UIImageView = {
         var view = UIImageView()
-        view.image = UIImage(named: "bg-1")
+        view.image = UIImage(named: "bg-home")
         view.layer.zPosition = 0
         view.contentMode = .scaleAspectFill
         
@@ -99,20 +104,14 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    private var mainBg: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "bg-2")
-        view.layer.zPosition = -1
-        view.contentMode = .scaleAspectFill
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
     private var bgCircle : UIView = {
         let circle = UIView()
-        circle.clipsToBounds = true
+//        circle.clipsToBounds = true
         circle.layer.backgroundColor =  UIColor(red: 0.831, green: 0.8, blue: 0.624, alpha: 0.4).cgColor
+        circle.layer.shadowColor = UIColor.black.cgColor
+        circle.layer.shadowRadius = 10
+        circle.layer.shadowOpacity = 0.4
+        circle.layer.shadowOffset = CGSize(width: 2, height: 5)
         circle.layer.cornerRadius = 81
         circle.translatesAutoresizingMaskIntoConstraints =  false
         
@@ -145,22 +144,17 @@ class HomeViewController: UIViewController {
         
     }()
     
-    private var userInfoOverlay: UserInfoOverlay = {
-        let view =  UserInfoOverlay()
-        view.layer.zPosition = 12
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private var userInfoOverlay: ReuseableInfoView = {
+        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey, [user]! I’m your friend, x!", position: true)
+        view.layer.zPosition = 2
         return view
     }()
     
-    private var userInfoOverlay2: UserInfoOverlay2 = {
-        let view =  UserInfoOverlay2()
-        view.layer.zPosition = 12
-        view.translatesAutoresizingMaskIntoConstraints = false
+    private var userInfoOverlay2: ReuseableInfoView = {
+        let view =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot2, labelText: "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”", position: true)
+        view.layer.zPosition = 2
         return view
     }()
-    
-    
-
     
     
     override func viewDidLoad() {
@@ -206,7 +200,7 @@ class HomeViewController: UIViewController {
         view.addSubview(stackView)
         
         NSLayoutConstraint.activate([
-            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 39),
+            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
         ])
         
@@ -217,12 +211,8 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             titleInfo.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
-            titleInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 39)
+            titleInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 5)
         ])
-        
-        view.addSubview(mainBg)
-        
-        
         
         view.addSubview(bgFocus)
         
@@ -230,7 +220,7 @@ class HomeViewController: UIViewController {
             bgFocus.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             bgFocus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             bgFocus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            bgFocus.heightAnchor.constraint(equalToConstant: 300)
+            bgFocus.topAnchor.constraint(equalTo: view.topAnchor)
         ])
         
         

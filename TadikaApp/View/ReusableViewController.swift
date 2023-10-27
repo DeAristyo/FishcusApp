@@ -7,7 +7,26 @@
 
 import UIKit
 
-class UserInfoOverlay : UIView {
+class ReuseableInfoView: UIView{
+    
+    enum bgStyleEnum {
+        case type1
+        case type2
+    }
+    
+    enum mascotIconEnum {
+        case mascot1
+        case mascot2
+        case mascot3
+        case mascot4
+        case mascot5
+        case mascot6
+    }
+    
+    public private(set) var bgStyle: bgStyleEnum
+    public private(set) var mascotIcon: mascotIconEnum
+    public private(set) var labelText: String
+    public private(set) var position: Bool
     
     private var userInfoOverlay: UIView = {
         let view = UIView()
@@ -21,10 +40,8 @@ class UserInfoOverlay : UIView {
         return view
     }()
     
-    
     private var mascotImage : UIImageView = {
         let imgMascot = UIImageView()
-        imgMascot.image = UIImage(named: "mascot-1")
         imgMascot.contentMode = .center
         imgMascot.translatesAutoresizingMaskIntoConstraints = false
         
@@ -32,91 +49,17 @@ class UserInfoOverlay : UIView {
     }()
     
     private var rectangle: UIView = {
-       let view = UIView()
+        let view = UIView()
         view.layer.backgroundColor = UIColor(red: 0.282, green: 0.369, blue: 0.341, alpha: 0.8).cgColor
         view.layer.cornerRadius = 25
         view.layer.borderWidth = 2.0
         view.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
-        
-        
-        let text = UILabel()
-        text.text = "Hey, Player! I’m your friend, x!"
-        text.font = UIFont.systemFont(ofSize: 18, weight: .regular)
-        text.textColor = .white
-        text.translatesAutoresizingMaskIntoConstraints = false
-        
-        view.addSubview(text)
-        
-        NSLayoutConstraint.activate([
-            text.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            text.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-        ])
         
         return view
     }()
     
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupUserInfoOverlay()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUserInfoOverlay()
-    }
-    
-    private func setupUserInfoOverlay(){
-        
-        addSubview(userInfoOverlay)
-        addSubview(mascotImage)
-        addSubview(rectangle)
-        
-        
-        NSLayoutConstraint.activate([
-            userInfoOverlay.topAnchor.constraint(equalTo: topAnchor),
-            userInfoOverlay.leadingAnchor.constraint(equalTo: leadingAnchor),
-            userInfoOverlay.trailingAnchor.constraint(equalTo: trailingAnchor),
-            userInfoOverlay.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            
-            mascotImage.centerXAnchor.constraint(equalTo: userInfoOverlay.centerXAnchor),
-            mascotImage.centerYAnchor.constraint(equalTo: userInfoOverlay.centerYAnchor, constant: -150),
-            
-            
-            rectangle.topAnchor.constraint(equalTo: mascotImage.bottomAnchor),
-            rectangle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            rectangle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
-            rectangle.widthAnchor.constraint(equalToConstant: 331),
-            rectangle.heightAnchor.constraint(equalToConstant: 128)
-        ])
-        
-        
-    }
-}
-
-
-class UserInfoOverlay2 : UIView {
-    
-    private var mascotImage : UIImageView = {
-        let imgMascot = UIImageView()
-        imgMascot.image = UIImage(named: "mascot-2")
-        imgMascot.contentMode = .center
-        imgMascot.translatesAutoresizingMaskIntoConstraints = false
-        
-        return imgMascot
-    }()
-    
-    private var rectangle: UIView = {
-       let view = UIView()
-        view.layer.backgroundColor = UIColor(red: 0.282, green: 0.369, blue: 0.341, alpha: 0.8).cgColor
-        view.layer.cornerRadius = 25
-        view.layer.borderWidth = 2.0
-        view.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        
+    private var labelInfo: UILabel = {
         // Auto layout, variables, and unit scale are not yet supported
         var text = UILabel()
         text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
@@ -126,63 +69,100 @@ class UserInfoOverlay2 : UIView {
         text.lineBreakMode = .byWordWrapping
         // Line height: 21.48 pt
         text.textAlignment = .center
-        text.text = "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”"
         text.translatesAutoresizingMaskIntoConstraints = false
         
-        view.addSubview(text)
-        
-        NSLayoutConstraint.activate([
-            text.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            text.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            text.topAnchor.constraint(equalTo: view.topAnchor),
-            text.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            text.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            text.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
-        return view
+        return text
     }()
     
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupUserInfoOverlay()
-    }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupUserInfoOverlay()
-    }
-    
-    private func setupUserInfoOverlay(){
+    init(bgStyle: bgStyleEnum, mascotIcon: mascotIconEnum, labelText: String, position: Bool ) {
+        self.bgStyle = bgStyle
+        self.mascotIcon = mascotIcon
+        self.labelText = labelText
+        self.position = position
         
+        super.init(frame: .zero)
+        SetupReusebaleInfoView()
+        self.translatesAutoresizingMaskIntoConstraints = false
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func SetupReusebaleInfoView(){
+        ConfigBgStyle()
+        ConfigMascotIcon()
+        labelInfo.text = "\(labelText)"
+        
+        self.rectangle.addSubview(labelInfo)
+        addSubview(userInfoOverlay)
         addSubview(mascotImage)
         addSubview(rectangle)
         
-        
         NSLayoutConstraint.activate([
-           
-            mascotImage.centerXAnchor.constraint(equalTo: centerXAnchor),
-            mascotImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -150),
+            userInfoOverlay.topAnchor.constraint(equalTo: topAnchor),
+            userInfoOverlay.leadingAnchor.constraint(equalTo: leadingAnchor),
+            userInfoOverlay.trailingAnchor.constraint(equalTo: trailingAnchor),
+            userInfoOverlay.bottomAnchor.constraint(equalTo: bottomAnchor),
             
+            mascotImage.centerXAnchor.constraint(equalTo: centerXAnchor),
+            mascotImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: position ? -150 : 100),
             
             rectangle.topAnchor.constraint(equalTo: mascotImage.bottomAnchor),
-            rectangle.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 32),
-            rectangle.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -32),
             rectangle.widthAnchor.constraint(equalToConstant: 331),
-            rectangle.heightAnchor.constraint(equalToConstant: 128)
+            rectangle.heightAnchor.constraint(equalToConstant: 128),
+            rectangle.centerXAnchor.constraint(equalTo: centerXAnchor),
+            
+            labelInfo.topAnchor.constraint(equalTo: rectangle.topAnchor),
+            labelInfo.leadingAnchor.constraint(equalTo: rectangle.leadingAnchor, constant: 18),
+            labelInfo.trailingAnchor.constraint(equalTo: rectangle.trailingAnchor, constant: -18),
+            labelInfo.bottomAnchor.constraint(equalTo: rectangle.bottomAnchor),
+            
         ])
+       
+    }
+    
+    private func ConfigBgStyle(){
+        switch bgStyle {
+        case .type1:
+            userInfoOverlay.layer.backgroundColor = UIColor.black.cgColor
+            userInfoOverlay.alpha = 0.5
+        case .type2:
+            userInfoOverlay.layer.backgroundColor = UIColor.clear.cgColor
+        }
+    }
+    
+    private func ConfigMascotIcon(){
         
+        switch mascotIcon {
+        case .mascot1:
+            mascotImage.image = UIImage(named: "mascot-1")
+        case .mascot2:
+            mascotImage.image = UIImage(named: "mascot-2")
+        case .mascot3:
+            mascotImage.image = UIImage(named: "mascot-3")
+        case .mascot4:
+            mascotImage.image = UIImage(named: "mascot-4")
+        case .mascot5:
+            mascotImage.image = UIImage(named: "mascot-5")
+        case .mascot6:
+            mascotImage.image = UIImage(named: "mascot-6")
+        }
         
     }
+    
+    
+    
 }
 
 class TimerPause: UIView {
     
     var timer: Timer?
     var totalPauseTimer = 600
-    var showInfoAction : (() -> Void)?
-    var show: DelegateProtocol?
+    
+    weak var delegate: DelegateProtocol?
     
     private var timerPauseContainer: UIView = {
         let view = UIView()
@@ -224,28 +204,25 @@ class TimerPause: UIView {
         return myLabel3
     }()
     
-//    private var infoIcon: UIImageView = {
-//       let image = UIImageView()
-//        image.image = UIImage(systemName: "info.circle.fill")
-//        image.tintColor = .white
-//        image.contentMode = .center
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        return image
-//    }()
+    private var infoIcon: UIButton = {
+        let image = UIButton(type: .custom)
+        image.setImage(UIImage(systemName: "info.circle.fill"), for: .normal)
+        image.tintColor = .white
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
     
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        setupPauseTimer()
+        fatalError("init(coder:) has not been implemented")
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupPauseTimer()
-//        let infoGesture = UITapGestureRecognizer(target: self, action: #selector(showInfo))
-//        infoIcon.isUserInteractionEnabled = true
-//        infoIcon.addGestureRecognizer(infoGesture)
+       
     }
     
     private func setupPauseTimer(){
@@ -253,10 +230,9 @@ class TimerPause: UIView {
         addSubview(label1)
         addSubview(label2)
         addSubview(label3)
-//        addSubview(infoIcon)
+        addSubview(infoIcon)
         
         label2.text = "\(convertTimerToString(time: TimeInterval(totalPauseTimer)))"
-        
         
         NSLayoutConstraint.activate([
             timerPauseContainer.topAnchor.constraint(equalTo: topAnchor, constant: 68),
@@ -264,10 +240,10 @@ class TimerPause: UIView {
             timerPauseContainer.widthAnchor.constraint(equalToConstant: 351),
             timerPauseContainer.heightAnchor.constraint(equalToConstant: 160),
             
-//            infoIcon.topAnchor.constraint(equalTo: timerPauseContainer.topAnchor, constant: 10),
-//            infoIcon.trailingAnchor.constraint(equalTo: timerPauseContainer.trailingAnchor, constant: -10),
-//            infoIcon.widthAnchor.constraint(equalToConstant: 44),
-//            infoIcon.heightAnchor.constraint(equalToConstant: 44),
+            infoIcon.topAnchor.constraint(equalTo: timerPauseContainer.topAnchor, constant: 10),
+            infoIcon.trailingAnchor.constraint(equalTo: timerPauseContainer.trailingAnchor, constant: -10),
+            infoIcon.widthAnchor.constraint(equalToConstant: 45),
+            infoIcon.heightAnchor.constraint(equalToConstant: 45),
             
             label1.topAnchor.constraint(equalTo: timerPauseContainer.topAnchor, constant: 15),
             label1.leadingAnchor.constraint(equalTo: timerPauseContainer.leadingAnchor, constant: 15),
@@ -278,15 +254,14 @@ class TimerPause: UIView {
             label3.topAnchor.constraint(equalTo: label2.bottomAnchor, constant: 7),
             label3.leadingAnchor.constraint(equalTo: timerPauseContainer.leadingAnchor, constant: 15)
             
-
-            
         ])
         
-       
+        infoIcon.addTarget(self, action: #selector(showInfo), for: .touchUpInside)
+        
     }
     
     @objc func showInfo(){
-        showInfoAction?()
+        delegate?.changeShowInfo()
     }
     
     func startPauseTimer(){
@@ -309,7 +284,7 @@ class TimerPause: UIView {
         }else{
             timer?.invalidate()
         }
-       
+    
     }
     
     func convertTimerToString(time: TimeInterval) -> String{
@@ -323,7 +298,6 @@ class TimerPause: UIView {
 
 
 class EndFocus : UIView {
-    
     
     private var bgEndFocus: UIView = {
         let view = UIView()
@@ -377,7 +351,7 @@ class EndFocus : UIView {
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.lineBreakMode = .byWordWrapping
-        headTitle.text = "Move your fishing hook by move your phone up and down"
+        headTitle.text = "Continue for another ... minutes to get fish or nothing at all"
         headTitle.translatesAutoresizingMaskIntoConstraints = false
         
         return headTitle
