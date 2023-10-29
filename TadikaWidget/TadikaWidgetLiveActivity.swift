@@ -20,7 +20,7 @@ struct TadikaWidgetAttributes: ActivityAttributes {
 }
 
 struct TadikaWidgetLiveActivity: Widget {
-    @State var liveState = "pause"
+    @State var liveState = "focus"
     
     var body: some WidgetConfiguration {
         ActivityConfiguration(for: TadikaWidgetAttributes.self) { context in
@@ -33,44 +33,21 @@ struct TadikaWidgetLiveActivity: Widget {
                             .frame(width: geometry.size.width ,height: geometry.size.height)
                         
                         HStack(content: {
-                            VStack(content: {
-                                Text("Break Time")
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(Color("regular-text"))
-                                    .frame(width: 136, alignment: .top)
-                                
+                            HStack(content: {
+                                Image("playIcon")
+                                    .resizable()
+                                    .frame(width: geometry.size.width/16, height: geometry.size.width/15)
+                                Spacer()
                                 Text("09:41")
                                     .font(.system(size: 50, weight: .bold, design: .rounded))
                                     .foregroundColor(Color("highlight-text"))
-                            }).position(x: geometry.size.width/3.9, y: geometry.size.height / 2)
+                            }).position(x: geometry.size.width/3, y: geometry.size.height / 2)
                             
                             ZStack(content: {
-                                HStack(content: {
-                                    Button(action: {
-                                        // Button action
-                                    }) {
-                                        ZStack {
-                                            Image("pauseButton")
-                                                .resizable()
-                                                .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-                                            
-                                        }
-                                    }.buttonStyle(PlainButtonStyle())
-                                    
-                                    Button(action: {
-                                        // Button action
-                                    }) {
-                                        ZStack {
-                                            Image("correctStopButton")
-                                                .resizable()
-                                                .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-                                            
-                                        }
-                                    }.buttonStyle(PlainButtonStyle())
-                                })
-                                
-                            }).position(x: geometry.size.width/3.9, y: geometry.size.height / 2)
+                                Image("charIcon")
+                                    .resizable()
+                                    .frame(width: geometry.size.width/7, height: geometry.size.width/7)
+                            }).position(x: geometry.size.width/3.5, y: geometry.size.height / 2)
                         })
                     })
                 }else if liveState == "pause"{
@@ -80,47 +57,24 @@ struct TadikaWidgetLiveActivity: Widget {
                             .frame(width: geometry.size.width ,height: geometry.size.height)
                         
                         HStack(content: {
-                            VStack(content: {
-                                Text("Break Time")
-                                    .font(.system(size: 20, weight: .bold, design: .rounded))
-                                    .multilineTextAlignment(.center)
-                                    .foregroundColor(Color("regular-text"))
-                                    .frame(width: 136, alignment: .top)
-                                
+                            HStack(content: {
+                                Image("pauseIcon")
+                                    .resizable()
+                                    .frame(width: geometry.size.width/16, height: geometry.size.width/15)
+                                Spacer()
                                 Text("09:41")
                                     .font(.system(size: 50, weight: .bold, design: .rounded))
                                     .foregroundColor(Color("highlight-text"))
-                            }).position(x: geometry.size.width/3.9, y: geometry.size.height / 2)
+                            }).position(x: geometry.size.width/3, y: geometry.size.height / 2)
                             
                             ZStack(content: {
-                                HStack(content: {
-                                    Button(action: {
-                                        // Button action
-                                    }) {
-                                        ZStack {
-                                            Image("playButton")
-                                                .resizable()
-                                                .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-                                            
-                                        }
-                                    }.buttonStyle(PlainButtonStyle())
-                                    
-                                    Button(action: {
-                                        // Button action
-                                    }) {
-                                        ZStack {
-                                            Image("correctStopButton")
-                                                .resizable()
-                                                .frame(width: geometry.size.width/6, height: geometry.size.width/6)
-                                            
-                                        }
-                                    }.buttonStyle(PlainButtonStyle())
-                                })
-                                
-                            }).position(x: geometry.size.width/3.9, y: geometry.size.height / 2)
+                                Image("boatIcon")
+                                    .resizable()
+                                    .frame(width: geometry.size.width/4.8, height: geometry.size.width/7)
+                            }).position(x: geometry.size.width/3.5, y: geometry.size.height / 2)
                         })
                     })
-
+                    
                 }
                 
             }
@@ -129,24 +83,54 @@ struct TadikaWidgetLiveActivity: Widget {
                 // Expanded UI goes here.  Compose the expanded UI through
                 // various regions, like leading/trailing/center/bottom
                 DynamicIslandExpandedRegion(.leading) {
-                    Text("Leading")
+                    ZStack(content: {
+                        VStack(content: {
+                            Spacer()
+                            HStack(content: {
+                                Image("boatIcon")
+                                    .resizable()
+                                    .frame(width: 70, height: 41)
+                                
+                                VStack(alignment: .leading, content: {
+                                    Text("Paused")
+                                        .font(.system(size: 19, weight: .bold, design: .rounded))
+                                        .foregroundColor(Color("highlight-text"))
+                                    
+                                    Text("Taking a break...")
+                                        .font(.system(size: 12, weight: .regular, design: .rounded))
+                                        .foregroundColor(Color("highlight-text"))
+                                    
+                                }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                            })
+                            Spacer()
+                        })
+                    })
                 }
                 DynamicIslandExpandedRegion(.trailing) {
-                    Text("Trailing")
+                    ZStack(content: {
+                        HStack(content: {
+                            VStack(alignment: .trailing, content: {
+                                Spacer()
+                                Text("04:41")
+                                    .font(.system(size: 28, weight: .bold, design: .rounded))
+                                    .foregroundColor(Color("highlight-text"))
+                                Spacer()
+                            }).frame(width: /*@START_MENU_TOKEN@*/100/*@END_MENU_TOKEN@*/)
+                        })
+                    })
                 }
                 DynamicIslandExpandedRegion(.bottom) {
-                    Text("Bottom \(context.state.emoji)")
-                    // more content
+                    Text("Fishcus")
                 }
             } compactLeading: {
-                Text("L")
+                Text("9m").font(.system(size: 12, weight: .bold, design: .rounded))
+                    .foregroundColor(Color("highlight-text"))
             } compactTrailing: {
-                Text("T \(context.state.emoji)")
+                //                Image("boatIcon")
+                EmptyView()
             } minimal: {
-                Text(context.state.emoji)
+                EmptyView()
             }
-            .widgetURL(URL(string: "http://www.apple.com"))
-            .keylineTint(Color.red)
         }
     }
 }

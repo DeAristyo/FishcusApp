@@ -7,7 +7,6 @@
 
 import UIKit
 import Foundation
-import WidgetKit
 
 class HomeViewController: UIViewController {
     
@@ -319,7 +318,7 @@ class HomeViewController: UIViewController {
             countDownTimer.startCountdown()
             let sharedDefaults = UserDefaults(suiteName: "group.75VHUVZJF4.com.vicky.tadikaapp")
             sharedDefaults?.set("focus", forKey: "widgetState")
-            WidgetCenter.shared.reloadAllTimelines()
+            sharedDefaults?.removeObject(forKey: "currentTime")
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
                 self.nextScreen()
