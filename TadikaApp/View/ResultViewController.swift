@@ -39,8 +39,12 @@ class ResultViewController: UIViewController {
     
     let fishImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "fish-icon")
-        view.contentMode = .center
+        view.image = UIImage(named: "swordfish-icon")
+        view.contentMode = .scaleAspectFill
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowRadius = 10
+        view.layer.shadowOpacity = 0.4
+        view.layer.shadowOffset = CGSize(width: 2, height: 5)
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -55,8 +59,8 @@ class ResultViewController: UIViewController {
         return image
     }()
     
-    private var shareContainer: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
+    private var shareContainer: UIButton = {
+        let view = UIButton(frame: CGRect(x: 0, y: 0, width: 36, height: 36))
         view.backgroundColor = UIColor(named: "primaryColor")
         view.layer.zPosition = 13
         view.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
@@ -67,10 +71,10 @@ class ResultViewController: UIViewController {
         return view
     }()
     
-    private var shareIcon: UIButton = {
-        let image = UIButton()
-        image.setImage(UIImage(named: "icon-share"), for: .normal)
-        image.contentMode = .center
+    private var shareIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "icon-share")
+        image.contentMode = .scaleAspectFill
         image.translatesAutoresizingMaskIntoConstraints = false
         
         return image
@@ -122,7 +126,9 @@ class ResultViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             fishImage.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            fishImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 70)
+            fishImage.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 70),
+            fishImage.widthAnchor.constraint(equalToConstant: 199),
+            fishImage.heightAnchor.constraint(equalToConstant: 214)
         ])
         
         view.addSubview(labelSmall)
@@ -164,7 +170,7 @@ class ResultViewController: UIViewController {
             shareIcon.heightAnchor.constraint(equalToConstant: 21)
         ])
        
-        shareIcon.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
+        shareContainer.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         resultBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
     }
     

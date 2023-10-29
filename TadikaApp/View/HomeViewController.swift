@@ -15,6 +15,7 @@ class HomeViewController: UIViewController {
     private var showInfo1 = false
     private var showInfo2 = false
     private var focusIsBegin = false
+    private var myUserDefault = UserDefaults.standard
     
     private var titleHi : UILabel = {
         let title  = UILabel()
@@ -260,7 +261,14 @@ class HomeViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         
-        timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(startUserInfo), userInfo: nil, repeats: false)
+        if ((myUserDefault.string(forKey: "activity")?.isEmpty) == nil){
+            timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(startUserInfo), userInfo: nil, repeats: false)
+        }else{
+            userInfoOverlay.removeFromSuperview()
+            userInfoOverlay2.removeFromSuperview()
+            focusIsBegin = true
+        }
+       
         
     }
     
