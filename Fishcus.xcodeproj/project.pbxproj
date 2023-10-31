@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 54;
+	objectVersion = 56;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -15,6 +15,14 @@
 		5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */; };
 		7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */; };
 		86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31196A59B6EED78958140F92 /* Assets.xcassets */; };
+		A58327542AF0E737004A9458 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A58327532AF0E737004A9458 /* WidgetKit.framework */; };
+		A58327562AF0E737004A9458 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A58327552AF0E737004A9458 /* SwiftUI.framework */; };
+		A58327592AF0E737004A9458 /* FishcusWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58327582AF0E737004A9458 /* FishcusWidgetBundle.swift */; };
+		A583275B2AF0E737004A9458 /* FishcusWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583275A2AF0E737004A9458 /* FishcusWidgetLiveActivity.swift */; };
+		A583275D2AF0E737004A9458 /* FishcusWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583275C2AF0E737004A9458 /* FishcusWidget.swift */; };
+		A583275F2AF0E737004A9458 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A583275E2AF0E737004A9458 /* AppIntent.swift */; };
+		A58327612AF0E738004A9458 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A58327602AF0E738004A9458 /* Assets.xcassets */; };
+		A58327652AF0E738004A9458 /* FishcusWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A58327512AF0E737004A9458 /* FishcusWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCD50641CAA176E210E10C4 /* ViewController.swift */; };
 		ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC088CEAD3CFD228AC35590F /* ResultViewController.swift */; };
@@ -23,6 +31,30 @@
 		F61BA4A3D589BC28986F6320 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60591540336BD1286C10617C /* SceneDelegate.swift */; };
 		F82D89878AC79D25F8AC93F9 /* focusBreakExhaustedAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 26A1CAD6F13AC04235988469 /* focusBreakExhaustedAlert.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		A58327632AF0E738004A9458 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9A65EE879A29D7BBE5022B77 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A58327502AF0E737004A9458;
+			remoteInfo = FishcusWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		A58327692AF0E738004A9458 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				A58327652AF0E738004A9458 /* FishcusWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreHapticViewController.swift; sourceTree = "<group>"; };
@@ -33,11 +65,22 @@
 		60591540336BD1286C10617C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8D33A05DB6C464BA8293F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A58327512AF0E737004A9458 /* FishcusWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = FishcusWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A58327532AF0E737004A9458 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		A58327552AF0E737004A9458 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		A58327582AF0E737004A9458 /* FishcusWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishcusWidgetBundle.swift; sourceTree = "<group>"; };
+		A583275A2AF0E737004A9458 /* FishcusWidgetLiveActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishcusWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		A583275C2AF0E737004A9458 /* FishcusWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishcusWidget.swift; sourceTree = "<group>"; };
+		A583275E2AF0E737004A9458 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		A58327602AF0E738004A9458 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A58327622AF0E738004A9458 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A583276A2AF0E7EE004A9458 /* FishcusWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FishcusWidgetExtension.entitlements; sourceTree = "<group>"; };
+		A583276B2AF0E815004A9458 /* Fishcus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fishcus.entitlements; sourceTree = "<group>"; };
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
-		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DE10A3330C10559522AD7B0E /* DelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateProtocol.swift; sourceTree = "<group>"; };
 		E119061096C4A36904EC0AD3 /* ReusableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewController.swift; sourceTree = "<group>"; };
 		EFB3509B3E0C943E71428632 /* CountDownRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownRingView.swift; sourceTree = "<group>"; };
@@ -51,6 +94,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				0E6D09DF74DFD7BFFCC5705A /* SDWebImageSwiftUI in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A583274E2AF0E737004A9458 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A58327562AF0E737004A9458 /* SwiftUI.framework in Frameworks */,
+				A58327542AF0E737004A9458 /* WidgetKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */,
+				A58327512AF0E737004A9458 /* FishcusWidgetExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -92,9 +145,32 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		A58327522AF0E737004A9458 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				A58327532AF0E737004A9458 /* WidgetKit.framework */,
+				A58327552AF0E737004A9458 /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A58327572AF0E737004A9458 /* FishcusWidget */ = {
+			isa = PBXGroup;
+			children = (
+				A58327582AF0E737004A9458 /* FishcusWidgetBundle.swift */,
+				A583275A2AF0E737004A9458 /* FishcusWidgetLiveActivity.swift */,
+				A583275C2AF0E737004A9458 /* FishcusWidget.swift */,
+				A583275E2AF0E737004A9458 /* AppIntent.swift */,
+				A58327602AF0E738004A9458 /* Assets.xcassets */,
+				A58327622AF0E738004A9458 /* Info.plist */,
+			);
+			path = FishcusWidget;
+			sourceTree = "<group>";
+		};
 		A779152ED636EBBC4A73620A /* Fishcus */ = {
 			isa = PBXGroup;
 			children = (
+				A583276B2AF0E815004A9458 /* Fishcus.entitlements */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
 				31196A59B6EED78958140F92 /* Assets.xcassets */,
 				51E971755197E04B9AC46CCB /* Info.plist */,
@@ -104,15 +180,17 @@
 				87EA1E0E014A13A4CE158701 /* Services */,
 				E48D0FECA1163CB5BB72D8B2 /* View */,
 			);
-			name = Fishcus;
 			path = Fishcus;
 			sourceTree = "<group>";
 		};
 		DD102DC42555D4A2CE988A6C = {
 			isa = PBXGroup;
 			children = (
+				A583276A2AF0E7EE004A9458 /* FishcusWidgetExtension.entitlements */,
 				A54AA40A126C869AA62DD78E /* Config */,
 				A779152ED636EBBC4A73620A /* Fishcus */,
+				A58327572AF0E737004A9458 /* FishcusWidget */,
+				A58327522AF0E737004A9458 /* Frameworks */,
 				6B6ADA367ADFD13C408441A9 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -133,6 +211,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		A58327502AF0E737004A9458 /* FishcusWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A58327662AF0E738004A9458 /* Build configuration list for PBXNativeTarget "FishcusWidgetExtension" */;
+			buildPhases = (
+				A583274D2AF0E737004A9458 /* Sources */,
+				A583274E2AF0E737004A9458 /* Frameworks */,
+				A583274F2AF0E737004A9458 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FishcusWidgetExtension;
+			productName = FishcusWidgetExtension;
+			productReference = A58327512AF0E737004A9458 /* FishcusWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		B74225766FB375F60F2112AC /* Fishcus */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 441D5D5C032005752AAEB37D /* Build configuration list for PBXNativeTarget "Fishcus" */;
@@ -140,10 +235,12 @@
 				B2544C9216BF4D143C7C4B1A /* Sources */,
 				0E09D1D03A2DBDAB2D50977D /* Resources */,
 				28CA656FA5ED9D39B96D761C /* Frameworks */,
+				A58327692AF0E738004A9458 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A58327642AF0E738004A9458 /* PBXTargetDependency */,
 			);
 			name = Fishcus;
 			packageProductDependencies = (
@@ -160,10 +257,11 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				LastSwiftUpdateCheck = 1500;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
-					B74225766FB375F60F2112AC = {
-						DevelopmentTeam = MNPQBHRKTX;
+					A58327502AF0E737004A9458 = {
+						CreatedOnToolsVersion = 15.0.1;
 					};
 				};
 			};
@@ -183,6 +281,7 @@
 			projectRoot = "";
 			targets = (
 				B74225766FB375F60F2112AC /* Fishcus */,
+				A58327502AF0E737004A9458 /* FishcusWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -197,9 +296,28 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A583274F2AF0E737004A9458 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A58327612AF0E738004A9458 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		A583274D2AF0E737004A9458 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A583275B2AF0E737004A9458 /* FishcusWidgetLiveActivity.swift in Sources */,
+				A583275F2AF0E737004A9458 /* AppIntent.swift in Sources */,
+				A58327592AF0E737004A9458 /* FishcusWidgetBundle.swift in Sources */,
+				A583275D2AF0E737004A9458 /* FishcusWidget.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		B2544C9216BF4D143C7C4B1A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -220,6 +338,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		A58327642AF0E738004A9458 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = A58327502AF0E737004A9458 /* FishcusWidgetExtension */;
+			targetProxy = A58327632AF0E738004A9458 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		2DEEDA37D3F7A229D3E4E87E /* LaunchScreen.storyboard */ = {
@@ -303,9 +429,12 @@
 		751D9E580D2A6F428F5A23AC /* Fishcus-DEV */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				CURRENT_PROJECT_VERSION = 1.1;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -313,7 +442,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.dev.fishcus1.1;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -381,12 +512,180 @@
 			};
 			name = Fishcus;
 		};
+		A58327672AF0E738004A9458 /* Fishcus */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = FishcusWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FishcusWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FishcusWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vicky.fishcus.FishcusWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Fishcus;
+		};
+		A58327682AF0E738004A9458 /* Fishcus-DEV */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = FishcusWidgetExtension.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = FishcusWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = FishcusWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.vicky.fishcus.FishcusWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = "Fishcus-DEV";
+		};
 		AC9C18569089FEC5E9388FD1 /* Fishcus */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				CURRENT_PROJECT_VERSION = 1.1;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -394,7 +693,9 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.fishcus1.1;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = RELEASE;
@@ -410,6 +711,15 @@
 			buildConfigurations = (
 				AC9C18569089FEC5E9388FD1 /* Fishcus */,
 				751D9E580D2A6F428F5A23AC /* Fishcus-DEV */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Fishcus;
+		};
+		A58327662AF0E738004A9458 /* Build configuration list for PBXNativeTarget "FishcusWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A58327672AF0E738004A9458 /* Fishcus */,
+				A58327682AF0E738004A9458 /* Fishcus-DEV */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Fishcus;
