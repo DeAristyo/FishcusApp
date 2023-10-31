@@ -1,0 +1,1161 @@
+//
+//  FocusViewController.swift
+//  TadikaApp
+//
+//  Created by Vicky Irwanto on 17/10/23.
+//
+
+import UIKit
+import CoreMotion
+import CoreHaptics
+
+class FocusViewController: UIViewController, DelegateProtocol  {
+    func dismissBreakExhausted() {
+        UIView.animate(withDuration: 0.5, animations: { [self] in
+            self.breakExhausted.alpha = 0.0
+            self.timer?.invalidate()
+            startTimer()
+        })
+    }
+    
+    func takePodomoroAlert() {
+        timerPauseContainer.totalPauseTimer += 300
+        UIView.animate(withDuration: 0.4, animations: {
+            self.timerPauseContainer.alpha = 1.0
+            self.iconStop.alpha = 0.0
+            self.stopContainer.alpha = 0.0
+            self.mainBg.image = UIImage(named: "bg-pause")
+            self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
+            self.swipeUpLabel.text = "Swipe down to resume"
+            self.hideIcon.alpha = 0.0
+            self.hideTimer.alpha = 0.0
+            self.timerLabel.alpha = 0.0
+            self.timerShownContainer.alpha = 0.0
+            self.hideTimerIcon.alpha = 0.0
+            self.podomoroAlerts.alpha = 0.0
+        })
+        
+        complexSuccess()
+        
+        if timer != nil {
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+        }
+    }
+    
+    func continuePodomoroAlert() {
+        timerPauseContainer.totalPauseTimer += 300
+        UIView.animate(withDuration: 0.5, animations: {
+            self.podomoroAlerts.alpha = 0.0
+        })
+    }
+    
+    
+    var myUserDefault = UserDefaults.standard
+    var timer: Timer?
+    var engine: CHHapticEngine?
+    var showInfo = false
+    var infoStep = 0
+    var podomoroTime = 0
+    var podomoroStep = 1
+    var timerLabel: UILabel = {
+        let timerLabel = UILabel()
+        timerLabel.textAlignment = .center
+        timerLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        timerLabel.textColor = UIColor(named: "regular-text")
+        timerLabel.layer.zPosition = 12
+        timerLabel.translatesAutoresizingMaskIntoConstraints = false
+        
+        return timerLabel
+    }()
+    
+    var timerStart: Int = 0
+    
+    let motionManager = CMMotionManager()
+    let motionThreshold: Double = 5.0 // Adjust the threshold as needed
+    
+    
+    private var mainBg: UIImageView = {
+        let fishing =  UIImageView()
+        fishing.image = UIImage(named: "bg-latest")
+        fishing.contentMode = .scaleAspectFill
+        fishing.layer.zPosition = 1
+        fishing.translatesAutoresizingMaskIntoConstraints = false
+        
+        return fishing
+    }()
+    
+    private var iconStop: UIImageView = {
+        let stop = UIImageView()
+        stop.image = UIImage(named: "icon-stop")
+        stop.contentMode = .scaleAspectFill
+        stop.layer.zPosition = 14
+        stop.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stop
+    }()
+    
+    private var iconCancel: UIImageView = {
+        let stop = UIImageView()
+        stop.image = UIImage(named: "icon-cancel")
+        stop.contentMode = .scaleAspectFill
+        stop.layer.zPosition = 14
+        stop.translatesAutoresizingMaskIntoConstraints = false
+        
+        return stop
+    }()
+    
+    
+    var timerPauseContainer: TimerPause = {
+        let view = TimerPause()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var endFocus: EndFocus = {
+        let view = EndFocus()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    
+    private var infoLabel: UIView = {
+        let view = UIView()
+        view.layer.backgroundColor = UIColor.white.cgColor
+        view.layer.cornerRadius = 25
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        // Auto layout, variables, and unit scale are not yet supported
+        var text = UILabel()
+        text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
+        text.textColor = UIColor(named: "primaryColor")
+        text.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        text.numberOfLines = 0
+        text.lineBreakMode = .byWordWrapping
+        // Line height: 21.48 pt
+        text.textAlignment = .center
+        text.text = "You are allowed to open other apps. When the timer reach its limit, you can’t pause anymore."
+        text.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(text)
+        
+        NSLayoutConstraint.activate([
+            text.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            text.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            text.topAnchor.constraint(equalTo: view.topAnchor),
+            text.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            text.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            text.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        return view
+    }()
+    
+    private var btnContinue: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "btn-finish")
+        image.contentMode = .center
+        image.layer.zPosition = 12
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    private var endHome: EndFocusBack = {
+        let view = EndFocusBack()
+        view.layer.zPosition = 13
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var btnBackHome: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "btn-backmain")
+        image.contentMode = .center
+        image.layer.zPosition = 13
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    private var hideTimer: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 12
+        view.layer.cornerRadius = view.frame.size.width/2
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var hideIcon: UIImageView = {
+        let image = UIImageView()
+        image.image = UIImage(named: "icon-hide")
+        image.contentMode = .scaleAspectFill
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    private var stopContainer: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 13
+        view.layer.cornerRadius = view.frame.size.width/2
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var userGuideInfo: [ReuseableInfoView] = [
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“Let’s start fishing! During Focus session, you can start focusing on your tasks and...", position: false),
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: true),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false)
+    ]
+    
+    private var swipeUpIcon: UIImageView = {
+        let view = UIImageView()
+        view.image = UIImage(named: "icon-swipe-up")
+        view.contentMode = .scaleAspectFill
+        view.layer.zPosition = 12
+        view.alpha = 0.0
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var swipeUpLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Swipe up to take a break"
+        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        label.textColor = .white
+        label.layer.zPosition = 12
+        label.alpha = 0.0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var timerShownContainer: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 26
+        
+        return view
+    }()
+    
+    private var hideTimerIcon: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage(named: "icon-show")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var infoEndSession: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 25
+        
+        return view
+    }()
+    
+    private var infoPodomoro: UILabel = {
+        let label = UILabel()
+        label.text = "You get a +5 minutes rest!"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(named: "regular-text")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var infoEndSessionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Shake your phone to finish"
+        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(named: "regular-text")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var infoEndSessionIcon: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage(named: "icon-shake")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var bgInputTask: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor.black
+        view.alpha = 0.5
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var containerInputTask: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 11
+        view.layer.cornerRadius = 35
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var inputTaskTitle: UILabel = {
+        var text = UILabel()
+        text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
+        text.textColor = .white
+        text.font = UIFont(name: "SFProRounded-semibold", size: 17)
+        text.numberOfLines = 0
+        text.lineBreakMode = .byWordWrapping
+        text.layer.zPosition = 11
+        // Line height: 21.48 pt
+        text.textAlignment = .center
+        text.translatesAutoresizingMaskIntoConstraints = false
+        
+        return text
+    }()
+    
+    private var inputTaskTextField: UITextField = {
+        let textField = UITextField()
+        textField.borderStyle = .roundedRect
+        textField.backgroundColor = UIColor(named: "regular-text")
+        textField.textAlignment = .center
+        textField.textColor = UIColor(named: "primaryColor")
+        textField.translatesAutoresizingMaskIntoConstraints = false
+        
+        return textField
+    }()
+    
+    private var inputTaskBtn: UIButton = {
+        let image = UIButton(type: .custom)
+        image.setImage(UIImage(named: "btn-continue"), for: .normal)
+        image.tintColor = .white
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
+    private var podomoroAlerts: PodomoroAlerts = {
+       let view = PodomoroAlerts()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var breakExhausted : FocusBreakExhausted = {
+       let view = FocusBreakExhausted()
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        self.navigationItem.hidesBackButton = true
+        view.backgroundColor = .systemBackground
+        
+        timerPauseContainer.delegate = self
+        breakExhausted.delegate = self
+        podomoroAlerts.delegate = self
+        breakExhausted.alpha = 0.0
+        podomoroAlerts.alpha = 0.0
+        timerPauseContainer.alpha = 0.0
+        endFocus.alpha = 0.0
+        iconCancel.alpha = 0.0
+        infoLabel.alpha = 0.0
+        endHome.alpha = 0.0
+        btnContinue.alpha = 0.0
+        btnBackHome.alpha = 0.0
+        timerShownContainer.alpha = 0.0
+        hideTimerIcon.alpha = 0.0
+        timerLabel.alpha = 0.0
+        infoEndSession.alpha = 0.0
+        infoEndSessionIcon.alpha = 0.0
+        infoEndSessionLabel.alpha = 0.0
+        bgInputTask.alpha = 0.0
+        containerInputTask.alpha = 0.0
+        inputTaskBtn.alpha = 0.0
+        inputTaskTitle.alpha = 0.0
+        inputTaskTextField.alpha = 0.0
+        
+        
+        view.addSubview(breakExhausted)
+        
+        NSLayoutConstraint.activate([
+            breakExhausted.topAnchor.constraint(equalTo: view.topAnchor),
+            breakExhausted.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            breakExhausted.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            breakExhausted.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(podomoroAlerts)
+        
+        NSLayoutConstraint.activate([
+            podomoroAlerts.topAnchor.constraint(equalTo: view.topAnchor),
+            podomoroAlerts.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            podomoroAlerts.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            podomoroAlerts.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        
+        
+        if ((myUserDefault.string(forKey: "activity")?.isEmpty) == nil){
+            let initialShowInfo = userGuideInfo[0]
+            initialShowInfo.layer.zPosition = 12
+            
+            self.view.addSubview(initialShowInfo)
+            
+            NSLayoutConstraint.activate([
+                initialShowInfo.topAnchor.constraint(equalTo: view.topAnchor),
+                initialShowInfo.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                initialShowInfo.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                initialShowInfo.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            
+            let guideInfoGestureRecog = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+            initialShowInfo.isUserInteractionEnabled = true
+            initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
+            
+        }else{
+            for myIndex in userGuideInfo{
+                myIndex.removeFromSuperview()
+            }
+        }
+        
+       
+        
+        
+        view.addSubview(hideTimer)
+        
+        NSLayoutConstraint.activate([
+            hideTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            hideTimer.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            hideTimer.widthAnchor.constraint(equalToConstant: 44),
+            hideTimer.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        hideTimer.addSubview(hideIcon)
+        
+        NSLayoutConstraint.activate([
+            hideIcon.centerXAnchor.constraint(equalTo: hideTimer.centerXAnchor),
+            hideIcon.centerYAnchor.constraint(equalTo: hideTimer.centerYAnchor, constant: 2),
+            hideIcon.widthAnchor.constraint(equalToConstant: 23),
+            hideIcon.heightAnchor.constraint(equalToConstant: 9)
+        ])
+        
+        
+        view.addSubview(endHome)
+        
+        NSLayoutConstraint.activate([
+            endHome.topAnchor.constraint(equalTo: view.topAnchor),
+            endHome.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            endHome.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            endHome.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+        
+        view.addSubview(infoLabel)
+        
+        NSLayoutConstraint.activate([
+            infoLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            infoLabel.widthAnchor.constraint(equalToConstant: 298),
+            infoLabel.heightAnchor.constraint(equalToConstant: 143)
+        ])
+        
+        view.addSubview(endFocus)
+        
+        NSLayoutConstraint.activate([
+            endFocus.topAnchor.constraint(equalTo: view.topAnchor),
+            endFocus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            endFocus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            endFocus.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(btnContinue)
+        
+        NSLayoutConstraint.activate([
+            btnContinue.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            btnContinue.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 90)
+        ])
+        
+        view.addSubview(btnBackHome)
+        NSLayoutConstraint.activate([
+            btnBackHome.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            btnBackHome.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 90)
+        ])
+        
+        view.addSubview(timerPauseContainer)
+        
+        
+        NSLayoutConstraint.activate([
+            timerPauseContainer.topAnchor.constraint(equalTo: view.topAnchor),
+            timerPauseContainer.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            timerPauseContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            timerPauseContainer.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(stopContainer)
+        
+        NSLayoutConstraint.activate([
+            stopContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            stopContainer.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
+            stopContainer.widthAnchor.constraint(equalToConstant: 44),
+            stopContainer.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        view.addSubview(iconStop)
+        
+        NSLayoutConstraint.activate([
+            iconStop.centerXAnchor.constraint(equalTo: stopContainer.centerXAnchor),
+            iconStop.centerYAnchor.constraint(equalTo: stopContainer.centerYAnchor),
+            iconStop.widthAnchor.constraint(equalToConstant: 18),
+            iconStop.heightAnchor.constraint(equalToConstant: 9)
+        ])
+        
+        view.addSubview(iconCancel)
+        
+        NSLayoutConstraint.activate([
+            iconCancel.centerXAnchor.constraint(equalTo: stopContainer.centerXAnchor),
+            iconCancel.centerYAnchor.constraint(equalTo: stopContainer.centerYAnchor),
+            iconCancel.widthAnchor.constraint(equalToConstant: 18),
+            iconCancel.heightAnchor.constraint(equalToConstant: 9)
+        ])
+        
+        view.addSubview(mainBg)
+        
+        NSLayoutConstraint.activate([
+            mainBg.topAnchor.constraint(equalTo: view.topAnchor),
+            mainBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            mainBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(swipeUpIcon)
+        
+        NSLayoutConstraint.activate([
+            swipeUpIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
+            swipeUpIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
+            swipeUpIcon.widthAnchor.constraint(equalToConstant: 20),
+            swipeUpIcon.heightAnchor.constraint(equalToConstant: 20)
+        ])
+        
+        view.addSubview(swipeUpLabel)
+        
+        NSLayoutConstraint.activate([
+            swipeUpLabel.leadingAnchor.constraint(equalTo: swipeUpIcon.trailingAnchor, constant: 4),
+            swipeUpLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+        ])
+        
+        view.addSubview(timerShownContainer)
+        
+        NSLayoutConstraint.activate([
+            timerShownContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            timerShownContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            timerShownContainer.widthAnchor.constraint(equalToConstant: 136),
+            timerShownContainer.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        timerShownContainer.addSubview(hideTimerIcon)
+        
+        NSLayoutConstraint.activate([
+            hideTimerIcon.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 22),
+            hideTimerIcon.trailingAnchor.constraint(equalTo: timerShownContainer.trailingAnchor, constant: -16),
+            hideTimerIcon.widthAnchor.constraint(equalToConstant: 23),
+            hideTimerIcon.heightAnchor.constraint(equalToConstant: 9)
+        ])
+        
+        timerLabel.text = "00:00"
+        timerShownContainer.addSubview(timerLabel)
+        
+        NSLayoutConstraint.activate([
+            timerLabel.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 15),
+            timerLabel.leadingAnchor.constraint(equalTo: timerShownContainer.leadingAnchor, constant: 16),
+        ])
+        
+        view.addSubview(infoEndSession)
+        
+        NSLayoutConstraint.activate([
+            infoEndSession.topAnchor.constraint(equalTo: hideTimer.bottomAnchor, constant: 41),
+            infoEndSession.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoEndSession.widthAnchor.constraint(equalToConstant: 335),
+            infoEndSession.heightAnchor.constraint(equalToConstant: 65)
+        ])
+        
+        infoEndSession.addSubview(infoEndSessionIcon)
+        
+        NSLayoutConstraint.activate([
+            infoEndSessionIcon.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor),
+            infoEndSessionIcon.leadingAnchor.constraint(equalTo: infoEndSession.leadingAnchor, constant: 22),
+            infoEndSessionIcon.widthAnchor.constraint(equalToConstant: 28),
+            infoEndSessionIcon.heightAnchor.constraint(equalToConstant: 28)
+        ])
+        
+        infoEndSession.addSubview(infoEndSessionLabel)
+        
+        NSLayoutConstraint.activate([
+            infoEndSessionLabel.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor),
+            infoEndSessionLabel.leadingAnchor.constraint(equalTo: infoEndSessionIcon.trailingAnchor, constant: 17)
+        ])
+        
+        infoEndSession.addSubview(infoPodomoro)
+        
+        NSLayoutConstraint.activate([
+            infoPodomoro.centerXAnchor.constraint(equalTo: infoEndSession.centerXAnchor),
+            infoPodomoro.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor)
+        ])
+        
+        view.addSubview(bgInputTask)
+        
+        NSLayoutConstraint.activate([
+            bgInputTask.topAnchor.constraint(equalTo: view.topAnchor),
+            bgInputTask.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bgInputTask.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bgInputTask.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+        view.addSubview(containerInputTask)
+        
+        NSLayoutConstraint.activate([
+            containerInputTask.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerInputTask.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            containerInputTask.widthAnchor.constraint(equalToConstant: 322),
+            containerInputTask.heightAnchor.constraint(equalToConstant: 235)
+        ])
+        
+        containerInputTask.addSubview(inputTaskTitle)
+        
+        NSLayoutConstraint.activate([
+            inputTaskTitle.topAnchor.constraint(equalTo: containerInputTask.topAnchor, constant: 25),
+            inputTaskTitle.centerXAnchor.constraint(equalTo: containerInputTask.centerXAnchor),
+            inputTaskTitle.widthAnchor.constraint(equalToConstant: 239),
+            inputTaskTitle.heightAnchor.constraint(equalToConstant: 58)
+        ])
+        
+        containerInputTask.addSubview(inputTaskTextField)
+        
+        NSLayoutConstraint.activate([
+            inputTaskTextField.topAnchor.constraint(equalTo: inputTaskTitle.bottomAnchor, constant: 13),
+            inputTaskTextField.centerXAnchor.constraint(equalTo: containerInputTask.centerXAnchor),
+            inputTaskTextField.widthAnchor.constraint(equalToConstant: 259),
+            inputTaskTextField.heightAnchor.constraint(equalToConstant: 43)
+        ])
+        
+        containerInputTask.addSubview(inputTaskBtn)
+        
+        NSLayoutConstraint.activate([
+            inputTaskBtn.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: 29),
+            inputTaskBtn.centerXAnchor.constraint(equalTo: containerInputTask.centerXAnchor)
+        ])
+        
+        
+        // Create and start the timer
+        startTimer()
+        
+        
+        startMotionUpdates()
+        prepareHaptic()
+        
+        // Create a swipe gesture recognizer
+        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+        swipeGesture.direction = .up
+        view.addGestureRecognizer(swipeGesture)
+        
+        let swipeGestureDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
+        swipeGestureDown.direction = .down
+        view.addGestureRecognizer(swipeGestureDown)
+        
+        let cancelEndGesture =  UITapGestureRecognizer(target: self, action: #selector(cancelEndFocus))
+        iconCancel.isUserInteractionEnabled = true
+        iconCancel.addGestureRecognizer(cancelEndGesture)
+        
+        let stopEndGesture =  UITapGestureRecognizer(target: self, action: #selector(stopBtnFocus))
+        iconStop.isUserInteractionEnabled = true
+        iconStop.addGestureRecognizer(stopEndGesture)
+        
+        let btnFinishGesture = UITapGestureRecognizer(target: self, action: #selector(btnFinish))
+        btnContinue.isUserInteractionEnabled = true
+        btnContinue.addGestureRecognizer(btnFinishGesture)
+        
+        let btnBackGesture = UITapGestureRecognizer(target: self, action: #selector(btnHome))
+        btnBackHome.isUserInteractionEnabled = true
+        btnBackHome.addGestureRecognizer(btnBackGesture)
+        
+        let gestureShowTimer = UITapGestureRecognizer(target: self, action: #selector(showTimer))
+        hideIcon.isUserInteractionEnabled = true
+        hideIcon.addGestureRecognizer(gestureShowTimer)
+        
+        let gestureUnShowTimer = UITapGestureRecognizer(target: self, action: #selector(timerHide))
+        hideTimerIcon.isUserInteractionEnabled = true
+        hideTimerIcon.addGestureRecognizer(gestureUnShowTimer)
+        
+        inputTaskBtn.addTarget(self, action: #selector(continueResult), for: .touchUpInside)
+        
+        
+    }
+    
+    func minuteToString(time: TimeInterval) -> String {
+        let minute = Int(time) / 60 % 60
+        
+        return String(format: "%02i", minute)
+    }
+    
+    @objc func continueResult(){
+        guard let text = inputTaskTextField.text, !text.isEmpty else {
+            let alert = UIAlertController(title: "Error", message: "Please fill in the text field", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+            present(alert, animated: true, completion: nil)
+            return
+        }
+        
+        
+        let myUserDefault = UserDefaults.standard
+        myUserDefault.set(text, forKey: "activity")
+        myUserDefault.set(minuteToString(time: TimeInterval(timerStart)), forKey: "time")
+        myUserDefault.synchronize()
+        
+        print(text)
+        print(myUserDefault.string(forKey: "activity") ?? "")
+        print(myUserDefault.string(forKey: "time") ?? "")
+        
+        let vc = ResultViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func timerHide(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.hideIcon.alpha = 1.0
+            self.hideTimer.alpha = 1.0
+            self.timerLabel.alpha = 0.0
+            self.timerShownContainer.alpha = 0.0
+            self.hideTimerIcon.alpha = 0.0
+        })
+    }
+    
+    @objc func showTimer(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.hideIcon.alpha = 0.0
+            self.hideTimer.alpha = 0.0
+            self.timerLabel.alpha = 1.0
+            self.timerShownContainer.alpha = 1.0
+            self.hideTimerIcon.alpha = 1.0
+        })
+    }
+    
+    func changeShowInfo() {
+        showInfo.toggle()
+        
+        if showInfo{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.infoLabel.alpha = 1.0
+            })
+        }else{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.infoLabel.alpha = 0.0
+            })
+        }
+    }
+    
+    @objc func guideTapGesture(gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        UIView.animate(withDuration: 0.5, animations: {
+            currentView.removeFromSuperview()
+        })
+        
+        let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
+        
+        if nextIndex < userGuideInfo.count{
+            let nextView = userGuideInfo[nextIndex]
+            
+            switch nextIndex{
+            case 1:
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.swipeUpIcon.alpha = 1.0
+                    self.swipeUpLabel.alpha = 1.0
+                })
+                break
+            case 3:
+                
+                let gestureSwipeDown = UISwipeGestureRecognizer(target: self, action: #selector(infoSwipeDown))
+                gestureSwipeDown.direction = .down
+                nextView.addGestureRecognizer(gestureSwipeDown)
+                break
+            default:
+                if let recog = view.gestureRecognizers{
+                    for recognizer in recog {
+                        recognizer.isEnabled = true
+                    }
+                }
+                break
+            }
+            
+            nextView.layer.zPosition = 12
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.addSubview(nextView)
+            })
+            
+            NSLayoutConstraint.activate([
+                nextView.topAnchor.constraint(equalTo: view.topAnchor),
+                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+            nextView.addGestureRecognizer(gesture)
+            
+            
+        }
+    }
+    
+    @objc func infoSwipeDown(_ gesture: UISwipeGestureRecognizer){
+        
+        guard let current = gesture.view else { return }
+        
+        if gesture.state == .ended {
+            UIView.animate(withDuration: 0.4, animations: {
+                self.timerPauseContainer.alpha = 0.0
+                self.iconStop.alpha = 1.0
+                self.infoLabel.alpha = 0.0
+                self.stopContainer.alpha = 1.0
+                self.mainBg.image = UIImage(named: "bg-latest")
+                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
+                self.swipeUpLabel.text = "Swipe up to take a break"
+                self.hideIcon.alpha = 1.0
+                self.hideTimer.alpha = 1.0
+                current.removeFromSuperview()
+            })
+            if timer != nil {
+                timer?.invalidate()
+                startTimer()
+            }
+            
+            if let recog = view.gestureRecognizers{
+                for recognizer in recog {
+                    recognizer.isEnabled = true
+                }
+            }
+        }
+       
+        
+       
+    }
+    
+    
+    @objc func btnFinish(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.bgInputTask.alpha = 0.5
+            self.containerInputTask.alpha = 1.0
+            self.inputTaskBtn.alpha = 1.0
+            self.inputTaskTitle.alpha = 1.0
+            self.inputTaskTextField.alpha = 1.0
+            self.btnContinue.alpha = 0.0
+            self.endFocus.alpha = 0.0
+            self.inputTaskTitle.text = "What task you have working on for the last \(self.minuteToString(time: TimeInterval(self.timerStart))) minutes?"
+            self.hideIcon.alpha = 0.0
+            self.hideTimer.alpha = 0.0
+            self.timerLabel.alpha = 0.0
+            self.timerShownContainer.alpha = 0.0
+            self.hideTimerIcon.alpha = 0.0
+            self.iconCancel.alpha = 0.0
+            self.stopContainer.alpha = 0.0
+        })
+    }
+    
+    @objc func btnHome(){
+        let vc = HomeViewController()
+        self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func stopBtnFocus(){
+        UIView.animate(withDuration: 0.5, animations: {
+            self.infoEndSession.alpha = 1.0
+            self.infoEndSessionIcon.alpha = 1.0
+            self.infoEndSessionLabel.alpha = 1.0
+            self.infoPodomoro.alpha = 0.0
+        })
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
+            UIView.animate(withDuration: 0.5, animations: {
+                self.infoEndSession.alpha = 0.0
+                self.infoEndSessionIcon.alpha = 0.0
+                self.infoEndSessionLabel.alpha = 0.0
+            })
+        }
+    }
+    
+    @objc func cancelEndFocus(){
+        if let recog = view.gestureRecognizers{
+            for recognizer in recog {
+                recognizer.isEnabled = true
+            }
+        }
+        UIView.animate(withDuration: 0.5, animations: {
+            self.endFocus.alpha = 0.0
+            self.iconStop.alpha = 1.0
+            self.iconCancel.alpha = 0.0
+            self.btnContinue.alpha = 0.0
+            self.startTimer()
+        })
+    }
+    
+    @objc func handleSwipeDown(_ gesture : UISwipeGestureRecognizer){
+        
+        if gesture.state == .ended {
+            UIView.animate(withDuration: 0.4, animations: {
+                self.timerPauseContainer.alpha = 0.0
+                self.iconStop.alpha = 1.0
+                self.infoLabel.alpha = 0.0
+                self.stopContainer.alpha = 1.0
+                self.mainBg.image = UIImage(named: "bg-latest")
+                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
+                self.swipeUpLabel.text = "Swipe up to take a break"
+                self.hideIcon.alpha = 1.0
+                self.hideTimer.alpha = 1.0
+            })
+            if timer != nil {
+                timer?.invalidate()
+                startTimer()
+            }
+        }
+    }
+    
+    func startTimer() {
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimerLabel), userInfo: nil, repeats: true)
+    }
+    
+    @objc func updatePauseTimerLabel(){
+      
+        if timerPauseContainer.totalPauseTimer <= 0{
+            UIView.animate(withDuration: 0.5, animations: {
+                self.breakExhausted.alpha = 1.0
+                self.timerPauseContainer.alpha = 0.0
+                self.iconStop.alpha = 1.0
+                self.infoLabel.alpha = 0.0
+                self.stopContainer.alpha = 1.0
+                self.mainBg.image = UIImage(named: "bg-latest")
+                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
+                self.swipeUpLabel.text = "Swipe up to take a break"
+                self.hideIcon.alpha = 1.0
+                self.hideTimer.alpha = 1.0
+            })
+        }else{
+            timerPauseContainer.updatePauseTimer()
+        }
+        
+    }
+    
+    
+    @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
+        if gesture.state == .ended {
+            complexSuccess()
+            
+          
+            if timerPauseContainer.totalPauseTimer <= 0{
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.breakExhausted.alpha = 1.0
+                })
+            }else{
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.timerPauseContainer.alpha = 1.0
+                    self.iconStop.alpha = 0.0
+                    self.stopContainer.alpha = 0.0
+                    self.mainBg.image = UIImage(named: "bg-pause")
+                    self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
+                    self.swipeUpLabel.text = "Swipe down to resume"
+                    self.hideIcon.alpha = 0.0
+                    self.hideTimer.alpha = 0.0
+                    self.timerLabel.alpha = 0.0
+                    self.timerShownContainer.alpha = 0.0
+                    self.hideTimerIcon.alpha = 0.0
+                })
+                
+                if timer != nil {
+                    timer?.invalidate()
+                    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+                }
+            }
+            
+           
+            
+        }
+    }
+    
+    @objc func updateTimerLabel() {
+        // Update the timer label with the current time
+        timerStart += 1
+        podomoroTime += 1
+        
+        if podomoroTime == 1500{
+            
+            if podomoroStep == 1{
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.podomoroAlerts.alpha = 1.0
+                })
+                
+                podomoroTime = 0
+                podomoroStep += 1
+            }else{
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.infoPodomoro.alpha = 1.0
+                    self.infoEndSession.alpha = 1.0
+                })
+                
+                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0){
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.infoPodomoro.alpha = 0.0
+                        self.infoEndSession.alpha = 0.0
+                    })
+                }
+                timerPauseContainer.totalPauseTimer += 300
+                podomoroTime = 0
+                podomoroStep += 1
+            }
+           
+        }
+        
+        let currentTime = timerToString(time: TimeInterval(timerStart))
+        print(currentTime)
+        timerLabel.text = currentTime
+        
+    }
+    
+    func timerToString(time: TimeInterval) -> String
+    {
+        let minute = Int(time) / 60 % 60
+        let second = Int(time) % 60
+        
+        return String(format: "%02i:%02i", minute, second)
+    }
+    
+    func startMotionUpdates() {
+        if motionManager.isDeviceMotionAvailable {
+            motionManager.deviceMotionUpdateInterval = 0.1
+            motionManager.startDeviceMotionUpdates(to: .main) { [weak self] (motionData, error) in
+                guard let motionData = motionData else { return }
+                if self?.isShaking(motionData) == true {
+                    self?.complexSuccess()
+                    self?.stopTimer()
+                }
+            }
+        }
+    }
+    
+    func isShaking(_ motionData: CMDeviceMotion) -> Bool {
+        
+        let acceleration = motionData.userAcceleration
+        let totalAcceleration = sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z)
+        return totalAcceleration >= motionThreshold
+    }
+    
+    func stopTimer() {
+        if timer != nil {
+            timer?.invalidate()
+            timer = nil
+            
+            if let recog = view.gestureRecognizers{
+                for recognizer in recog {
+                    recognizer.isEnabled = false
+                }
+            }
+            
+            UIView.animate(withDuration: 0.4, animations: {
+                self.endFocus.alpha = 1.0
+                self.iconStop.alpha = 0.0
+                self.iconCancel.alpha = 1.0
+                self.timerPauseContainer.alpha = 0.0
+                self.infoLabel.alpha = 0.0
+                self.btnContinue.alpha = 1.0
+            })
+        }
+    }
+    
+    func showStopTimerAlert() {
+        let alertController = UIAlertController(title: "Timer Stopped", message: "Shake detected", preferredStyle: .alert)
+        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+            self?.dismiss(animated: true, completion: nil)
+        }
+        
+        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { [weak self] _ in
+            // Restart the timer when the user chooses to dismiss
+            self?.startTimer()
+        }
+        
+        alertController.addAction(okAction)
+        alertController.addAction(dismissAction)
+        
+        present(alertController, animated: true)
+    }
+    
+    func prepareHaptic(){
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {return}
+        
+        do{
+            engine = try CHHapticEngine()
+            try engine?.start()
+        }catch{
+            print("Your device not support haptic: \(error.localizedDescription)")
+        }
+    }
+    
+    func complexSuccess(){
+        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {return}
+        
+        var events = [CHHapticEvent]()
+        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
+        let sharpness =  CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
+        let event =  CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
+        
+        events.append(event)
+        
+        do{
+            let pattern = try CHHapticPattern(events: events, parameters: [])
+            let player = try engine?.makePlayer(with: pattern)
+            try player?.start(atTime: 0)
+        }catch{
+            print("fail \(error.localizedDescription)")
+        }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        UIApplication.shared.isIdleTimerDisabled = true
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Invalidate the timer when the view disappears
+        UIApplication.shared.isIdleTimerDisabled = false
+        timer?.invalidate()
+    }
+    
+    
+}
+
