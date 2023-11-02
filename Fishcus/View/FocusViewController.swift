@@ -85,9 +85,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         return fishing
     }()
     
-    private var iconStop: UIImageView = {
-        let stop = UIImageView()
-        stop.image = UIImage(named: "icon-stop")
+    private var iconStop: UIButton = {
+        let stop = UIButton(type: .custom)
+        stop.setImage(UIImage(named: "icon-stop"), for: .normal)
         stop.contentMode = .scaleAspectFill
         stop.layer.zPosition = 14
         stop.translatesAutoresizingMaskIntoConstraints = false
@@ -95,9 +95,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         return stop
     }()
     
-    private var iconCancel: UIImageView = {
-        let stop = UIImageView()
-        stop.image = UIImage(named: "icon-cancel")
+    private var iconCancel: UIButton = {
+        let stop = UIButton(type: .custom)
+        stop.setImage(UIImage(named: "icon-cancel"), for: .normal)
         stop.contentMode = .scaleAspectFill
         stop.layer.zPosition = 14
         stop.translatesAutoresizingMaskIntoConstraints = false
@@ -185,8 +185,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         return image
     }()
     
-    private var hideTimer: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+    private var hideTimer: UIButton = {
+        let view = UIButton(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         view.backgroundColor = UIColor(named: "primaryColor")
         view.layer.zPosition = 12
         view.layer.cornerRadius = view.frame.size.width/2
@@ -254,10 +254,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         return view
     }()
     
-    private var hideTimerIcon: UIImageView = {
-        let view = UIImageView()
+    private var hideTimerIcon: UIButton = {
+        let view = UIButton(type: .custom)
         view.contentMode = .scaleAspectFill
-        view.image = UIImage(named: "icon-show")
+        view.setImage(UIImage(named: "icon-show"), for: .normal)
         view.layer.zPosition = 11
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -427,7 +427,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         
         
-        if ((myUserDefault.string(forKey: "activity")?.isEmpty) == nil){
+        if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
             let initialShowInfo = userGuideInfo[0]
             initialShowInfo.layer.zPosition = 12
             
@@ -448,6 +448,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             for myIndex in userGuideInfo{
                 myIndex.removeFromSuperview()
             }
+            
+            swipeUpIcon.alpha = 1.0
+            swipeUpLabel.alpha = 1.0
         }
         
        
@@ -536,8 +539,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         NSLayoutConstraint.activate([
             iconStop.centerXAnchor.constraint(equalTo: stopContainer.centerXAnchor),
             iconStop.centerYAnchor.constraint(equalTo: stopContainer.centerYAnchor),
-            iconStop.widthAnchor.constraint(equalToConstant: 18),
-            iconStop.heightAnchor.constraint(equalToConstant: 9)
+            iconStop.widthAnchor.constraint(equalToConstant: 20),
+            iconStop.heightAnchor.constraint(equalToConstant: 20)
         ])
         
         view.addSubview(iconCancel)
@@ -546,7 +549,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             iconCancel.centerXAnchor.constraint(equalTo: stopContainer.centerXAnchor),
             iconCancel.centerYAnchor.constraint(equalTo: stopContainer.centerYAnchor),
             iconCancel.widthAnchor.constraint(equalToConstant: 18),
-            iconCancel.heightAnchor.constraint(equalToConstant: 9)
+            iconCancel.heightAnchor.constraint(equalToConstant: 18)
         ])
         
         view.addSubview(mainBg)
@@ -586,17 +589,17 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         timerShownContainer.addSubview(hideTimerIcon)
         
         NSLayoutConstraint.activate([
-            hideTimerIcon.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 22),
+            hideTimerIcon.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 16),
             hideTimerIcon.trailingAnchor.constraint(equalTo: timerShownContainer.trailingAnchor, constant: -16),
-            hideTimerIcon.widthAnchor.constraint(equalToConstant: 23),
-            hideTimerIcon.heightAnchor.constraint(equalToConstant: 9)
+            hideTimerIcon.widthAnchor.constraint(equalToConstant: 25),
+            hideTimerIcon.heightAnchor.constraint(equalToConstant: 18)
         ])
         
         timerLabel.text = "00:00"
         timerShownContainer.addSubview(timerLabel)
         
         NSLayoutConstraint.activate([
-            timerLabel.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 15),
+            timerLabel.topAnchor.constraint(equalTo: timerShownContainer.topAnchor, constant: 13),
             timerLabel.leadingAnchor.constraint(equalTo: timerShownContainer.leadingAnchor, constant: 16),
         ])
         
@@ -692,13 +695,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         swipeGestureDown.direction = .down
         view.addGestureRecognizer(swipeGestureDown)
         
-        let cancelEndGesture =  UITapGestureRecognizer(target: self, action: #selector(cancelEndFocus))
-        iconCancel.isUserInteractionEnabled = true
-        iconCancel.addGestureRecognizer(cancelEndGesture)
+        iconCancel.addTarget(self, action: #selector(cancelEndFocus), for: .touchUpInside)
         
-        let stopEndGesture =  UITapGestureRecognizer(target: self, action: #selector(stopBtnFocus))
-        iconStop.isUserInteractionEnabled = true
-        iconStop.addGestureRecognizer(stopEndGesture)
+        iconStop.addTarget(self, action: #selector(stopBtnFocus), for: .touchUpInside)
         
         let btnFinishGesture = UITapGestureRecognizer(target: self, action: #selector(btnFinish))
         btnContinue.isUserInteractionEnabled = true
@@ -708,13 +707,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         btnBackHome.isUserInteractionEnabled = true
         btnBackHome.addGestureRecognizer(btnBackGesture)
         
-        let gestureShowTimer = UITapGestureRecognizer(target: self, action: #selector(showTimer))
-        hideIcon.isUserInteractionEnabled = true
-        hideIcon.addGestureRecognizer(gestureShowTimer)
-        
-        let gestureUnShowTimer = UITapGestureRecognizer(target: self, action: #selector(timerHide))
-        hideTimerIcon.isUserInteractionEnabled = true
-        hideTimerIcon.addGestureRecognizer(gestureUnShowTimer)
+        hideTimer.addTarget(self, action: #selector(showTimer), for: .touchUpInside)
+        hideTimerIcon.addTarget(self, action: #selector(timerHide), for: .touchUpInside)
         
         inputTaskBtn.addTarget(self, action: #selector(continueResult), for: .touchUpInside)
         
@@ -737,15 +731,46 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         
         let myUserDefault = UserDefaults.standard
-        myUserDefault.set(text, forKey: "activity")
-        myUserDefault.set(minuteToString(time: TimeInterval(timerStart)), forKey: "time")
-        myUserDefault.synchronize()
+
+        let currentDate = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "dd MMM"
+        let dateString = dateFormatter.string(from: currentDate)
+
+        let newData: [String: String] = [
+            "date": dateString,
+            "time": "\(minuteToString(time: TimeInterval(timerStart)))",
+            "activity": text
+        ]
+
+        var existingData: [[String: String]]
+
+        if let data = myUserDefault.data(forKey: "focusData"),
+           let decodedData = try? JSONDecoder().decode([[String: String]].self, from: data) {
+            existingData = decodedData
+        } else {
+            existingData = []
+        }
+
+        existingData.append(newData)
+
+        if let encodedData = try? JSONEncoder().encode(existingData) {
+            myUserDefault.set(encodedData, forKey: "focusData")
+        }
         
-        print(text)
-        print(myUserDefault.string(forKey: "activity") ?? "")
-        print(myUserDefault.string(forKey: "time") ?? "")
+        if let data = myUserDefault.data(forKey: "focusData"),
+           let decodedData = try? JSONDecoder().decode([[String: String]].self, from: data) {
+            for dictionary in decodedData {
+                for (key, value) in dictionary {
+                    print("Key: \(key), Value: \(value)")
+                }
+            }
+        } else {
+            print("No data found in UserDefaults for the key 'focusData'")
+        }
         
-        let vc = ResultViewController()
+        
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text)
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -939,6 +964,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.swipeUpLabel.text = "Swipe up to take a break"
                 self.hideIcon.alpha = 1.0
                 self.hideTimer.alpha = 1.0
+                self.timerLabel.alpha = 0.0
+                self.timerShownContainer.alpha = 0.0
+                self.hideTimerIcon.alpha = 0.0
             })
             if timer != nil {
                 timer?.invalidate()

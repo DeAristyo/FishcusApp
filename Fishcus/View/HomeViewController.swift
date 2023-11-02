@@ -157,6 +157,18 @@ class HomeViewController: UIViewController {
         return view
     }()
     
+    private var infoIcon: UIButton = {
+        let image = UIButton(type: .custom)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .bold)
+        image.setImage(UIImage(systemName: "info.circle.fill", withConfiguration: largeConfig), for: .normal)
+        image.contentMode = .scaleAspectFill
+        image.tintColor = UIColor(named: "primaryColor")
+        image.layer.zPosition = 1
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -172,12 +184,19 @@ class HomeViewController: UIViewController {
         userInfoOverlay2.alpha = 0.0
 
         
+        view.addSubview(infoIcon)
+        
+        NSLayoutConstraint.activate([
+            infoIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
+            infoIcon.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
+        ])
+        
         view.addSubview(countDownTimer)
     
         
         NSLayoutConstraint.activate([
             countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50)
         ])
         
         view.addSubview(userInfoOverlay)
@@ -261,15 +280,23 @@ class HomeViewController: UIViewController {
         view.addGestureRecognizer(tapGesture)
         
         
-        if ((myUserDefault.string(forKey: "activity")?.isEmpty) == nil){
+        if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
             timer = Timer.scheduledTimer(timeInterval: 0.5, target: self, selector: #selector(startUserInfo), userInfo: nil, repeats: false)
         }else{
             userInfoOverlay.removeFromSuperview()
             userInfoOverlay2.removeFromSuperview()
             focusIsBegin = true
         }
+        
+        infoIcon.addTarget(self, action: #selector(ShowListFocus), for: .touchUpInside)
        
         
+    }
+    
+    @objc func ShowListFocus(){
+        let vc = ResultListViewController()
+        
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     @objc func startUserInfo(){

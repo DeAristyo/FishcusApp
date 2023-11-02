@@ -11,6 +11,19 @@ class ResultViewController: UIViewController {
     
     var loadingView: UIView?
     
+    var time: String?
+    var activity: String?
+    
+    init(time: String, activity: String) {
+        self.time = time
+        self.activity = activity
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func showLoadingView() {
         loadingView = UIView(frame: self.view.bounds)
         loadingView?.backgroundColor = UIColor(white: 0, alpha: 0.5)
@@ -30,7 +43,7 @@ class ResultViewController: UIViewController {
     
     let myBgImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "bg-result")
+        view.image = UIImage(named: "bg-result-latest")
         view.contentMode = .center
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -89,7 +102,6 @@ class ResultViewController: UIViewController {
         // Line height: 19.09 pt
         // (identical to box height)
         view.textAlignment = .center
-        view.text = "For \(myUserDefault.string(forKey: "time") ?? "") minutes of Study \(myUserDefault.string(forKey: "activity") ?? ""), I caught"
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -102,7 +114,7 @@ class ResultViewController: UIViewController {
         view.font = UIFont.systemFont(ofSize: 32, weight: .bold)
         // Line height: 38.19 pt
         view.textAlignment = .center
-        view.text = "Koi, the Samurai!"
+        view.text = "Swordfish, the Warrior!"
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -132,6 +144,7 @@ class ResultViewController: UIViewController {
         ])
         
         view.addSubview(labelSmall)
+        labelSmall.text = "For \(self.time ?? "") minutes of Study \(self.activity ?? ""), I caught"
         
         NSLayoutConstraint.activate([
             labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 33),
@@ -175,10 +188,14 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        let newRootVc = HomeViewController()
-        let navigationController = UINavigationController(rootViewController: newRootVc)
+//        let newRootVc = ResultListViewController()
+//        let navigationController = UINavigationController(rootViewController: HomeViewController())
+//        
+//        // Remove all other view controllers from the navigation stack
+//           navigationController.viewControllers.removeAll()
         
-        self.navigationController?.setViewControllers([newRootVc], animated: true)
+//        self.navigationController?.setViewControllers([newRootVc], animated: true)
+        self.navigationController?.pushViewController(ResultListViewController(), animated: true)
     }
     
     func captureScreen() -> UIImage? {

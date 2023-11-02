@@ -42,7 +42,7 @@ class ReuseableInfoView: UIView{
     
     private var mascotImage : UIImageView = {
         let imgMascot = UIImageView()
-        imgMascot.contentMode = .center
+        imgMascot.contentMode = .scaleAspectFill
         imgMascot.translatesAutoresizingMaskIntoConstraints = false
         
         return imgMascot
@@ -109,6 +109,8 @@ class ReuseableInfoView: UIView{
             
             mascotImage.centerXAnchor.constraint(equalTo: centerXAnchor),
             mascotImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: position ? -150 : 100),
+            mascotImage.widthAnchor.constraint(equalToConstant: 82),
+            mascotImage.heightAnchor.constraint(equalToConstant: 82),
             
             rectangle.topAnchor.constraint(equalTo: mascotImage.bottomAnchor),
             rectangle.widthAnchor.constraint(equalToConstant: 331),
@@ -138,17 +140,17 @@ class ReuseableInfoView: UIView{
         
         switch mascotIcon {
         case .mascot1:
-            mascotImage.image = UIImage(named: "mascot-1")
+            mascotImage.image = UIImage(named: "mascot-new-1")
         case .mascot2:
-            mascotImage.image = UIImage(named: "mascot-2")
+            mascotImage.image = UIImage(named: "mascot-new-2")
         case .mascot3:
-            mascotImage.image = UIImage(named: "mascot-3")
+            mascotImage.image = UIImage(named: "mascot-new-3")
         case .mascot4:
-            mascotImage.image = UIImage(named: "mascot-4")
+            mascotImage.image = UIImage(named: "mascot-new-1")
         case .mascot5:
-            mascotImage.image = UIImage(named: "mascot-5")
+            mascotImage.image = UIImage(named: "mascot-new-2")
         case .mascot6:
-            mascotImage.image = UIImage(named: "mascot-6")
+            mascotImage.image = UIImage(named: "mascot-new-3")
         }
         
     }
