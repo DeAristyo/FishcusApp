@@ -144,7 +144,7 @@ class ResultViewController: UIViewController {
         ])
         
         view.addSubview(labelSmall)
-        labelSmall.text = "For \(self.time ?? "") minutes of Study \(self.activity ?? ""), I caught"
+        labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
         
         NSLayoutConstraint.activate([
             labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 33),

@@ -61,7 +61,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     var timerLabel: UILabel = {
         let timerLabel = UILabel()
         timerLabel.textAlignment = .center
-        timerLabel.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        timerLabel.font = UIFont.rounded(ofSize: 20, weight: .semibold)
         timerLabel.textColor = UIColor(named: "regular-text")
         timerLabel.layer.zPosition = 12
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -135,7 +135,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         var text = UILabel()
         text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
         text.textColor = UIColor(named: "primaryColor")
-        text.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        text.font = UIFont.rounded(ofSize: 14, weight: .semibold)
         text.numberOfLines = 0
         text.lineBreakMode = .byWordWrapping
         // Line height: 21.48 pt
@@ -215,10 +215,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }()
     
     private var userGuideInfo: [ReuseableInfoView] = [
-        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“Let’s start fishing! During Focus session, you can start focusing on your tasks and...", position: false),
-        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: true),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false)
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“Let’s start fishing! During Focus session, you can start focusing on your tasks and...", position: false, labelTextStyle: .label3),
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false, labelTextStyle: .label4),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: true, labelTextStyle: .label5),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false, labelTextStyle: .label6)
     ]
     
     private var swipeUpIcon: UIImageView = {
@@ -235,8 +235,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     private var swipeUpLabel: UILabel = {
         let label = UILabel()
         label.text = "Swipe up to take a break"
-        label.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
-        label.textColor = .white
+        label.font = UIFont.rounded(ofSize: 17, weight: .semibold)
+        label.textColor = UIColor(named: "regular-text")
         label.layer.zPosition = 12
         label.alpha = 0.0
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -277,7 +277,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     private var infoPodomoro: UILabel = {
         let label = UILabel()
         label.text = "You get a +5 minutes rest!"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.rounded(ofSize: 20, weight: .bold)
         label.textColor = UIColor(named: "regular-text")
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -287,7 +287,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     private var infoEndSessionLabel: UILabel = {
         let label = UILabel()
         label.text = "Shake your phone to finish"
-        label.font = UIFont.systemFont(ofSize: 20, weight: .bold)
+        label.font = UIFont.rounded(ofSize: 20, weight: .bold)
         label.textColor = UIColor(named: "regular-text")
         label.translatesAutoresizingMaskIntoConstraints = false
         
@@ -328,7 +328,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         var text = UILabel()
         text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
         text.textColor = .white
-        text.font = UIFont(name: "SFProRounded-semibold", size: 17)
+        text.font = UIFont.rounded(ofSize: 17, weight: .semibold)
         text.numberOfLines = 0
         text.lineBreakMode = .byWordWrapping
         text.layer.zPosition = 11
@@ -394,9 +394,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         endHome.alpha = 0.0
         btnContinue.alpha = 0.0
         btnBackHome.alpha = 0.0
-        timerShownContainer.alpha = 0.0
-        hideTimerIcon.alpha = 0.0
-        timerLabel.alpha = 0.0
+        hideIcon.alpha = 0.0
+        hideTimer.alpha = 0.0
         infoEndSession.alpha = 0.0
         infoEndSessionIcon.alpha = 0.0
         infoEndSessionLabel.alpha = 0.0
@@ -895,6 +894,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     
     @objc func btnFinish(){
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
+        view.addGestureRecognizer(tapGesture)
         UIView.animate(withDuration: 0.5, animations: {
             self.bgInputTask.alpha = 0.5
             self.containerInputTask.alpha = 1.0
@@ -903,7 +904,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             self.inputTaskTextField.alpha = 1.0
             self.btnContinue.alpha = 0.0
             self.endFocus.alpha = 0.0
-            self.inputTaskTitle.text = "What task you have working on for the last \(self.minuteToString(time: TimeInterval(self.timerStart))) minutes?"
+            self.inputTaskTitle.text = "What task you have been working on for the last \(self.minuteToString(time: TimeInterval(self.timerStart))) minutes?"
             self.hideIcon.alpha = 0.0
             self.hideTimer.alpha = 0.0
             self.timerLabel.alpha = 0.0
@@ -912,6 +913,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             self.iconCancel.alpha = 0.0
             self.stopContainer.alpha = 0.0
         })
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
     }
     
     @objc func btnHome(){
@@ -962,11 +967,11 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.mainBg.image = UIImage(named: "bg-latest")
                 self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
                 self.swipeUpLabel.text = "Swipe up to take a break"
-                self.hideIcon.alpha = 1.0
-                self.hideTimer.alpha = 1.0
-                self.timerLabel.alpha = 0.0
-                self.timerShownContainer.alpha = 0.0
-                self.hideTimerIcon.alpha = 0.0
+                self.hideIcon.alpha = 0.0
+                self.hideTimer.alpha = 0.0
+                self.timerLabel.alpha = 1.0
+                self.timerShownContainer.alpha = 1.0
+                self.hideTimerIcon.alpha = 1.0
             })
             if timer != nil {
                 timer?.invalidate()

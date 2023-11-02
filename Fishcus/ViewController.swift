@@ -7,115 +7,136 @@
 
 import UIKit
 
-protocol TimerViewDelegate: AnyObject {
-    func didPressInfoButton()
-}
 
-class TimerView: UIView {
+class CountdownRingView2: UIView {
+    private var backgroundLayer: CAShapeLayer!
+    private var ringLayer: CAShapeLayer!
+    private var startIconLayer: CALayer!
     
-    weak var delegate: TimerViewDelegate?
+    // Properties to customize the ring
+    var ringColor: UIColor = UIColor(named: "primaryColor")!
+    var ringWidth: CGFloat = 10.0
+    var backgroundWidth: CGFloat = 15.0
+    var startIcon: UIImage?
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+    // The duration for the countdown in seconds
+    var countdownDuration: TimeInterval = 03.0
     
-    private let timerLabel: UILabel = {
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private let infoButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("Info", for: .normal)
-        button.isUserInteractionEnabled = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
-    
+    private var startTime: Date?
     private var timer: Timer?
-    private var countdown: Int = 60
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        setupView()
+        setupRing()
     }
     
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupView()
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setupRing()
     }
     
-    private func setupView() {
-        addSubview(titleLabel)
-        addSubview(timerLabel)
-        addSubview(infoButton)
+    private func setupRing() {
+        // Create the background layer
+        backgroundLayer = CAShapeLayer()
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        backgroundLayer.strokeColor = UIColor(named: "regular-text")?.cgColor
+        backgroundLayer.lineWidth = backgroundWidth
+        layer.addSublayer(backgroundLayer)
         
-        titleLabel.text = "Title"
-        timerLabel.text = "\(countdown)"
+        // Create the ring layer
+        ringLayer = CAShapeLayer()
+        ringLayer.fillColor = UIColor.clear.cgColor
+        ringLayer.strokeColor = ringColor.cgColor
+        ringLayer.lineWidth = ringWidth
+        ringLayer.lineCap = .round
+        layer.addSublayer(ringLayer)
         
-        infoButton.addTarget(self, action: #selector(didPressInfoButton), for: .touchUpInside)
-        
-        NSLayoutConstraint.activate([
-            
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -120),
-            
-            timerLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            timerLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
-            
-            infoButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            infoButton.topAnchor.constraint(equalTo: timerLabel.bottomAnchor, constant: 20),
-            infoButton.widthAnchor.constraint(equalToConstant: 200),
-            infoButton.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        startTimer()
+        // Create the start icon layer
+        startIconLayer = CALayer()
+        startIconLayer.contentsGravity = .center
+        layer.addSublayer(startIconLayer)
         
     }
     
-    private func startTimer() {
-        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateTimer), userInfo: nil, repeats: true)
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Update the layers' frames
+        backgroundLayer.frame = bounds
+        ringLayer.frame = bounds
+        
+        // Create a circular path for the background layer
+        let backgroundPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        backgroundLayer.path = backgroundPath.cgPath
+        backgroundLayer.lineWidth = 45
+        
+        // Create a circular path for the ring layer
+        let ringRadius = (min(bounds.width, bounds.height) - ringWidth) / 2
+        let ringPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        ringLayer.path = ringPath.cgPath
+        ringLayer.lineWidth = 35
+        
+        // Set the initial strokeEnd to 1.0 to show the full circle
+        ringLayer.strokeEnd = 1.0
+        
+        
+        // Set the start icon image
+        if let startIcon = startIcon {
+            startIconLayer.contents = startIcon.cgImage
+            startIconLayer.transform = CATransform3DMakeScale(0.5, 0.5, 0.5)
+            startIconLayer.position = CGPoint(x: 100, y: 10)
+            let rotationAngle: CGFloat = CGFloat.pi / 1.5 // Adjust the rotation angle as needed
+            startIconLayer.transform = CATransform3DRotate(startIconLayer.transform, rotationAngle, 0, 0, -0.8)
+        }
+        
     }
     
-    @objc private func updateTimer() {
-        countdown -= 1
-        timerLabel.text = "\(countdown)"
+    func startCountdown() {
+        startTime = Date()
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updateRing), userInfo: nil, repeats: true)
+    }
+    
+    @objc private func updateRing() {
+        guard let startTime = startTime else { return }
+        let elapsed = Date().timeIntervalSince(startTime)
+        let remainingTime = max(countdownDuration - elapsed, 0)
+        let progress = CGFloat(remainingTime / countdownDuration)
+        ringLayer.strokeStart = 1 - progress
         
-        if countdown <= 0 {
+        
+        if remainingTime <= 0 {
             timer?.invalidate()
-            timer = nil
+            // Countdown has completed, you can trigger an action here if needed
         }
     }
-    
-    @objc func didPressInfoButton() {
-        delegate?.didPressInfoButton()
-    }
+
 }
 
 
-class ViewController: UIViewController, TimerViewDelegate {
+
+
+
+class ViewController: UIViewController {
+    
+    let countDownTimer = CountdownRingView2()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let timerView = TimerView()
-        timerView.delegate = self
-        timerView.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(timerView)
+        view.backgroundColor = .white
+        view.addSubview(countDownTimer)
+        
+        countDownTimer.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            timerView.topAnchor.constraint(equalTo: view.topAnchor),
-            timerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            timerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            timerView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
-    }
-    
-    func didPressInfoButton() {
-        // Show other information here
-        print("Info button pressed")
+        
+        
+        self.countDownTimer.startCountdown()
+        self.countDownTimer.startIcon = UIImage(named: "icon-fish-loading")
+        
     }
     
     

@@ -10,7 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     
-    let countDownTimer = CountdownRingView()
+    let countDownTimer = CountdownRingView2()
     var timer: Timer?
     private var showInfo1 = false
     private var showInfo2 = false
@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
-        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        title.font = .rounded(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
         return title
@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
-        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        title.font = .rounded(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
         return title
@@ -63,7 +63,7 @@ class HomeViewController: UIViewController {
         title.layer.zPosition = 2
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
-        title.font = UIFont.systemFont(ofSize: 24, weight: .bold)
+        title.font = .rounded(ofSize: 24, weight: .bold)
         title.translatesAutoresizingMaskIntoConstraints = false
         
         return title
@@ -137,7 +137,7 @@ class HomeViewController: UIViewController {
         btn.setTitle("Focus", for: .normal)
         btn.layer.backgroundColor = UIColor(red: 0.976, green: 0.902, blue: 0.839, alpha: 1).cgColor
         btn.layer.cornerRadius = 45
-        btn.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .bold)
+        btn.titleLabel?.font = .rounded(ofSize: 20, weight: .bold)
         btn.setTitleColor(UIColor(named: "primaryColor"), for: .normal)
         btn.translatesAutoresizingMaskIntoConstraints = false
         
@@ -146,13 +146,17 @@ class HomeViewController: UIViewController {
     }()
     
     private var userInfoOverlay: ReuseableInfoView = {
-        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey, [user]! I’m your friend, x!", position: true)
+        let addLabel = UILabel()
+        addLabel.font =  .rounded(ofSize: 18, weight: .bold)
+        addLabel.text = "Player"
+        
+        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey, Player! I’m your friend, Magi!", position: true, labelTextStyle: .label1)
         view.layer.zPosition = 2
         return view
     }()
     
     private var userInfoOverlay2: ReuseableInfoView = {
-        let view =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot2, labelText: "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”", position: true)
+        let view =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot2, labelText: "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”", position: true, labelTextStyle: .label2)
         view.layer.zPosition = 2
         return view
     }()
@@ -177,6 +181,7 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.navigationItem.hidesBackButton = true
         
+        countDownTimer.startIcon = UIImage(named: "icon-fish-loading")
         countDownTimer.translatesAutoresizingMaskIntoConstraints = false
         countDownTimer.layer.zPosition = 10
         countDownTimer.alpha = 0.0

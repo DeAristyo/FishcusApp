@@ -36,11 +36,10 @@ class CountdownRingView: UIView {
         circleLayer.fillColor = UIColor.clear.cgColor
         circleLayer.strokeColor = ringColor.cgColor
         circleLayer.lineWidth = ringWidth
-        circleLayer.cornerRadius = 12
         
         // Create a circular path
         let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        let radius = (min(bounds.width, bounds.height) - ringWidth*2)
+        let radius = (min(bounds.width, bounds.height) - ringWidth*2) / 2
         let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: 3 * CGFloat.pi / 2, clockwise: true)
         circleLayer.path = path.cgPath
         
@@ -68,4 +67,5 @@ class CountdownRingView: UIView {
         }
     }
 }
+
 

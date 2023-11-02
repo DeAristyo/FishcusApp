@@ -23,10 +23,20 @@ class ReuseableInfoView: UIView{
         case mascot6
     }
     
+    enum labelTextStyleEnum{
+        case label1
+        case label2
+        case label3
+        case label4
+        case label5
+        case label6
+    }
+    
     public private(set) var bgStyle: bgStyleEnum
     public private(set) var mascotIcon: mascotIconEnum
     public private(set) var labelText: String
     public private(set) var position: Bool
+    public private(set) var labelTextStyle: labelTextStyleEnum
     
     private var userInfoOverlay: UIView = {
         let view = UIView()
@@ -64,7 +74,7 @@ class ReuseableInfoView: UIView{
         var text = UILabel()
         text.frame = CGRect(x: 0, y: 0, width: 297, height: 94)
         text.textColor = .white
-        text.font = UIFont(name: "SFProRounded-Regular", size: 18)
+        text.font = .rounded(ofSize: 18, weight: .regular)
         text.numberOfLines = 0
         text.lineBreakMode = .byWordWrapping
         // Line height: 21.48 pt
@@ -76,11 +86,12 @@ class ReuseableInfoView: UIView{
     
     
     
-    init(bgStyle: bgStyleEnum, mascotIcon: mascotIconEnum, labelText: String, position: Bool ) {
+    init(bgStyle: bgStyleEnum, mascotIcon: mascotIconEnum, labelText: String, position: Bool, labelTextStyle: labelTextStyleEnum ) {
         self.bgStyle = bgStyle
         self.mascotIcon = mascotIcon
         self.labelText = labelText
         self.position = position
+        self.labelTextStyle = labelTextStyle
         
         super.init(frame: .zero)
         SetupReusebaleInfoView()
@@ -94,7 +105,7 @@ class ReuseableInfoView: UIView{
     private func SetupReusebaleInfoView(){
         ConfigBgStyle()
         ConfigMascotIcon()
-        labelInfo.text = "\(labelText)"
+        ConfigLabelTextStyle()
         
         self.rectangle.addSubview(labelInfo)
         addSubview(userInfoOverlay)
@@ -155,6 +166,65 @@ class ReuseableInfoView: UIView{
         
     }
     
+    private func ConfigLabelTextStyle(){
+        switch labelTextStyle {
+        case .label1:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Player!")
+            let textRange2 = (theText as NSString).range(of: "Magi!")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange2)
+            labelInfo.attributedText =  attribute
+            
+        case .label2:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Shrimply")
+            let textRange2 = (theText as NSString).range(of: "‘Focus’")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange2)
+            attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "highlight-text") ?? UIColor.white, range: textRange2)
+            labelInfo.attributedText =  attribute
+            
+        case .label3:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Player!")
+            let textRange2 = (theText as NSString).range(of: "Magi!")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange2)
+            labelInfo.attributedText =  attribute
+            
+        case .label4:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Player!")
+            let textRange2 = (theText as NSString).range(of: "Magi!")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange2)
+            labelInfo.attributedText =  attribute
+            
+        case .label5:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Player!")
+            let textRange2 = (theText as NSString).range(of: "Magi!")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange2)
+            labelInfo.attributedText =  attribute
+            
+        case .label6:
+            let theText = "\(self.labelText)"
+            let textRange =  (theText as NSString).range(of: "Player!")
+            let textRange2 = (theText as NSString).range(of: "Magi!")
+            let attribute = NSMutableAttributedString.init(string: theText)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.systemFont(ofSize: 18, weight: .bold), range: textRange2)
+            labelInfo.attributedText =  attribute
+        }
+    }
+    
     
     
 }
@@ -180,7 +250,7 @@ class TimerPause: UIView {
         let myLabel1 = UILabel()
         myLabel1.text = "You Have"
         myLabel1.textColor = UIColor(named: "regular-text")
-        myLabel1.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        myLabel1.font = UIFont.rounded(ofSize: 18, weight: .bold)
         myLabel1.translatesAutoresizingMaskIntoConstraints = false
         
         return myLabel1
@@ -190,7 +260,7 @@ class TimerPause: UIView {
         let myLabel2 = UILabel()
         myLabel2.text = "00:00"
         myLabel2.textColor = UIColor(named: "highlight-text")
-        myLabel2.font = UIFont.systemFont(ofSize: 50, weight: .bold)
+        myLabel2.font = UIFont.rounded(ofSize: 50, weight: .bold)
         myLabel2.translatesAutoresizingMaskIntoConstraints = false
         
         return myLabel2
@@ -200,7 +270,7 @@ class TimerPause: UIView {
         let myLabel3 = UILabel()
         myLabel3.text = "Break Time"
         myLabel3.textColor = UIColor(named: "regular-text")
-        myLabel3.font = UIFont.systemFont(ofSize: 18, weight: .bold)
+        myLabel3.font = UIFont.rounded(ofSize: 18, weight: .bold)
         myLabel3.translatesAutoresizingMaskIntoConstraints = false
         
         return myLabel3
@@ -326,7 +396,7 @@ class EndFocus : UIView {
         let headTitle = UILabel()
         headTitle.frame = CGRect(x: 0, y: 0, width: 204, height: 52)
         headTitle.textColor = UIColor(named: "highlight-text")
-        headTitle.font = UIFont.systemFont(ofSize: 22, weight: .bold)
+        headTitle.font = UIFont.rounded(ofSize: 22, weight: .bold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.text = "Are you sure want to end focus mode?"
@@ -349,7 +419,7 @@ class EndFocus : UIView {
         let headTitle = UILabel()
         headTitle.frame = CGRect(x: 0, y: 0, width: 276, height: 52)
         headTitle.textColor = UIColor(named: "regular-text")
-        headTitle.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        headTitle.font = UIFont.rounded(ofSize: 17, weight: .semibold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.lineBreakMode = .byWordWrapping
@@ -459,7 +529,7 @@ class EndFocusBack : UIView {
         let headTitle = UILabel()
         headTitle.frame = CGRect(x: 0, y: 0, width: 204, height: 52)
         headTitle.textColor = UIColor(named: "highlight-text")
-        headTitle.font = UIFont.systemFont(ofSize: 33, weight: .bold)
+        headTitle.font = UIFont.rounded(ofSize: 33, weight: .bold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.text = "Cool!"
@@ -482,7 +552,7 @@ class EndFocusBack : UIView {
         let headTitle = UILabel()
         headTitle.frame = CGRect(x: 0, y: 0, width: 276, height: 52)
         headTitle.textColor = UIColor(named: "regular-text")
-        headTitle.font = UIFont.systemFont(ofSize: 17, weight: .semibold)
+        headTitle.font = UIFont.rounded(ofSize: 17, weight: .semibold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.lineBreakMode = .byWordWrapping
