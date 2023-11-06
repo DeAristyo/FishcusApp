@@ -842,6 +842,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             let nextView = userGuideInfo[nextIndex]
             
             for recognizer in nextView.gestureRecognizers ?? [] {
+                print(recognizer)
                 nextView.removeGestureRecognizer(recognizer)
             }
             
@@ -851,9 +852,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                     self.swipeUpIcon.alpha = 1.0
                     self.swipeUpLabel.alpha = 1.0
                 })
-//                gestureTapRecog = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-//                nextView.addGestureRecognizer(gestureTapRecog!)
-//                print(nextIndex)
+                
                 break
             case 2:
                 gestureSwipeRecog = UISwipeGestureRecognizer(target: self, action: #selector(swipeUpInfoGesture))
