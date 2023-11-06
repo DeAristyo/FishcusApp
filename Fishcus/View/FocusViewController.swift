@@ -216,9 +216,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     private var userGuideInfo: [ReuseableInfoView] = [
         ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“Let’s start fishing! During Focus session, you can start focusing on your tasks and...", position: false, labelTextStyle: .label3),
-        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false, labelTextStyle: .label4),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: true, labelTextStyle: .label5),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false, labelTextStyle: .label6)
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false, labelTextStyle: .label3),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: false, labelTextStyle: .label4),
+        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false, labelTextStyle: .label5),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot6, labelText: "“If you have finished your task, pull your fishing rod by moving your phone up and hold it, don’t lose your fish!”", position: false, labelTextStyle: .label6)
     ]
     
     private var swipeUpIcon: UIImageView = {
@@ -404,6 +405,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         inputTaskBtn.alpha = 0.0
         inputTaskTitle.alpha = 0.0
         inputTaskTextField.alpha = 0.0
+        endFocus.timerStart =  timerStart
         
         
         view.addSubview(breakExhausted)
@@ -442,6 +444,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             let guideInfoGestureRecog = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
             initialShowInfo.isUserInteractionEnabled = true
             initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
+            
             
         }else{
             for myIndex in userGuideInfo{
@@ -711,7 +714,18 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         inputTaskBtn.addTarget(self, action: #selector(continueResult), for: .touchUpInside)
         
+        checkMinimumBadge(timerStart)
+      
+    }
+    
+    func checkMinimumBadge(_ timer: Int){
         
+        let theBareMinimum = 1200 - timerStart
+        
+        let finalBareTime = minuteToString(time: TimeInterval(theBareMinimum))
+        
+        endFocus.contentLabel.text = "Continue for another \(finalBareTime) minutes to get fish or nothing at all"
+
     }
     
     func minuteToString(time: TimeInterval) -> String {
@@ -808,15 +822,28 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     @objc func guideTapGesture(gesture: UITapGestureRecognizer){
+        var gestureTapRecog: UITapGestureRecognizer?
+        var gestureSwipeRecog: UISwipeGestureRecognizer?
+        
         guard let currentView = gesture.view else {return}
         UIView.animate(withDuration: 0.5, animations: {
             currentView.removeFromSuperview()
         })
         
+        if let recog = view.gestureRecognizers{
+            for recognizer in recog {
+                recognizer.isEnabled = false
+            }
+        }
+        
         let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
         
         if nextIndex < userGuideInfo.count{
             let nextView = userGuideInfo[nextIndex]
+            
+            for recognizer in nextView.gestureRecognizers ?? [] {
+                nextView.removeGestureRecognizer(recognizer)
+            }
             
             switch nextIndex{
             case 1:
@@ -824,19 +851,26 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                     self.swipeUpIcon.alpha = 1.0
                     self.swipeUpLabel.alpha = 1.0
                 })
+//                gestureTapRecog = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+//                nextView.addGestureRecognizer(gestureTapRecog!)
+//                print(nextIndex)
+                break
+            case 2:
+                gestureSwipeRecog = UISwipeGestureRecognizer(target: self, action: #selector(swipeUpInfoGesture))
+                gestureSwipeRecog?.direction = .up
+                nextView.addGestureRecognizer(gestureSwipeRecog!)
+                print(nextIndex)
                 break
             case 3:
-                
                 let gestureSwipeDown = UISwipeGestureRecognizer(target: self, action: #selector(infoSwipeDown))
                 gestureSwipeDown.direction = .down
                 nextView.addGestureRecognizer(gestureSwipeDown)
+                print(nextIndex)
                 break
             default:
-                if let recog = view.gestureRecognizers{
-                    for recognizer in recog {
-                        recognizer.isEnabled = true
-                    }
-                }
+//                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+//                nextView.addGestureRecognizer(gesture)
+//                print("masuk")
                 break
             }
             
@@ -852,11 +886,14 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
             
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-            nextView.addGestureRecognizer(gesture)
+         
             
             
         }
+    }
+    
+    @objc func swipeUpInfoGesture(){
+        print("Masooookkkk")
     }
     
     @objc func infoSwipeDown(_ gesture: UISwipeGestureRecognizer){
@@ -1112,6 +1149,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         if timer != nil {
             timer?.invalidate()
             timer = nil
+            
+            self.checkMinimumBadge(timerStart)
             
             if let recog = view.gestureRecognizers{
                 for recognizer in recog {

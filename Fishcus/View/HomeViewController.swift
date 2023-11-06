@@ -10,7 +10,7 @@ import UIKit
 class HomeViewController: UIViewController {
     
     
-    let countDownTimer = CountdownRingView2()
+    let countDownTimer = CountdownRingView()
     var timer: Timer?
     private var showInfo1 = false
     private var showInfo2 = false

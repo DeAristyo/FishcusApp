@@ -8,11 +8,15 @@
 import UIKit
 
 class CountdownRingView: UIView {
-    private var circleLayer: CAShapeLayer!
+    private var backgroundLayer: CAShapeLayer!
+    private var ringLayer: CAShapeLayer!
+    private var startIconLayer: CALayer!
     
     // Properties to customize the ring
-    var ringColor: UIColor = UIColor(named: "highlight-text")!
-    var ringWidth: CGFloat = 50.0
+    var ringColor: UIColor = UIColor(named: "primaryColor")!
+    var ringWidth: CGFloat = 10.0
+    var backgroundWidth: CGFloat = 15.0
+    var startIcon: UIImage?
     
     // The duration for the countdown in seconds
     var countdownDuration: TimeInterval = 03.0
@@ -31,22 +35,59 @@ class CountdownRingView: UIView {
     }
     
     private func setupRing() {
-        // Create the circle layer
-        circleLayer = CAShapeLayer()
-        circleLayer.fillColor = UIColor.clear.cgColor
-        circleLayer.strokeColor = ringColor.cgColor
-        circleLayer.lineWidth = ringWidth
+        // Create the background layer
+        backgroundLayer = CAShapeLayer()
+        backgroundLayer.fillColor = UIColor.clear.cgColor
+        backgroundLayer.strokeColor = UIColor(named: "regular-text")?.cgColor
+        backgroundLayer.lineWidth = backgroundWidth
+        layer.addSublayer(backgroundLayer)
         
-        // Create a circular path
-        let center = CGPoint(x: bounds.midX, y: bounds.midY)
-        let radius = (min(bounds.width, bounds.height) - ringWidth*2) / 2
-        let path = UIBezierPath(arcCenter: center, radius: radius, startAngle: -CGFloat.pi / 2, endAngle: 3 * CGFloat.pi / 2, clockwise: true)
-        circleLayer.path = path.cgPath
+        // Create the ring layer
+        ringLayer = CAShapeLayer()
+        ringLayer.fillColor = UIColor.clear.cgColor
+        ringLayer.strokeColor = ringColor.cgColor
+        ringLayer.lineWidth = ringWidth
+        ringLayer.lineCap = .round
+        layer.addSublayer(ringLayer)
+        
+        // Create the start icon layer
+        startIconLayer = CALayer()
+        startIconLayer.contentsGravity = .center
+        layer.addSublayer(startIconLayer)
+        
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        
+        // Update the layers' frames
+        backgroundLayer.frame = bounds
+        ringLayer.frame = bounds
+        
+        // Create a circular path for the background layer
+        let backgroundPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        backgroundLayer.path = backgroundPath.cgPath
+        backgroundLayer.lineWidth = 45
+        
+        // Create a circular path for the ring layer
+        let ringRadius = (min(bounds.width, bounds.height) - ringWidth) / 2
+        let ringPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
+        ringLayer.path = ringPath.cgPath
+        ringLayer.lineWidth = 35
         
         // Set the initial strokeEnd to 1.0 to show the full circle
-        circleLayer.strokeEnd = 1.0
+        ringLayer.strokeEnd = 1.0
         
-        layer.addSublayer(circleLayer)
+        
+        // Set the start icon image
+        if let startIcon = startIcon {
+            startIconLayer.contents = startIcon.cgImage
+            startIconLayer.transform = CATransform3DMakeScale(0.5, 0.5, 0.5)
+            startIconLayer.position = CGPoint(x: 100, y: 10)
+            let rotationAngle: CGFloat = CGFloat.pi / 1.5 // Adjust the rotation angle as needed
+            startIconLayer.transform = CATransform3DRotate(startIconLayer.transform, rotationAngle, 0, 0, -0.8)
+        }
+        
     }
     
     func startCountdown() {
@@ -59,13 +100,15 @@ class CountdownRingView: UIView {
         let elapsed = Date().timeIntervalSince(startTime)
         let remainingTime = max(countdownDuration - elapsed, 0)
         let progress = CGFloat(remainingTime / countdownDuration)
-        circleLayer.strokeEnd = progress
+        ringLayer.strokeStart = 1 - progress
+        
         
         if remainingTime <= 0 {
             timer?.invalidate()
             // Countdown has completed, you can trigger an action here if needed
         }
     }
+
 }
 
 
