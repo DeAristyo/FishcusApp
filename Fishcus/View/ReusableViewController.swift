@@ -397,7 +397,7 @@ class EndFocus : UIView {
         headTitle.font = UIFont.rounded(ofSize: 22, weight: .bold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
-        headTitle.text = "Are you sure want to end focus mode?"
+        headTitle.text = "Are you sure? You might lose the fish!"
         headTitle.translatesAutoresizingMaskIntoConstraints = false
         
         return headTitle

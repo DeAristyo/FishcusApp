@@ -287,9 +287,13 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     private var infoEndSessionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Shake your phone to finish"
+        label.text = "Pull out your phone to finish the task"
+        label.textAlignment = .center
         label.font = UIFont.rounded(ofSize: 20, weight: .bold)
         label.textColor = UIColor(named: "regular-text")
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -426,8 +430,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             podomoroAlerts.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        
-        
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
             let initialShowInfo = userGuideInfo[0]
             initialShowInfo.layer.zPosition = 12
@@ -445,7 +447,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             initialShowInfo.isUserInteractionEnabled = true
             initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
             
-            
         }else{
             for myIndex in userGuideInfo{
                 myIndex.removeFromSuperview()
@@ -454,9 +455,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             swipeUpIcon.alpha = 1.0
             swipeUpLabel.alpha = 1.0
         }
-        
-       
-        
         
         view.addSubview(hideTimer)
         
@@ -627,7 +625,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         NSLayoutConstraint.activate([
             infoEndSessionLabel.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor),
-            infoEndSessionLabel.leadingAnchor.constraint(equalTo: infoEndSessionIcon.trailingAnchor, constant: 17)
+            infoEndSessionLabel.leadingAnchor.constraint(equalTo: infoEndSessionIcon.trailingAnchor, constant: 17),
+            infoEndSessionLabel.widthAnchor.constraint(equalToConstant: 231),
+            infoEndSessionLabel.heightAnchor.constraint(equalToConstant: 50)
         ])
         
         infoEndSession.addSubview(infoPodomoro)
@@ -822,9 +822,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     @objc func guideTapGesture(gesture: UITapGestureRecognizer){
-        var gestureTapRecog: UITapGestureRecognizer?
-        var gestureSwipeRecog: UISwipeGestureRecognizer?
-        
         guard let currentView = gesture.view else {return}
         UIView.animate(withDuration: 0.5, animations: {
             currentView.removeFromSuperview()
@@ -853,23 +850,19 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                     self.swipeUpLabel.alpha = 1.0
                 })
                 
-                break
-            case 2:
-                gestureSwipeRecog = UISwipeGestureRecognizer(target: self, action: #selector(swipeUpInfoGesture))
-                gestureSwipeRecog?.direction = .up
-                nextView.addGestureRecognizer(gestureSwipeRecog!)
-                print(nextIndex)
+                let gestureSwipeUpInfo = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeInfo))
+                gestureSwipeUpInfo.direction = .up
+                nextView.addGestureRecognizer(gestureSwipeUpInfo)
                 break
             case 3:
                 let gestureSwipeDown = UISwipeGestureRecognizer(target: self, action: #selector(infoSwipeDown))
                 gestureSwipeDown.direction = .down
                 nextView.addGestureRecognizer(gestureSwipeDown)
-                print(nextIndex)
                 break
             default:
-//                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-//                nextView.addGestureRecognizer(gesture)
-//                print("masuk")
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
+                print("masuk")
                 break
             }
             
@@ -884,15 +877,73 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
-            
-         
-            
+        
             
         }
     }
     
-    @objc func swipeUpInfoGesture(){
-        print("Masooookkkk")
+    @objc func handleSwipeInfo(_ gesture: UISwipeGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        currentView.removeFromSuperview()
+        
+        let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
+        
+        if nextIndex < userGuideInfo.count{
+            let nextView = userGuideInfo[nextIndex]
+            
+            for recognizer in nextView.gestureRecognizers ?? [] {
+                print(recognizer)
+                nextView.removeGestureRecognizer(recognizer)
+            }
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+            nextView.addGestureRecognizer(gesture)
+            
+            nextView.layer.zPosition = 12
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.addSubview(nextView)
+            })
+            
+            NSLayoutConstraint.activate([
+                nextView.topAnchor.constraint(equalTo: view.topAnchor),
+                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+        
+        if gesture.state == .ended {
+            complexSuccess()
+            
+          
+            if timerPauseContainer.totalPauseTimer <= 0{
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.breakExhausted.alpha = 1.0
+                })
+            }else{
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.timerPauseContainer.alpha = 1.0
+                    self.iconStop.alpha = 0.0
+                    self.stopContainer.alpha = 0.0
+                    self.mainBg.image = UIImage(named: "bg-pause")
+                    self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
+                    self.swipeUpLabel.text = "Swipe down to resume"
+                    self.hideIcon.alpha = 0.0
+                    self.hideTimer.alpha = 0.0
+                    self.timerLabel.alpha = 0.0
+                    self.timerShownContainer.alpha = 0.0
+                    self.hideTimerIcon.alpha = 0.0
+                })
+                
+                if timer != nil {
+                    timer?.invalidate()
+                    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+                }
+            }
+            
+           
+            
+        }
     }
     
     @objc func infoSwipeDown(_ gesture: UISwipeGestureRecognizer){
