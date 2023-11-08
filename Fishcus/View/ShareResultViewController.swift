@@ -1,15 +1,13 @@
 //
-//  ResultViewController.swift
-//  TadikaApp
+//  ShareResultViewController.swift
+//  Fishcus
 //
-//  Created by Vicky Irwanto on 26/10/23.
+//  Created by Vicky Irwanto on 08/11/23.
 //
 
 import UIKit
 
-class ResultViewController: UIViewController {
-    
-    var loadingView: UIView?
+class ShareResultViewController: UIViewController {
     
     var time: String?
     var activity: String?
@@ -22,23 +20,6 @@ class ResultViewController: UIViewController {
 
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    func showLoadingView() {
-        loadingView = UIView(frame: self.view.bounds)
-        loadingView?.backgroundColor = UIColor(white: 0, alpha: 0.5)
-
-        let activityIndicator = UIActivityIndicatorView(style: .large)
-        activityIndicator.center = loadingView!.center
-        loadingView?.addSubview(activityIndicator)
-
-        self.view.addSubview(loadingView!)
-        activityIndicator.startAnimating()
-    }
-    
-    func hideLoadingView() {
-        loadingView?.removeFromSuperview()
-        loadingView = nil
     }
     
     let myBgImage: UIImageView = {
@@ -61,35 +42,6 @@ class ResultViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
-    }()
-    
-    private var resultBtn: UIButton = {
-        let image = UIButton(type: .custom)
-        image.setImage(UIImage(named: "btn-share"), for: .normal)
-        image.tintColor = .white
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
-    }()
-    
-    private var containerBtnDone: UIView = {
-        let view = UIView()
-        view.backgroundColor = UIColor.clear
-        view.layer.cornerRadius = 13
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private var doneBtn: UIButton = {
-        let button =  UIButton(type: .custom)
-        button.setTitle("Done", for: .normal)
-        button.titleLabel?.font = UIFont.rounded(ofSize: 15, weight: .bold)
-        button.backgroundColor = UIColor(named: "primaryColor")
-        button.layer.cornerRadius = 13
-        button.translatesAutoresizingMaskIntoConstraints = false
-        
-        return button
     }()
     
     private var labelSmall: UILabel = {
@@ -184,15 +136,6 @@ class ResultViewController: UIViewController {
         view.backgroundColor = UIColor(named: "result-color")
         self.navigationItem.hidesBackButton = true
         
-        labelSmall.alpha = 0.0
-        labelBig.alpha = 0.0
-        doneBtn.alpha = 0.0
-        resultBtn.alpha = 0.0
-        gradientContainer.alpha = 0.0
-        gradientBackground.alpha = 0.0
-        labelRarerity.alpha = 0.0
-        rectangleRarerity.alpha = 0.0
-        
         view.addSubview(myBgImage)
         
         NSLayoutConstraint.activate([
@@ -248,7 +191,7 @@ class ResultViewController: UIViewController {
         labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
         
         NSLayoutConstraint.activate([
-            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 100),
+            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 160),
             labelSmall.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
@@ -274,116 +217,8 @@ class ResultViewController: UIViewController {
             labelRarerity.centerXAnchor.constraint(equalTo: rectangleRarerity.centerXAnchor),
             labelRarerity.centerYAnchor.constraint(equalTo: rectangleRarerity.centerYAnchor)
         ])
-        
-        view.addSubview(resultBtn)
-        
-        NSLayoutConstraint.activate([
-            resultBtn.topAnchor.constraint(equalTo: rectangleRarerity.bottomAnchor, constant: 27),
-            resultBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        view.addSubview(containerBtnDone)
-        
-        NSLayoutConstraint.activate([
-            containerBtnDone.topAnchor.constraint(equalTo: view.topAnchor, constant: 44),
-            containerBtnDone.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
-            containerBtnDone.widthAnchor.constraint(equalToConstant: 100),
-            containerBtnDone.heightAnchor.constraint(equalToConstant: 100)
-        ])
-        
-        containerBtnDone.addSubview(doneBtn)
-   
-        NSLayoutConstraint.activate([
-            doneBtn.centerXAnchor.constraint(equalTo: containerBtnDone.centerXAnchor),
-            doneBtn.centerYAnchor.constraint(equalTo: containerBtnDone.centerYAnchor),
-            doneBtn.widthAnchor.constraint(equalToConstant: 77),
-            doneBtn.heightAnchor.constraint(equalToConstant: 31)
-        ])
       
-        resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
-        doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
-        animate()
     }
-    
-    @objc func finish(){
-//        let newRootVc = ResultListViewController()
-//        let navigationController = UINavigationController(rootViewController: HomeViewController())
-//        
-//        // Remove all other view controllers from the navigation stack
-//           navigationController.viewControllers.removeAll()
-        
-//        self.navigationController?.setViewControllers([newRootVc], animated: true)
-        self.navigationController?.pushViewController(ResultListViewController(), animated: true)
-    }
-    
-    func animate(){
-        UIView.animate(withDuration: 2.3, animations: {
-            self.myBgImage.layer.position = CGPoint(x: 0, y: 1000)
-            self.waterSplahs1.layer.position = CGPoint(x: 0, y: -1000)
-            self.waterSplahs2.layer.position = CGPoint(x: 0, y: -1000)
-        })
-        
-        UIView.animate(withDuration: 3.6, animations: {
-            self.fishImage.layer.position = CGPoint(x: 0, y: -1000)
-        }, completion: { done in
-            
-            if done{
-                UIView.animate(withDuration: 1.0, animations: {
-                    self.labelSmall.alpha = 1.0
-                    self.labelBig.alpha = 1.0
-                    self.doneBtn.alpha = 1.0
-                    self.resultBtn.alpha = 1.0
-                    self.gradientContainer.alpha = 1.0
-                    self.gradientBackground.alpha = 1.0
-                    self.labelRarerity.alpha = 1.0
-                    self.rectangleRarerity.alpha = 1.0
-                })
-               
-            }
-            
-        })
-    }
-    
-    func captureScreen(of viewController: UIViewController) -> UIImage? {
-        let layer = viewController.view.layer
-        let size = layer.bounds.size
-        UIGraphicsBeginImageContextWithOptions(size, false, 0.0)
-        guard let context = UIGraphicsGetCurrentContext() else { return nil }
-        layer.render(in: context)
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
-    }
-    
-    @objc func shareResult(theButton: [UIButton]){
-        if let image = captureScreen(of: ShareResultViewController(time: "\(self.time ?? "")", activity: "\(self.activity ?? "")")) {
-            showLoadingView()
-            DispatchQueue.global(qos: .userInitiated).async {
-                   let activityViewController = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-                // Exclude activities that don't make sense for Instagram
-                    activityViewController.excludedActivityTypes = [
-                        UIActivity.ActivityType.assignToContact,
-                        UIActivity.ActivityType.addToReadingList,
-                        UIActivity.ActivityType.airDrop,
-                        UIActivity.ActivityType.mail,
-                        UIActivity.ActivityType.message,
-                        UIActivity.ActivityType.openInIBooks,
-                        UIActivity.ActivityType.postToVimeo,
-                        UIActivity.ActivityType.postToTencentWeibo,
-                        UIActivity.ActivityType.postToWeibo,
-                        UIActivity.ActivityType.print,
-                    ]
-
-                   // Switch back to the main thread to present the view controller
-                   DispatchQueue.main.async {
-                       // Dismiss the loading view
-                       self.hideLoadingView()
-
-                       self.present(activityViewController, animated: true, completion: nil)
-                   }
-               }
-        }
-    }
-    
+  
 
 }
