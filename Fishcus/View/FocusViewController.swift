@@ -51,6 +51,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     
+    let gachaSytem = GachaSystem()
     var myUserDefault = UserDefaults.standard
     var timer: Timer?
     var engine: CHHapticEngine?
@@ -217,14 +218,17 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     private var userGuideInfo: [ReuseableInfoView] = [
         ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“Let’s start fishing! During Focus session, you can start focusing on your tasks and...", position: false, labelTextStyle: .label3),
         ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false, labelTextStyle: .label3),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“You can make the timer visible or invisible as you like. It's up to you.”", position: false, labelTextStyle: .label7),
         ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: false, labelTextStyle: .label4),
-        ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot5, labelText: "“But for now, swipe down anywhere on the screen to resume your fishing session!”", position: false, labelTextStyle: .label5),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot6, labelText: "“If you have finished your task, pull your fishing rod by moving your phone up and hold it, don’t lose your fish!”", position: false, labelTextStyle: .label6)
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "If you're unsure, click here for more information.", position: false, labelTextStyle: .label8),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot6, labelText: "“Earn 5 minutes of break time for every 20 minutes of productive focus. The more you focus, the more break time you'll receive.”", position: false, labelTextStyle: .label9),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "\"Finished studying? End your focus mode by lifting your cellphone like you're pulling in a fishing rod.\"", position: false, labelTextStyle: .label10),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“Ready to spill the study tea? Time to input your study milestones. We're crafting your own study map to discover your progress.”", position: false, labelTextStyle: .label11)
     ]
     
     private var swipeUpIcon: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "icon-swipe-up")
+        view.image = UIImage(named: "icon-up")
         view.contentMode = .scaleAspectFill
         view.layer.zPosition = 12
         view.alpha = 0.0
@@ -235,7 +239,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     private var swipeUpLabel: UILabel = {
         let label = UILabel()
-        label.text = "Swipe up to take a break"
+        label.text = "Pause"
         label.font = UIFont.rounded(ofSize: 17, weight: .semibold)
         label.textColor = UIColor(named: "regular-text")
         label.layer.zPosition = 12
@@ -365,7 +369,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }()
     
     private var podomoroAlerts: PodomoroAlerts = {
-       let view = PodomoroAlerts()
+        let view = PodomoroAlerts()
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -373,17 +377,32 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }()
     
     private var breakExhausted : FocusBreakExhausted = {
-       let view = FocusBreakExhausted()
+        let view = FocusBreakExhausted()
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
+    private var alertOnFocus: OnFocusAlerts = {
+        let view = OnFocusAlerts(icon: .icon1, labelInfo: "You are currently in Focus Mode.")
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    private var alertOnPodomoro: OnFocusAlerts = {
+        let view = OnFocusAlerts(icon: .icon2, labelInfo: "Study 20 min, break 5 min, repeat for more breaks!")
+        view.layer.zPosition = 12
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         self.navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
         
@@ -409,7 +428,11 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         inputTaskBtn.alpha = 0.0
         inputTaskTitle.alpha = 0.0
         inputTaskTextField.alpha = 0.0
-        endFocus.timerStart =  timerStart
+        endFocus.timerStart = timerStart
+        alertOnPodomoro.alpha = 0.0
+        swipeUpIcon.alpha = 0.0
+        swipeUpLabel.alpha = 0.0
+        
         
         
         view.addSubview(breakExhausted)
@@ -452,8 +475,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 myIndex.removeFromSuperview()
             }
             
-            swipeUpIcon.alpha = 1.0
-            swipeUpLabel.alpha = 1.0
+            //            swipeUpIcon.alpha = 1.0
+            //            swipeUpLabel.alpha = 1.0
         }
         
         view.addSubview(hideTimer)
@@ -506,7 +529,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         NSLayoutConstraint.activate([
             btnContinue.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            btnContinue.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 90)
+            btnContinue.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: 80)
         ])
         
         view.addSubview(btnBackHome)
@@ -564,8 +587,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         view.addSubview(swipeUpIcon)
         
         NSLayoutConstraint.activate([
-            swipeUpIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50),
-            swipeUpIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: -100),
+            swipeUpIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -108),
+            swipeUpIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             swipeUpIcon.widthAnchor.constraint(equalToConstant: 20),
             swipeUpIcon.heightAnchor.constraint(equalToConstant: 20)
         ])
@@ -573,8 +596,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         view.addSubview(swipeUpLabel)
         
         NSLayoutConstraint.activate([
-            swipeUpLabel.leadingAnchor.constraint(equalTo: swipeUpIcon.trailingAnchor, constant: 4),
-            swipeUpLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -50)
+            swipeUpLabel.topAnchor.constraint(equalTo: swipeUpIcon.bottomAnchor, constant: 4),
+            swipeUpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
         view.addSubview(timerShownContainer)
@@ -661,7 +684,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             inputTaskTitle.topAnchor.constraint(equalTo: containerInputTask.topAnchor, constant: 25),
             inputTaskTitle.centerXAnchor.constraint(equalTo: containerInputTask.centerXAnchor),
             inputTaskTitle.widthAnchor.constraint(equalToConstant: 239),
-            inputTaskTitle.heightAnchor.constraint(equalToConstant: 58)
+            inputTaskTitle.heightAnchor.constraint(equalToConstant: 65)
         ])
         
         containerInputTask.addSubview(inputTaskTextField)
@@ -679,6 +702,42 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             inputTaskBtn.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: 29),
             inputTaskBtn.centerXAnchor.constraint(equalTo: containerInputTask.centerXAnchor)
         ])
+        
+        view.addSubview(alertOnFocus)
+        
+        NSLayoutConstraint.activate([
+            alertOnFocus.topAnchor.constraint(equalTo: hideTimer.bottomAnchor, constant: 36),
+            alertOnFocus.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            alertOnFocus.widthAnchor.constraint(equalToConstant: 321),
+            alertOnFocus.heightAnchor.constraint(equalToConstant: 70)
+        ])
+        
+        view.addSubview(alertOnPodomoro)
+        
+        NSLayoutConstraint.activate([
+            alertOnPodomoro.topAnchor.constraint(equalTo: hideTimer.bottomAnchor, constant: 36),
+            alertOnPodomoro.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            alertOnPodomoro.widthAnchor.constraint(equalToConstant: 321),
+            alertOnPodomoro.heightAnchor.constraint(equalToConstant: 70)
+        ])
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
+            UIView.animate(withDuration: 0.5, animations: {
+                self.alertOnFocus.removeFromSuperview()
+            }, completion: { done in
+                
+                if done{
+                    self.alertOnPodomoro.alpha = 1.0
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.alertOnPodomoro.removeFromSuperview()
+                        })
+                    }
+                }
+                
+            })
+        }
         
         
         // Create and start the timer
@@ -715,21 +774,78 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         inputTaskBtn.addTarget(self, action: #selector(continueResult), for: .touchUpInside)
         
         checkMinimumBadge(timerStart)
-      
+        
+        animatePause()
+        checkRaisePhone()
+        
+    }
+
+    
+    func checkRaisePhone(){
+        if motionManager.isAccelerometerAvailable {
+            motionManager.accelerometerUpdateInterval = 1.2 // Interval pengambilan data dalam detik
+            motionManager.startAccelerometerUpdates(to: .main) { (data, error) in
+                if let acceleration = data?.acceleration {
+                    // Di sini Anda dapat memeriksa data percepatan untuk mengidentifikasi gerakan perangkat.
+                    // Anda dapat menggunakan nilai-nilai percepatan untuk menentukan apakah perangkat sedang diangkat atau tidak.
+                    let totalAcceleration = sqrt(acceleration.x * acceleration.x + acceleration.y * acceleration.y + acceleration.z * acceleration.z)
+                    let threshold = 1.0 // Nilai ambang dapat disesuaikan sesuai kebutuhan
+                    
+                    if totalAcceleration > threshold {
+                        self.swipeUpLabel.alpha = 1.0
+                        self.swipeUpIcon.alpha = 1.0
+                     
+                        DispatchQueue.main.asyncAfter(deadline: .now()+5.0){
+                            self.swipeUpLabel.alpha = 0.0
+                            self.swipeUpIcon.alpha = 0.0
+                        }
+                    } else {
+                        print("tidak di angkat")
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    func animatePause() {
+        UIView.animate(withDuration: 1, animations: {
+            self.swipeUpIcon.transform = CGAffineTransform(translationX: 0, y: -8)
+        }, completion: { done in
+            if done {
+                self.loopAnimate()
+            }
+        })
+    }
+    
+    func loopAnimate() {
+        UIView.animate(withDuration: 1, animations: {
+            self.swipeUpIcon.transform = CGAffineTransform(translationX: 0, y: 0)
+        }, completion: { done in
+            if done {
+                self.animatePause()
+            }
+        })
     }
     
     func checkMinimumBadge(_ timer: Int){
         
-        let theBareMinimum = 1200 - timerStart
+        if timerStart > 1200{
+            endFocus.contentLabel.text = "Finish to see what you've caught!"
+        }else{
+            let theBareMinimum = 1200 - timerStart
+            
+            let finalBareTime = minuteToString(time: TimeInterval(theBareMinimum))
+            
+            endFocus.contentLabel.text = "Continue for another \(finalBareTime) minutes to get fish or nothing at all"
+        }
         
-        let finalBareTime = minuteToString(time: TimeInterval(theBareMinimum))
         
-        endFocus.contentLabel.text = "Continue for another \(finalBareTime) minutes to get fish or nothing at all"
-
+        
     }
     
     func minuteToString(time: TimeInterval) -> String {
-        let minute = Int(time) / 60 % 60
+        let minute = Int(time) / 60
         
         return String(format: "%02i", minute)
     }
@@ -744,29 +860,34 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         
         let myUserDefault = UserDefaults.standard
-
+        
         let currentDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM"
         let dateString = dateFormatter.string(from: currentDate)
-
+        gachaSytem.gachaPull()
+        let setFish = gachaSytem.setFish
+        let setRarerity = gachaSytem.setRarerity
+        
         let newData: [String: String] = [
             "date": dateString,
             "time": "\(minuteToString(time: TimeInterval(timerStart)))",
-            "activity": text
+            "activity": text,
+            "fish": setFish,
+            "rarerity": setRarerity
         ]
-
+        
         var existingData: [[String: String]]
-
+        
         if let data = myUserDefault.data(forKey: "focusData"),
            let decodedData = try? JSONDecoder().decode([[String: String]].self, from: data) {
             existingData = decodedData
         } else {
             existingData = []
         }
-
+        
         existingData.append(newData)
-
+        
         if let encodedData = try? JSONEncoder().encode(existingData) {
             myUserDefault.set(encodedData, forKey: "focusData")
         }
@@ -783,7 +904,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         }
         
         
-        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text)
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity)
+        gachaSytem.reset()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -838,62 +960,69 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         if nextIndex < userGuideInfo.count{
             let nextView = userGuideInfo[nextIndex]
             
-            for recognizer in nextView.gestureRecognizers ?? [] {
-                print(recognizer)
-                nextView.removeGestureRecognizer(recognizer)
-            }
-            
             switch nextIndex{
-            case 1:
-                UIView.animate(withDuration: 0.4, animations: {
-                    self.swipeUpIcon.alpha = 1.0
-                    self.swipeUpLabel.alpha = 1.0
-                })
-                
-                let gestureSwipeUpInfo = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeInfo))
-                gestureSwipeUpInfo.direction = .up
-                nextView.addGestureRecognizer(gestureSwipeUpInfo)
+            case 2:
+                self.timerLabel.layer.zPosition = 15
+                self.timerShownContainer.layer.zPosition = 15
+                self.hideTimerIcon.layer.zPosition = 15
                 break
             case 3:
-                let gestureSwipeDown = UISwipeGestureRecognizer(target: self, action: #selector(infoSwipeDown))
-                gestureSwipeDown.direction = .down
-                nextView.addGestureRecognizer(gestureSwipeDown)
+                timerPauseContainer.layer.zPosition = 15
+                if timerPauseContainer.totalPauseTimer <= 0{
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.breakExhausted.alpha = 1.0
+                    })
+                }else{
+                    UIView.animate(withDuration: 0.4, animations: {
+                        self.timerPauseContainer.alpha = 1.0
+                        self.iconStop.alpha = 0.0
+                        self.stopContainer.alpha = 0.0
+                        self.mainBg.image = UIImage(named: "bg-pause")
+                        self.swipeUpIcon.image = UIImage(named: "icon-down")
+                        self.swipeUpLabel.text = "Resume"
+                        self.hideIcon.alpha = 0.0
+                        self.hideTimer.alpha = 0.0
+                        self.timerLabel.alpha = 0.0
+                        self.timerShownContainer.alpha = 0.0
+                        self.hideTimerIcon.alpha = 0.0
+                    })
+                    
+                    if timer != nil {
+                        timer?.invalidate()
+                        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+                    }
+                }
                 break
+            case 5:
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.timerPauseContainer.alpha = 0.0
+                    self.iconStop.alpha = 1.0
+                    self.infoLabel.alpha = 0.0
+                    self.stopContainer.alpha = 1.0
+                    self.mainBg.image = UIImage(named: "bg-latest")
+                    self.swipeUpIcon.image = UIImage(named: "icon-up")
+                    self.swipeUpLabel.text = "Pause"
+                    self.hideIcon.alpha = 0.0
+                    self.hideTimer.alpha = 0.0
+                    self.timerLabel.alpha = 1.0
+                    self.timerShownContainer.alpha = 1.0
+                    self.hideTimerIcon.alpha = 1.0
+                    self.infoEndSession.alpha = 1.0
+                    self.infoPodomoro.alpha = 1.0
+                    self.infoEndSession.layer.zPosition = 15
+                    self.infoPodomoro.layer.zPosition = 15
+                })
+                if timer != nil {
+                    timer?.invalidate()
+                    startTimer()
+                }
+                break
+            case 8:
+                
+                break
+                
             default:
-                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-                nextView.addGestureRecognizer(gesture)
-                print("masuk")
                 break
-            }
-            
-            nextView.layer.zPosition = 12
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.addSubview(nextView)
-            })
-            
-            NSLayoutConstraint.activate([
-                nextView.topAnchor.constraint(equalTo: view.topAnchor),
-                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
-        
-            
-        }
-    }
-    
-    @objc func handleSwipeInfo(_ gesture: UISwipeGestureRecognizer){
-        guard let currentView = gesture.view else {return}
-        currentView.removeFromSuperview()
-        
-        let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
-        
-        if nextIndex < userGuideInfo.count{
-            let nextView = userGuideInfo[nextIndex]
-            
-            for recognizer in nextView.gestureRecognizers ?? [] {
-                print(recognizer)
-                nextView.removeGestureRecognizer(recognizer)
             }
             
             let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
@@ -910,73 +1039,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                 nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
-        }
-        
-        if gesture.state == .ended {
-            complexSuccess()
             
-          
-            if timerPauseContainer.totalPauseTimer <= 0{
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.breakExhausted.alpha = 1.0
-                })
-            }else{
-                UIView.animate(withDuration: 0.4, animations: {
-                    self.timerPauseContainer.alpha = 1.0
-                    self.iconStop.alpha = 0.0
-                    self.stopContainer.alpha = 0.0
-                    self.mainBg.image = UIImage(named: "bg-pause")
-                    self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
-                    self.swipeUpLabel.text = "Swipe down to resume"
-                    self.hideIcon.alpha = 0.0
-                    self.hideTimer.alpha = 0.0
-                    self.timerLabel.alpha = 0.0
-                    self.timerShownContainer.alpha = 0.0
-                    self.hideTimerIcon.alpha = 0.0
-                })
-                
-                if timer != nil {
-                    timer?.invalidate()
-                    timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
-                }
-            }
-            
-           
             
         }
-    }
-    
-    @objc func infoSwipeDown(_ gesture: UISwipeGestureRecognizer){
-        
-        guard let current = gesture.view else { return }
-        
-        if gesture.state == .ended {
-            UIView.animate(withDuration: 0.4, animations: {
-                self.timerPauseContainer.alpha = 0.0
-                self.iconStop.alpha = 1.0
-                self.infoLabel.alpha = 0.0
-                self.stopContainer.alpha = 1.0
-                self.mainBg.image = UIImage(named: "bg-latest")
-                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
-                self.swipeUpLabel.text = "Swipe up to take a break"
-                self.hideIcon.alpha = 1.0
-                self.hideTimer.alpha = 1.0
-                current.removeFromSuperview()
-            })
-            if timer != nil {
-                timer?.invalidate()
-                startTimer()
-            }
-            
-            if let recog = view.gestureRecognizers{
-                for recognizer in recog {
-                    recognizer.isEnabled = true
-                }
-            }
-        }
-       
-        
-       
     }
     
     
@@ -1052,8 +1117,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.infoLabel.alpha = 0.0
                 self.stopContainer.alpha = 1.0
                 self.mainBg.image = UIImage(named: "bg-latest")
-                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
-                self.swipeUpLabel.text = "Swipe up to take a break"
+                self.swipeUpIcon.image = UIImage(named: "icon-up")
+                self.swipeUpLabel.text = "Pause"
                 self.hideIcon.alpha = 0.0
                 self.hideTimer.alpha = 0.0
                 self.timerLabel.alpha = 1.0
@@ -1072,7 +1137,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     @objc func updatePauseTimerLabel(){
-      
+        
         if timerPauseContainer.totalPauseTimer <= 0{
             UIView.animate(withDuration: 0.5, animations: {
                 self.breakExhausted.alpha = 1.0
@@ -1081,8 +1146,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.infoLabel.alpha = 0.0
                 self.stopContainer.alpha = 1.0
                 self.mainBg.image = UIImage(named: "bg-latest")
-                self.swipeUpIcon.image = UIImage(named: "icon-swipe-up")
-                self.swipeUpLabel.text = "Swipe up to take a break"
+                self.swipeUpIcon.image = UIImage(named: "icon-up")
+                self.swipeUpLabel.text = "Pause"
                 self.hideIcon.alpha = 1.0
                 self.hideTimer.alpha = 1.0
             })
@@ -1097,7 +1162,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         if gesture.state == .ended {
             complexSuccess()
             
-          
+            
             if timerPauseContainer.totalPauseTimer <= 0{
                 UIView.animate(withDuration: 0.5, animations: {
                     self.breakExhausted.alpha = 1.0
@@ -1108,8 +1173,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                     self.iconStop.alpha = 0.0
                     self.stopContainer.alpha = 0.0
                     self.mainBg.image = UIImage(named: "bg-pause")
-                    self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
-                    self.swipeUpLabel.text = "Swipe down to resume"
+                    self.swipeUpIcon.image = UIImage(named: "icon-down")
+                    self.swipeUpLabel.text = "Resume"
                     self.hideIcon.alpha = 0.0
                     self.hideTimer.alpha = 0.0
                     self.timerLabel.alpha = 0.0
@@ -1123,7 +1188,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 }
             }
             
-           
+            
             
         }
     }
@@ -1158,7 +1223,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 podomoroTime = 0
                 podomoroStep += 1
             }
-           
+            
         }
         
         let currentTime = timerToString(time: TimeInterval(timerStart))
@@ -1169,7 +1234,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     func timerToString(time: TimeInterval) -> String
     {
-        let minute = Int(time) / 60 % 60
+        let minute = Int(time) / 60
         let second = Int(time) % 60
         
         return String(format: "%02i:%02i", minute, second)
@@ -1275,6 +1340,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         super.viewWillDisappear(animated)
         // Invalidate the timer when the view disappears
         UIApplication.shared.isIdleTimerDisabled = false
+        motionManager.stopAccelerometerUpdates()
         timer?.invalidate()
     }
     

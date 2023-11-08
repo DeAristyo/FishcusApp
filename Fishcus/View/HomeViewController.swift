@@ -26,7 +26,7 @@ class HomeViewController: UIViewController {
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
-        title.layer.zPosition = 2
+        title.layer.zPosition = 1
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = .rounded(ofSize: 24, weight: .bold)
@@ -39,11 +39,11 @@ class HomeViewController: UIViewController {
         let title  = UILabel()
         
         title.text = "Player!"
-        title.textColor = UIColor(named: "primaryColor")
+        title.textColor = UIColor(named: "secondaryColor")
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
-        title.layer.zPosition = 2
+        title.layer.zPosition = 1
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = .rounded(ofSize: 24, weight: .bold)
@@ -60,7 +60,7 @@ class HomeViewController: UIViewController {
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
-        title.layer.zPosition = 2
+        title.layer.zPosition = 1
         title.layer.shadowOffset = CGSize(width: 3, height: 3)
         title.layer.masksToBounds = false
         title.font = .rounded(ofSize: 24, weight: .bold)
@@ -74,11 +74,21 @@ class HomeViewController: UIViewController {
         let stackView = UIStackView()
         stackView.axis = .horizontal
         stackView.spacing = 0
-        stackView.layer.zPosition = 2
+        stackView.layer.zPosition = 1
         stackView.alignment = .leading
         stackView.translatesAutoresizingMaskIntoConstraints = false
         
         return stackView
+    }()
+    
+    private var containerLabel: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primaryColor")?.withAlphaComponent(0.8)
+        view.layer.zPosition = 1
+        view.layer.cornerRadius = 18
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
     }()
     
     //    private var progressRank : UIProgressView = {
@@ -150,13 +160,13 @@ class HomeViewController: UIViewController {
         addLabel.font =  .rounded(ofSize: 18, weight: .bold)
         addLabel.text = "Player"
         
-        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey, Player! I’m your friend, Magi!", position: true, labelTextStyle: .label1)
+        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey! I’m your friend, Oceano!", position: false, labelTextStyle: .label1)
         view.layer.zPosition = 2
         return view
     }()
     
     private var userInfoOverlay2: ReuseableInfoView = {
-        let view =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot2, labelText: "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”", position: true, labelTextStyle: .label2)
+        let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!”", position: false, labelTextStyle: .label2)
         view.layer.zPosition = 2
         return view
     }()
@@ -173,6 +183,16 @@ class HomeViewController: UIViewController {
         return image
     }()
     
+    private var btnHistory: UIButton = {
+        let image = UIButton(type: .custom)
+        image.setImage(UIImage(named: "btn-history"), for: .normal)
+        image.tintColor = .white
+        image.layer.zPosition = 1
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        return image
+    }()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -181,20 +201,13 @@ class HomeViewController: UIViewController {
         view.backgroundColor = .systemBackground
         self.navigationItem.hidesBackButton = true
         
-        countDownTimer.startIcon = UIImage(named: "icon-fish-loading")
+//        countDownTimer.startIcon = UIImage(named: "icon-fish-loading")
         countDownTimer.translatesAutoresizingMaskIntoConstraints = false
         countDownTimer.layer.zPosition = 10
         countDownTimer.alpha = 0.0
         userInfoOverlay.alpha = 0.0
         userInfoOverlay2.alpha = 0.0
 
-        
-        view.addSubview(infoIcon)
-        
-        NSLayoutConstraint.activate([
-            infoIcon.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
-            infoIcon.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
-        ])
         
         view.addSubview(countDownTimer)
     
@@ -222,21 +235,30 @@ class HomeViewController: UIViewController {
             userInfoOverlay2.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
         
-        view.addSubview(stackView)
+        view.addSubview(containerLabel)
         
         NSLayoutConstraint.activate([
-            stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            stackView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100)
+            containerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 103),
+            containerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            containerLabel.widthAnchor.constraint(equalToConstant: 321),
+            containerLabel.heightAnchor.constraint(equalToConstant: 81)
+        ])
+        
+        containerLabel.addSubview(stackView)
+        
+        NSLayoutConstraint.activate([
+            stackView.centerXAnchor.constraint(equalTo: containerLabel.centerXAnchor),
+            stackView.topAnchor.constraint(equalTo: containerLabel.topAnchor, constant: 10)
         ])
         
         stackView.addArrangedSubview(titleHi)
         stackView.addArrangedSubview(titleName)
         
-        view.addSubview(titleInfo)
+        containerLabel.addSubview(titleInfo)
         
         NSLayoutConstraint.activate([
             titleInfo.topAnchor.constraint(equalTo: stackView.bottomAnchor, constant: 0),
-            titleInfo.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 5)
+            titleInfo.centerXAnchor.constraint(equalTo: containerLabel.centerXAnchor, constant: 5)
         ])
         
         view.addSubview(bgFocus)
@@ -278,6 +300,13 @@ class HomeViewController: UIViewController {
             btnFocus.heightAnchor.constraint(equalToConstant: 90)
         ])
         
+        view.addSubview(btnHistory)
+        
+        NSLayoutConstraint.activate([
+            btnHistory.topAnchor.constraint(equalTo: containerLabel.bottomAnchor, constant: 12),
+            btnHistory.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
         
         btnFocus.addTarget(self, action: #selector(focusStart), for: .touchUpInside)
         
@@ -293,9 +322,8 @@ class HomeViewController: UIViewController {
             focusIsBegin = true
         }
         
-        infoIcon.addTarget(self, action: #selector(ShowListFocus), for: .touchUpInside)
+        btnHistory.addTarget(self, action: #selector(ShowListFocus), for: .touchUpInside)
        
-        
     }
     
     @objc func ShowListFocus(){
@@ -323,6 +351,9 @@ class HomeViewController: UIViewController {
                     self.userInfoOverlay2.alpha = 1.0
                 })
                 focusIsBegin = true
+                self.bgCircle.layer.zPosition = 3
+                self.innerCircle.layer.zPosition = 3
+                self.btnFocus.layer.zPosition = 3
             }else{
                 UIView.animate(withDuration: 0.3, animations: {
                     self.userInfoOverlay2.alpha = 0.0
@@ -337,6 +368,7 @@ class HomeViewController: UIViewController {
     @objc func focusStart(){
         
         if focusIsBegin{
+            btnFocus.isEnabled = false
             UIView.animate(withDuration: 0.5, animations: {
                 self.countDownTimer.alpha = 1.0
             })

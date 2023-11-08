@@ -17,6 +17,8 @@
 		86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31196A59B6EED78958140F92 /* Assets.xcassets */; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
+		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
+		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
 		EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCD50641CAA176E210E10C4 /* ViewController.swift */; };
@@ -39,6 +41,8 @@
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
+		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
+		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
@@ -68,6 +72,7 @@
 			children = (
 				26A1CAD6F13AC04235988469 /* focusBreakExhaustedAlert.swift */,
 				D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */,
+				CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */,
 			);
 			path = alerts;
 			sourceTree = "<group>";
@@ -85,6 +90,7 @@
 			children = (
 				2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */,
 				DE10A3330C10559522AD7B0E /* DelegateProtocol.swift */,
+				CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -225,6 +231,8 @@
 				CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
 				F250374E843BD8AF51B3B5A6 /* DelegateProtocol.swift in Sources */,
+				CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */,
+				CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */,
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,
 				3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */,
 				ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */,

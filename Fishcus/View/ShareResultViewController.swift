@@ -11,10 +11,14 @@ class ShareResultViewController: UIViewController {
     
     var time: String?
     var activity: String?
+    var fish: String?
+    var rare: String?
     
-    init(time: String, activity: String) {
+    init(time: String, activity: String, fish: String, rare: String) {
         self.time = time
         self.activity = activity
+        self.fish = fish
+        self.rare = rare
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -43,6 +47,7 @@ class ShareResultViewController: UIViewController {
         
         return view
     }()
+    
     
     private var labelSmall: UILabel = {
         var view = UILabel()
@@ -91,13 +96,6 @@ class ShareResultViewController: UIViewController {
     
     private var gradientContainer: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 450, height: 400))
-        let gradient = CAGradientLayer()
-
-        gradient.frame = view.bounds
-        gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                           UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1).cgColor]
-
-        view.layer.insertSublayer(gradient, at: 0)
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
@@ -106,7 +104,6 @@ class ShareResultViewController: UIViewController {
         let view = UIView()
         view.layer.cornerRadius = 10
         view.layer.borderWidth = 2.0
-        view.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
@@ -114,9 +111,7 @@ class ShareResultViewController: UIViewController {
     
     private var labelRarerity: UILabel = {
         let label = UILabel()
-        label.text = "RARE"
         label.font = UIFont.rounded(ofSize: 12 , weight: .bold)
-        label.textColor = UIColor(named: "secondaryColor")
         label.translatesAutoresizingMaskIntoConstraints = false
         
         return label
@@ -135,6 +130,81 @@ class ShareResultViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor(named: "result-color")
         self.navigationItem.hidesBackButton = true
+        
+        let gradient = CAGradientLayer()
+        gradient.frame = gradientContainer.bounds
+        gradientContainer.layer.insertSublayer(gradient, at: 0)
+        
+        self.labelRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
+        self.rectangleRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
+        
+        
+        switch rare{
+        case "C" :
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-beta")
+                break
+            }
+            
+            break
+        case "R":
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1)
+            self.labelRarerity.text = "RARE"
+            self.labelRarerity.textColor = UIColor(named: "secondaryColor")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-beta")
+                break
+            }
+            
+            break
+        default:
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1)
+            self.labelRarerity.text = "NEPTUNIAN"
+            self.labelRarerity.textColor = UIColor(named: "rare-color")
+            self.labelBig.textColor = UIColor(named: "rare-color")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "rare-color")?.cgColor
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-beta")
+                break
+            }
+            break
+            
+        }
         
         view.addSubview(myBgImage)
         
@@ -191,7 +261,7 @@ class ShareResultViewController: UIViewController {
         labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
         
         NSLayoutConstraint.activate([
-            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 160),
+            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: self.rare == "C" ? 200 : 150),
             labelSmall.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
@@ -217,8 +287,10 @@ class ShareResultViewController: UIViewController {
             labelRarerity.centerXAnchor.constraint(equalTo: rectangleRarerity.centerXAnchor),
             labelRarerity.centerYAnchor.constraint(equalTo: rectangleRarerity.centerYAnchor)
         ])
+        
       
     }
+    
   
 
 }

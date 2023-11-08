@@ -66,7 +66,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
             
             let data = focusData[indexPath.row]
             
-            let resultScreenVC = ResultViewController(time: data["time"] ?? "", activity: data["activity"] ?? "")
+            let resultScreenVC = ResultViewController(time: data["time"] ?? "", activity: data["activity"] ?? "", fish: data["fish"] ?? "", rare: data["rarerity"] ?? "")
             self.navigationController?.pushViewController(resultScreenVC, animated: true)
         }
     
