@@ -8,6 +8,7 @@
 import UIKit
 import CoreMotion
 import CoreHaptics
+import AVFoundation
 
 class FocusViewController: UIViewController, DelegateProtocol  {
     func dismissBreakExhausted() {
@@ -107,6 +108,21 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         fishing.translatesAutoresizingMaskIntoConstraints = false
         
         return fishing
+    }()
+    
+    //task monik
+    var videoBg: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var temp: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
     }()
     
     private var iconStop: UIButton = {
@@ -461,6 +477,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         
         
+        view.addSubview(videoBg)
+        view.addSubview(temp)
+        
         view.addSubview(breakExhausted)
         
         NSLayoutConstraint.activate([
@@ -478,9 +497,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             podomoroAlerts.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             podomoroAlerts.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
-        
+
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
             alertOnFocus.alpha = 0.0
+
             let initialShowInfo = userGuideInfo[0]
             initialShowInfo.layer.zPosition = 12
             
@@ -621,14 +641,14 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             iconCancel.heightAnchor.constraint(equalToConstant: 18)
         ])
         
-        view.addSubview(mainBg)
-        
-        NSLayoutConstraint.activate([
-            mainBg.topAnchor.constraint(equalTo: view.topAnchor),
-            mainBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            mainBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
+//        view.addSubview(mainBg)
+//        
+//        NSLayoutConstraint.activate([
+//            mainBg.topAnchor.constraint(equalTo: view.topAnchor),
+//            mainBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+//            mainBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+//            mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//        ])
         
         view.addSubview(swipeUpIcon)
         
@@ -821,10 +841,81 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         animatePause()
         checkRaisePhone()
+        playVideo("FocusModeAnimation")
+        
+        
         
         print(infoStep)
     }
 
+    func playReelingAnimation(){
+        guard let path = Bundle.main.path(forResource: "ReelingAnimation", ofType: "mov") else {
+            print("Video file not found")
+            return
+        }
+        
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = self.view.bounds
+        playerLayer.position = self.view.center
+        playerLayer.videoGravity = .resizeAspectFill
+        self.videoBg.layer.addSublayer(playerLayer)
+        self.temp.layer.addSublayer(playerLayer)
+        
+        player.play()
+    }
+    
+    func playVideo(_ file: String) {
+        guard let path = Bundle.main.path(forResource: "\(file)", ofType: "mov") else {
+            print("Video file not found")
+            return
+        }
+        
+        let player = AVPlayer(url: URL(fileURLWithPath: path))
+        let playerLayer = AVPlayerLayer(player: player)
+        playerLayer.frame = self.view.bounds
+        playerLayer.position = self.view.center
+        playerLayer.videoGravity = .resizeAspectFill
+        self.videoBg.layer.addSublayer(playerLayer)
+        self.temp.layer.addSublayer(playerLayer)
+        
+        player.play()
+        
+       
+        // Observe the AVPlayer's currentItem status and timeControlStatus
+            player.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
+            player.addObserver(self, forKeyPath: #keyPath(AVPlayer.timeControlStatus), options: [.new], context: nil)
+
+        
+        //        videoBackground.bringSubViewToFront(timerButton)
+        //        videoBackground.bringSubViewToFront(stopButton)
+    }
+    
+    override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+        if keyPath == #keyPath(AVPlayerItem.status) {
+            if let statusNumber = change?[.newKey] as? NSNumber, let status = AVPlayer.Status(rawValue: statusNumber.intValue) {
+                if status == .readyToPlay {
+                    // Video is ready to play
+                }
+            }
+        } else if keyPath == #keyPath(AVPlayer.timeControlStatus) {
+            if let timeControlStatusNumber = change?[.newKey] as? NSNumber, let timeControlStatus = AVPlayer.TimeControlStatus(rawValue: timeControlStatusNumber.intValue) {
+                if timeControlStatus == .playing {
+                    // Video is playing
+                } else if timeControlStatus == .paused {
+                    // Video is paused
+                    if let player = object as? AVPlayer {
+                        // Check if the video reached the end
+                        if CMTimeCompare(player.currentTime(), player.currentItem!.duration) == 0 {
+                            // Seek back to the beginning to loop the video
+                            player.seek(to: .zero)
+                            player.play()
+                        }
+                    }
+                }
+            }
+        }
+    }
     
     @objc func lastInfo(){
         infoInputTask.removeFromSuperview()
