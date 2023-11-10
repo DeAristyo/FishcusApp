@@ -91,20 +91,6 @@ class HomeViewController: UIViewController {
         return view
     }()
     
-    //    private var progressRank : UIProgressView = {
-    //        let progress =  UIProgressView()
-    //        progress.progress = 0.4
-    //        progress.layer.cornerRadius = 10
-    //        progress.layer.sublayers![1].backgroundColor = UIColor(red: 0.333, green: 0.502, blue: 0.647, alpha: 1).cgColor
-    //        progress.clipsToBounds = true
-    //        progress.layer.sublayers![1].cornerRadius = 10
-    //        progress.subviews[1].clipsToBounds = true
-    //        progress.translatesAutoresizingMaskIntoConstraints = false
-    //
-    //        return progress
-    //    }()
-    //
-    
     private var bgFocus: UIImageView = {
         var view = UIImageView()
         view.image = UIImage(named: "bg-home")
@@ -117,7 +103,6 @@ class HomeViewController: UIViewController {
     
     private var bgCircle : UIView = {
         let circle = UIView()
-//        circle.clipsToBounds = true
         circle.layer.backgroundColor =  UIColor(red: 0.831, green: 0.8, blue: 0.624, alpha: 0.4).cgColor
         circle.layer.shadowColor = UIColor.black.cgColor
         circle.layer.shadowRadius = 10
