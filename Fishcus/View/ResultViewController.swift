@@ -15,6 +15,7 @@ class ResultViewController: UIViewController {
     var activity: String?
     var fish: String?
     var rare: String?
+    var focusData: [[String: String]] = []
     
     init(time: String, activity: String, fish: String, rare: String) {
         self.time = time
@@ -172,6 +173,11 @@ class ResultViewController: UIViewController {
         return view
         
     }()
+    
+    private var userGuideInfo: [ReuseableInfoView] = [
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“Cheers to your study milestone! The duration you study will determine the variety of fish you can catch. Keep studying to fill your aquarium!”", position: false, labelTextStyle: .label12),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "\" Share your latest adventure – your friends are waiting to hear!\" ", position: false, labelTextStyle: .label13)
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -370,18 +376,49 @@ class ResultViewController: UIViewController {
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
         animate()
+        loadData()
+        
+    }
+    
+    @objc func guideTapGesture(gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        currentView.removeFromSuperview()
+        
+        let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
+        
+        if nextIndex < userGuideInfo.count{
+            let nextView = userGuideInfo[nextIndex]
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+            nextView.addGestureRecognizer(gesture)
+            resultBtn.layer.zPosition = 6
+            
+            nextView.layer.zPosition = 5
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.addSubview(nextView)
+            })
+            
+            NSLayoutConstraint.activate([
+                nextView.topAnchor.constraint(equalTo: view.topAnchor),
+                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+    }
+    
+    func loadData() {
+        let myUserDefault = UserDefaults.standard
+        if let data = myUserDefault.data(forKey: "focusData"),
+           let decodedData = try? JSONDecoder().decode([[String: String]].self, from: data) {
+            focusData = decodedData
+        }
     }
     
     @objc func finish(){
-//        let newRootVc = ResultListViewController()
-//        let navigationController = UINavigationController(rootViewController: HomeViewController())
-//        
-//        // Remove all other view controllers from the navigation stack
-//           navigationController.viewControllers.removeAll()
-        
-//        self.navigationController?.setViewControllers([newRootVc], animated: true)
         self.navigationController?.pushViewController(ResultListViewController(), animated: true)
     }
+    
     
     func animate(){
         UIView.animate(withDuration: 2.3, animations: {
@@ -404,7 +441,26 @@ class ResultViewController: UIViewController {
                     self.gradientBackground.alpha = 1.0
                     self.labelRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
                     self.rectangleRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
+                    
+                    if self.focusData.count <= 1{
+                        let initialShowInfo = self.userGuideInfo[0]
+                        initialShowInfo.layer.zPosition = 5
+                        
+                        self.view.addSubview(initialShowInfo)
+                        
+                        NSLayoutConstraint.activate([
+                            initialShowInfo.topAnchor.constraint(equalTo: self.view.topAnchor),
+                            initialShowInfo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                            initialShowInfo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                            initialShowInfo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+                        ])
+                        
+                        let guideInfoGestureRecog = UITapGestureRecognizer(target: self, action: #selector(self.guideTapGesture))
+                        initialShowInfo.isUserInteractionEnabled = true
+                        initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
+                    }
                 })
+               
                
             }
             

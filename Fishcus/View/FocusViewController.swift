@@ -56,7 +56,30 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     var timer: Timer?
     var engine: CHHapticEngine?
     var showInfo = false
-    var infoStep = 0
+    var infoStep = 0 {
+        didSet{
+            print("nilai baru adalah \(infoStep)")
+            if infoStep == 6 {
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.infoEndSession.alpha = 0.0
+                    self.infoPodomoro.alpha = 0.0
+                    self.infoEndSession.layer.zPosition = 12
+                    self.infoPodomoro.layer.zPosition = 12
+                })
+               
+                self.view.addSubview(infoEndFocus)
+                
+                infoEndFocus.layer.zPosition = 12
+                
+                NSLayoutConstraint.activate([
+                    infoEndFocus.topAnchor.constraint(equalTo: view.topAnchor),
+                    infoEndFocus.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    infoEndFocus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    infoEndFocus.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                ])
+            }
+        }
+    }
     var podomoroTime = 0
     var podomoroStep = 1
     var timerLabel: UILabel = {
@@ -90,7 +113,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         let stop = UIButton(type: .custom)
         stop.setImage(UIImage(named: "icon-stop"), for: .normal)
         stop.contentMode = .scaleAspectFill
-        stop.layer.zPosition = 14
+        stop.layer.zPosition = 12
         stop.translatesAutoresizingMaskIntoConstraints = false
         
         return stop
@@ -208,7 +231,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     private var stopContainer: UIView = {
         let view = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
         view.backgroundColor = UIColor(named: "primaryColor")
-        view.layer.zPosition = 13
+        view.layer.zPosition = 12
         view.layer.cornerRadius = view.frame.size.width/2
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -220,11 +243,12 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot3, labelText: "“If you need to go out of the app or simply just want to take a break, you can pause by swiping up the Home button on your phone!”", position: false, labelTextStyle: .label3),
         ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“You can make the timer visible or invisible as you like. It's up to you.”", position: false, labelTextStyle: .label7),
         ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“You only have 10 minutes of break! If you have reached the time limit, you can’t pause anymore. So use your time wisely!”", position: false, labelTextStyle: .label4),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "If you're unsure, click here for more information.", position: false, labelTextStyle: .label8),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot6, labelText: "“Earn 5 minutes of break time for every 20 minutes of productive focus. The more you focus, the more break time you'll receive.”", position: false, labelTextStyle: .label9),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "\"Finished studying? End your focus mode by lifting your cellphone like you're pulling in a fishing rod.\"", position: false, labelTextStyle: .label10),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“Ready to spill the study tea? Time to input your study milestones. We're crafting your own study map to discover your progress.”", position: false, labelTextStyle: .label11)
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot5, labelText: "\"If you have questions or need more details, click the ‘ ‘ button for more information.\"", position: false, labelTextStyle: .label8),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot6, labelText: "“Earn 5 minutes of break time for every 20 minutes of productive focus. The more you focus, the more break time you'll receive.”", position: false, labelTextStyle: .label9)
     ]
+    
+    private var infoEndFocus = ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "\"Finished studying? End your focus mode by lifting your cellphone like you're pulling in a fishing rod.\"", position: false, labelTextStyle: .label10)
+    private var infoInputTask = ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“Ready to spill the study tea? Time to input your study milestones. We're crafting your own study map to discover your progress.”", position: false, labelTextStyle: .label11)
     
     private var swipeUpIcon: UIImageView = {
         let view = UIImageView()
@@ -400,6 +424,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         return view
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -432,6 +457,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         alertOnPodomoro.alpha = 0.0
         swipeUpIcon.alpha = 0.0
         swipeUpLabel.alpha = 0.0
+        infoInputTask.alpha = 0.0
         
         
         
@@ -454,6 +480,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         ])
         
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
+            alertOnFocus.alpha = 0.0
             let initialShowInfo = userGuideInfo[0]
             initialShowInfo.layer.zPosition = 12
             
@@ -473,6 +500,25 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         }else{
             for myIndex in userGuideInfo{
                 myIndex.removeFromSuperview()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.alertOnFocus.removeFromSuperview()
+                }, completion: { done in
+                    
+                    if done{
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.alertOnPodomoro.alpha = 1.0
+                        })
+                        
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+                            UIView.animate(withDuration: 0.5, animations: {
+                                self.alertOnPodomoro.removeFromSuperview()
+                            })
+                        }
+                    }
+                    
+                })
             }
             
             //            swipeUpIcon.alpha = 1.0
@@ -721,23 +767,17 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             alertOnPodomoro.heightAnchor.constraint(equalToConstant: 70)
         ])
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
-            UIView.animate(withDuration: 0.5, animations: {
-                self.alertOnFocus.removeFromSuperview()
-            }, completion: { done in
-                
-                if done{
-                    self.alertOnPodomoro.alpha = 1.0
-                    
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 5.0){
-                        UIView.animate(withDuration: 0.5, animations: {
-                            self.alertOnPodomoro.removeFromSuperview()
-                        })
-                    }
-                }
-                
-            })
-        }
+        view.addSubview(infoInputTask)
+        infoInputTask.layer.zPosition = 12
+        
+        NSLayoutConstraint.activate([
+            infoInputTask.topAnchor.constraint(equalTo: view.topAnchor),
+            infoInputTask.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            infoInputTask.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            infoInputTask.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+        
+
         
         
         // Create and start the timer
@@ -755,6 +795,10 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         let swipeGestureDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
         swipeGestureDown.direction = .down
         view.addGestureRecognizer(swipeGestureDown)
+        
+        let tapGestureLastInfo = UITapGestureRecognizer(target: self, action: #selector(lastInfo))
+        infoInputTask.isUserInteractionEnabled = true
+        infoInputTask.addGestureRecognizer(tapGestureLastInfo)
         
         iconCancel.addTarget(self, action: #selector(cancelEndFocus), for: .touchUpInside)
         
@@ -778,8 +822,13 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         animatePause()
         checkRaisePhone()
         
+        print(infoStep)
     }
 
+    
+    @objc func lastInfo(){
+        infoInputTask.removeFromSuperview()
+    }
     
     func checkRaisePhone(){
         if motionManager.isAccelerometerAvailable {
@@ -957,7 +1006,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         let nextIndex = (userGuideInfo.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
         
+        self.infoStep = nextIndex
         if nextIndex < userGuideInfo.count{
+           
             let nextView = userGuideInfo[nextIndex]
             
             switch nextIndex{
@@ -965,6 +1016,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.timerLabel.layer.zPosition = 15
                 self.timerShownContainer.layer.zPosition = 15
                 self.hideTimerIcon.layer.zPosition = 15
+                
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
                 break
             case 3:
                 timerPauseContainer.layer.zPosition = 15
@@ -992,6 +1046,16 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                         timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
                     }
                 }
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
+                break
+                
+            case 4:
+                self.timerLabel.layer.zPosition = 12
+                self.timerShownContainer.layer.zPosition = 12
+                self.hideTimerIcon.layer.zPosition = 12
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
                 break
             case 5:
                 UIView.animate(withDuration: 0.4, animations: {
@@ -1016,34 +1080,35 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                     timer?.invalidate()
                     startTimer()
                 }
-                break
-            case 8:
-                
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
                 break
                 
             default:
+                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
+                nextView.addGestureRecognizer(gesture)
                 break
+                
             }
             
-            let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-            nextView.addGestureRecognizer(gesture)
+           
+                nextView.layer.zPosition = 12
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.view.addSubview(nextView)
+                })
+                
+                NSLayoutConstraint.activate([
+                    nextView.topAnchor.constraint(equalTo: view.topAnchor),
+                    nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                    nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                    nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+                ])
             
-            nextView.layer.zPosition = 12
-            UIView.animate(withDuration: 0.5, animations: {
-                self.view.addSubview(nextView)
-            })
             
-            NSLayoutConstraint.activate([
-                nextView.topAnchor.constraint(equalTo: view.topAnchor),
-                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-            ])
             
             
         }
     }
-    
     
     @objc func btnFinish(){
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
@@ -1105,6 +1170,8 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             self.iconCancel.alpha = 0.0
             self.btnContinue.alpha = 0.0
             self.startTimer()
+            self.motionManager.startAccelerometerUpdates()
+            self.checkRaisePhone()
         })
     }
     
@@ -1157,11 +1224,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
     }
     
-    
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
             complexSuccess()
-            
             
             if timerPauseContainer.totalPauseTimer <= 0{
                 UIView.animate(withDuration: 0.5, animations: {
@@ -1246,8 +1311,43 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             motionManager.startDeviceMotionUpdates(to: .main) { [weak self] (motionData, error) in
                 guard let motionData = motionData else { return }
                 if self?.isShaking(motionData) == true {
-                    self?.complexSuccess()
-                    self?.stopTimer()
+                    
+                    if((self?.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
+                        self?.complexSuccess()
+                        self?.stopTimer()
+                        self?.motionManager.stopAccelerometerUpdates()
+                    }else{
+                        self?.complexSuccess()
+                        self?.infoEndFocus.removeFromSuperview()
+                        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.dismissKeyboard))
+                        self?.view.addGestureRecognizer(tapGesture)
+                        UIView.animate(withDuration: 0.4, animations: {
+                            self?.infoEndSession.alpha = 0.0
+                            self?.infoPodomoro.alpha = 0.0
+                            self?.infoEndSessionIcon.alpha = 0.0
+                            self?.infoEndSessionLabel.alpha = 0.0
+                            self?.bgInputTask.alpha = 0.5
+                            self?.containerInputTask.alpha = 1.0
+                            self?.inputTaskBtn.alpha = 1.0
+                            self?.inputTaskTitle.alpha = 1.0
+                            self?.inputTaskTextField.alpha = 1.0
+                            self?.btnContinue.alpha = 0.0
+                            self?.endFocus.alpha = 0.0
+                            self?.inputTaskTitle.text = "What task you have been working on for the last 05 minutes?"
+                            self?.hideIcon.alpha = 0.0
+                            self?.hideTimer.alpha = 0.0
+                            self?.timerLabel.alpha = 0.0
+                            self?.timerShownContainer.alpha = 0.0
+                            self?.hideTimerIcon.alpha = 0.0
+                            self?.iconCancel.alpha = 0.0
+                            self?.iconStop.alpha = 0.0
+                            self?.stopContainer.alpha = 0.0
+                            self?.infoInputTask.alpha = 1.0
+                        })
+                        
+                       
+                    }
+                    
                 }
             }
         }

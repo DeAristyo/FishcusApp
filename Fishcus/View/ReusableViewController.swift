@@ -237,10 +237,16 @@ class ReuseableInfoView: UIView{
             labelInfo.attributedText =  attribute
             
         case .label8:
-            let theText = "\(self.labelText)"
-            let textRange =  (theText as NSString).range(of: "for more")
-            let textRange2 =  (theText as NSString).range(of: "information.")
-            let attribute = NSMutableAttributedString.init(string: theText)
+            let imageAttachment = NSTextAttachment()
+            imageAttachment.image = UIImage(systemName: "info.circle.fill")?.withTintColor(.white)
+
+            let attribute = NSMutableAttributedString(string: "If you have questions or need more details, click the ‘")
+            attribute.append(NSAttributedString(attachment: imageAttachment))
+            attribute.append(NSAttributedString(string: "‘ button for more information."))
+
+            let theText = "\(attribute.string)"
+            let textRange =  (theText as NSString).range(of: "click the ‘")
+            let textRange2 =  (theText as NSString).range(of: "‘ button for more information.")
             attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange)
             attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "highlight-text") ?? UIColor.white, range: textRange)
             attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange2)
@@ -283,8 +289,10 @@ class ReuseableInfoView: UIView{
         case .label12 :
             let theText = "\(self.labelText)"
             let textRange =  (theText as NSString).range(of: "The duration you study will determine the variety of fish you can catch.")
+            let textRange2 = (theText as NSString).range(of: "“Cheers to your study milestone!")
             let attribute = NSMutableAttributedString.init(string: theText)
             attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange2)
             attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "highlight-text") ?? UIColor.white, range: textRange)
             labelInfo.attributedText =  attribute
            
