@@ -204,6 +204,9 @@ class ResultViewController: UIViewController {
             gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
                                UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            self.labelRarerity.text = "COMMON"
+            self.labelRarerity.textColor = UIColor(named: "secondaryColor")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -439,8 +442,8 @@ class ResultViewController: UIViewController {
                     self.resultBtn.alpha = 1.0
                     self.gradientContainer.alpha = 1.0
                     self.gradientBackground.alpha = 1.0
-                    self.labelRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
-                    self.rectangleRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
+                    self.labelRarerity.alpha = 1.0
+                    self.rectangleRarerity.alpha = 1.0 
                     
                     if self.focusData.count <= 1{
                         let initialShowInfo = self.userGuideInfo[0]

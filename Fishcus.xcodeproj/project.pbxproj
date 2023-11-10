@@ -19,6 +19,8 @@
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
+		CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713132AFEBEE500A5D733 /* CustomTableView.swift */; };
+		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
 		DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */; };
@@ -46,6 +48,8 @@
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
 		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
 		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
+		CC9713132AFEBEE500A5D733 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
+		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
@@ -113,6 +117,7 @@
 		A779152ED636EBBC4A73620A /* Fishcus */ = {
 			isa = PBXGroup;
 			children = (
+				CC9713152AFEC14B00A5D733 /* Model */,
 				DDADDA352AFCEB7C0012CC1C /* Video */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
 				31196A59B6EED78958140F92 /* Assets.xcassets */,
@@ -124,6 +129,14 @@
 				E48D0FECA1163CB5BB72D8B2 /* View */,
 			);
 			path = Fishcus;
+			sourceTree = "<group>";
+		};
+		CC9713152AFEC14B00A5D733 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				CC9713162AFEC16500A5D733 /* ModelFishing.swift */,
+			);
+			path = Model;
 			sourceTree = "<group>";
 		};
 		CC9DAB742AF3E5230000B271 /* Extensions */ = {
@@ -164,6 +177,7 @@
 				E119061096C4A36904EC0AD3 /* ReusableViewController.swift */,
 				CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */,
 				CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */,
+				CC9713132AFEBEE500A5D733 /* CustomTableView.swift */,
 				094D98526646CCDB2A5D3D4A /* alerts */,
 			);
 			path = View;
@@ -255,11 +269,13 @@
 				CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */,
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,
 				3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */,
+				CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */,
 				ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */,
 				CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */,
 				CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */,
 				39AADC20B08DE9F1B7B1C2B5 /* ReusableViewController.swift in Sources */,
 				F61BA4A3D589BC28986F6320 /* SceneDelegate.swift in Sources */,
+				CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */,
 				EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */,
 				F82D89878AC79D25F8AC93F9 /* focusBreakExhaustedAlert.swift in Sources */,
 				7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */,

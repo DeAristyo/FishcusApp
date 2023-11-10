@@ -7,10 +7,24 @@
 
 import UIKit
 import CoreMotion
-import CoreHaptics
 import AVFoundation
 
-class FocusViewController: UIViewController, DelegateProtocol  {
+class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelegate  {
+    
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+            let currentText = textField.text ?? ""
+            let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
+            
+            if newText.count > 20 {
+                let alert = UIAlertController(title: "Error", message: "Maximum input length is 20 characters", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+                present(alert, animated: true, completion: nil)
+                return false
+            }
+            
+            return true
+    }
+    
     func dismissBreakExhausted() {
         UIView.animate(withDuration: 0.5, animations: { [self] in
             self.breakExhausted.alpha = 0.0
@@ -21,27 +35,45 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     func takePodomoroAlert() {
         timerPauseContainer.totalPauseTimer += 300
-        UIView.animate(withDuration: 0.4, animations: {
-            self.timerPauseContainer.alpha = 1.0
-            self.iconStop.alpha = 0.0
-            self.stopContainer.alpha = 0.0
-            self.mainBg.image = UIImage(named: "bg-pause")
-            self.swipeUpIcon.image = UIImage(named: "icon-swipe-down")
-            self.swipeUpLabel.text = "Swipe down to resume"
+        playReelingAnimation()
+        fokus?.pause()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.videoBgFocus.alpha = 0.0
+            self.tempFocus.alpha = 0.0
+            self.videoBgReel.alpha = 1.0
+            self.tempReel.alpha = 1.0
+        })
+        UIView.animate(withDuration: 0.5, animations: {
             self.hideIcon.alpha = 0.0
             self.hideTimer.alpha = 0.0
             self.timerLabel.alpha = 0.0
             self.timerShownContainer.alpha = 0.0
             self.hideTimerIcon.alpha = 0.0
+            self.iconStop.alpha = 0.0
+            self.stopContainer.alpha = 0.0
             self.podomoroAlerts.alpha = 0.0
         })
-        
-        complexSuccess()
+        DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
+            let gestureswipeDownOnly = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(_:)))
+            gestureswipeDownOnly.direction = .down
+            self.view.addGestureRecognizer(gestureswipeDownOnly)
+            UIView.animate(withDuration: 0.5, animations: {
+                self.videoBgPause.alpha = 1.0
+                self.tempPause.alpha = 1.0
+                self.playVideoPause()
+                self.timerPauseContainer.alpha = 1.0
+                self.mainBg.image = UIImage(named: "bg-pause")
+                self.swipeUpIcon.image = UIImage(named: "icon-down")
+                self.swipeUpLabel.text = "Resume"
+            })
+        }
+       
         
         if timer != nil {
             timer?.invalidate()
             timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
         }
+       
     }
     
     func continuePodomoroAlert() {
@@ -53,9 +85,14 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     
     let gachaSytem = GachaSystem()
+    var fokusLayer: AVPlayerLayer?
+    var fokus: AVPlayer?
+    var reelLayer: AVPlayerLayer?
+    var reel: AVPlayer?
+    var pauseLayer: AVPlayerLayer?
+    var pause: AVPlayer?
     var myUserDefault = UserDefaults.standard
     var timer: Timer?
-    var engine: CHHapticEngine?
     var showInfo = false
     var infoStep = 0 {
         didSet{
@@ -111,14 +148,42 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }()
     
     //task monik
-    var videoBg: UIView = {
+    var videoBgFocus: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         
         return view
     }()
     
-    var temp: UIView = {
+    var tempFocus: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var videoBgReel: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var tempReel: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var videoBgPause: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    var tempPause: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -447,6 +512,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         self.navigationItem.hidesBackButton = true
         view.backgroundColor = .systemBackground
         
+        inputTaskTextField.delegate =  self
         timerPauseContainer.delegate = self
         breakExhausted.delegate = self
         podomoroAlerts.delegate = self
@@ -474,11 +540,19 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         swipeUpIcon.alpha = 0.0
         swipeUpLabel.alpha = 0.0
         infoInputTask.alpha = 0.0
+        videoBgReel.alpha = 0.0
+        tempReel.alpha = 0.0
+        videoBgPause.alpha = 0.0
+        tempPause.alpha = 0.0
         
         
         
-        view.addSubview(videoBg)
-        view.addSubview(temp)
+        view.addSubview(videoBgFocus)
+        view.addSubview(tempFocus)
+        view.addSubview(videoBgReel)
+        view.addSubview(tempReel)
+        view.addSubview(videoBgPause)
+        view.addSubview(tempPause)
         
         view.addSubview(breakExhausted)
         
@@ -805,7 +879,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         
         startMotionUpdates()
-        prepareHaptic()
         
         // Create a swipe gesture recognizer
         let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
@@ -841,54 +914,65 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         
         animatePause()
         checkRaisePhone()
-        playVideo("FocusModeAnimation")
         
-        
-        
-        print(infoStep)
-    }
-
-    func playReelingAnimation(){
-        guard let path = Bundle.main.path(forResource: "ReelingAnimation", ofType: "mov") else {
+        guard let pathFocus = Bundle.main.path(forResource: "FocusModeAnimation", ofType: "mov") else {
             print("Video file not found")
             return
         }
         
-        let player = AVPlayer(url: URL(fileURLWithPath: path))
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.view.bounds
-        playerLayer.position = self.view.center
-        playerLayer.videoGravity = .resizeAspectFill
-        self.videoBg.layer.addSublayer(playerLayer)
-        self.temp.layer.addSublayer(playerLayer)
+        guard let pathReel = Bundle.main.path(forResource: "ReelingAnimation", ofType: "mov") else {
+            print("Video file not found")
+            return
+        }
         
-        player.play()
+        guard let pathPause = Bundle.main.path(forResource: "PauseModeAnimation", ofType: "mov") else {
+            print("Video file not found")
+            return
+        }
+        
+        fokus = AVPlayer(url: URL(fileURLWithPath: pathFocus))
+        fokusLayer = AVPlayerLayer(player: fokus)
+        fokusLayer?.frame = self.view.bounds
+        fokusLayer?.videoGravity = .resizeAspectFill
+        self.videoBgFocus.layer.addSublayer(fokusLayer!)
+        self.tempFocus.layer.addSublayer(fokusLayer!)
+        
+        reel = AVPlayer(url: URL(fileURLWithPath: pathReel))
+        reelLayer = AVPlayerLayer(player: reel)
+        reelLayer?.frame = self.view.bounds
+        reelLayer?.videoGravity = .resizeAspectFill
+        self.videoBgReel.layer.addSublayer(reelLayer!)
+        self.tempReel.layer.addSublayer(reelLayer!)
+        
+        pause = AVPlayer(url: URL(fileURLWithPath: pathPause))
+        pauseLayer = AVPlayerLayer(player: pause)
+        pauseLayer?.frame = self.view.bounds
+        pauseLayer?.videoGravity = .resizeAspectFill
+        self.videoBgPause.layer.addSublayer(pauseLayer!)
+        self.tempPause.layer.addSublayer(pauseLayer!)
+        
+        playVideoFocus()
+    }
+
+    func playReelingAnimation() {
+        if let currentItem = reel?.currentItem {
+            currentItem.seek(to: CMTime.zero, completionHandler: nil)
+        }
+        reel?.play()
     }
     
-    func playVideo(_ file: String) {
-        guard let path = Bundle.main.path(forResource: "\(file)", ofType: "mov") else {
-            print("Video file not found")
-            return
-        }
-        
-        let player = AVPlayer(url: URL(fileURLWithPath: path))
-        let playerLayer = AVPlayerLayer(player: player)
-        playerLayer.frame = self.view.bounds
-        playerLayer.position = self.view.center
-        playerLayer.videoGravity = .resizeAspectFill
-        self.videoBg.layer.addSublayer(playerLayer)
-        self.temp.layer.addSublayer(playerLayer)
-        
-        player.play()
-        
-       
+    func playVideoFocus() {
+        fokus?.play()
         // Observe the AVPlayer's currentItem status and timeControlStatus
-            player.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
-            player.addObserver(self, forKeyPath: #keyPath(AVPlayer.timeControlStatus), options: [.new], context: nil)
-
-        
-        //        videoBackground.bringSubViewToFront(timerButton)
-        //        videoBackground.bringSubViewToFront(stopButton)
+        fokus?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
+        fokus?.addObserver(self, forKeyPath: #keyPath(AVPlayer.timeControlStatus), options: [.new], context: nil)
+    }
+    
+    func playVideoPause(){
+        pause?.play()
+        // Observe the AVPlayer's currentItem status and timeControlStatus
+        pause?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
+        pause?.addObserver(self, forKeyPath: #keyPath(AVPlayer.timeControlStatus), options: [.new], context: nil)
     }
     
     override func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
@@ -896,6 +980,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
             if let statusNumber = change?[.newKey] as? NSNumber, let status = AVPlayer.Status(rawValue: statusNumber.intValue) {
                 if status == .readyToPlay {
                     // Video is ready to play
+                    fokus?.play()
                 }
             }
         } else if keyPath == #keyPath(AVPlayer.timeControlStatus) {
@@ -991,6 +1076,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     @objc func continueResult(){
+        
         guard let text = inputTaskTextField.text, !text.isEmpty else {
             let alert = UIAlertController(title: "Error", message: "Please fill in the text field", preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -1267,9 +1353,14 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     }
     
     @objc func handleSwipeDown(_ gesture : UISwipeGestureRecognizer){
-        
+        if let recog = view.gestureRecognizers{
+            for recognizer in recog {
+                recognizer.isEnabled = true
+            }
+        }
         if gesture.state == .ended {
-            UIView.animate(withDuration: 0.4, animations: {
+           
+            UIView.animate(withDuration: 0.5, animations: {
                 self.timerPauseContainer.alpha = 0.0
                 self.iconStop.alpha = 1.0
                 self.infoLabel.alpha = 0.0
@@ -1282,11 +1373,20 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.timerLabel.alpha = 1.0
                 self.timerShownContainer.alpha = 1.0
                 self.hideTimerIcon.alpha = 1.0
+                self.videoBgFocus.alpha = 1.0
+                self.tempFocus.alpha = 1.0
+                self.videoBgReel.alpha = 0.0
+                self.videoBgPause.alpha = 0.0
+                self.tempReel.alpha = 0.0
+                self.tempPause.alpha = 0.0
             })
             if timer != nil {
                 timer?.invalidate()
                 startTimer()
             }
+            playVideoFocus()
+            reel?.pause()
+            pause?.pause()
         }
     }
     
@@ -1317,26 +1417,50 @@ class FocusViewController: UIViewController, DelegateProtocol  {
     
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
-            complexSuccess()
+            
+            if let recog = view.gestureRecognizers{
+                for recognizer in recog {
+                    recognizer.isEnabled = false
+                }
+            }
             
             if timerPauseContainer.totalPauseTimer <= 0{
                 UIView.animate(withDuration: 0.5, animations: {
                     self.breakExhausted.alpha = 1.0
                 })
             }else{
-                UIView.animate(withDuration: 0.4, animations: {
-                    self.timerPauseContainer.alpha = 1.0
-                    self.iconStop.alpha = 0.0
-                    self.stopContainer.alpha = 0.0
-                    self.mainBg.image = UIImage(named: "bg-pause")
-                    self.swipeUpIcon.image = UIImage(named: "icon-down")
-                    self.swipeUpLabel.text = "Resume"
+                playReelingAnimation()
+                fokus?.pause()
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.videoBgFocus.alpha = 0.0
+                    self.tempFocus.alpha = 0.0
+                    self.videoBgReel.alpha = 1.0
+                    self.tempReel.alpha = 1.0
+                })
+                UIView.animate(withDuration: 0.5, animations: {
                     self.hideIcon.alpha = 0.0
                     self.hideTimer.alpha = 0.0
                     self.timerLabel.alpha = 0.0
                     self.timerShownContainer.alpha = 0.0
                     self.hideTimerIcon.alpha = 0.0
+                    self.iconStop.alpha = 0.0
+                    self.stopContainer.alpha = 0.0
                 })
+                DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
+                    let gestureswipeDownOnly = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(_:)))
+                    gestureswipeDownOnly.direction = .down
+                    self.view.addGestureRecognizer(gestureswipeDownOnly)
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.videoBgPause.alpha = 1.0
+                        self.tempPause.alpha = 1.0
+                        self.playVideoPause()
+                        self.timerPauseContainer.alpha = 1.0
+                        self.mainBg.image = UIImage(named: "bg-pause")
+                        self.swipeUpIcon.image = UIImage(named: "icon-down")
+                        self.swipeUpLabel.text = "Resume"
+                    })
+                }
+               
                 
                 if timer != nil {
                     timer?.invalidate()
@@ -1354,7 +1478,7 @@ class FocusViewController: UIViewController, DelegateProtocol  {
         timerStart += 1
         podomoroTime += 1
         
-        if podomoroTime == 1500{
+        if podomoroTime == 1200{
             
             if podomoroStep == 1{
                 UIView.animate(withDuration: 0.5, animations: {
@@ -1404,11 +1528,9 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 if self?.isShaking(motionData) == true {
                     
                     if((self?.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
-                        self?.complexSuccess()
                         self?.stopTimer()
                         self?.motionManager.stopAccelerometerUpdates()
                     }else{
-                        self?.complexSuccess()
                         self?.infoEndFocus.removeFromSuperview()
                         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.dismissKeyboard))
                         self?.view.addGestureRecognizer(tapGesture)
@@ -1472,53 +1594,6 @@ class FocusViewController: UIViewController, DelegateProtocol  {
                 self.infoLabel.alpha = 0.0
                 self.btnContinue.alpha = 1.0
             })
-        }
-    }
-    
-    func showStopTimerAlert() {
-        let alertController = UIAlertController(title: "Timer Stopped", message: "Shake detected", preferredStyle: .alert)
-        let okAction = UIAlertAction(title: "OK", style: .default) { [weak self] _ in
-            self?.dismiss(animated: true, completion: nil)
-        }
-        
-        let dismissAction = UIAlertAction(title: "Dismiss", style: .cancel) { [weak self] _ in
-            // Restart the timer when the user chooses to dismiss
-            self?.startTimer()
-        }
-        
-        alertController.addAction(okAction)
-        alertController.addAction(dismissAction)
-        
-        present(alertController, animated: true)
-    }
-    
-    func prepareHaptic(){
-        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {return}
-        
-        do{
-            engine = try CHHapticEngine()
-            try engine?.start()
-        }catch{
-            print("Your device not support haptic: \(error.localizedDescription)")
-        }
-    }
-    
-    func complexSuccess(){
-        guard CHHapticEngine.capabilitiesForHardware().supportsHaptics else {return}
-        
-        var events = [CHHapticEvent]()
-        let intensity = CHHapticEventParameter(parameterID: .hapticIntensity, value: 1)
-        let sharpness =  CHHapticEventParameter(parameterID: .hapticSharpness, value: 1)
-        let event =  CHHapticEvent(eventType: .hapticTransient, parameters: [intensity, sharpness], relativeTime: 0)
-        
-        events.append(event)
-        
-        do{
-            let pattern = try CHHapticPattern(events: events, parameters: [])
-            let player = try engine?.makePlayer(with: pattern)
-            try player?.start(atTime: 0)
-        }catch{
-            print("fail \(error.localizedDescription)")
         }
     }
     

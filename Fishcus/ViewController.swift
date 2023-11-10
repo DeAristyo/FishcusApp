@@ -7,11 +7,10 @@
 
 import UIKit
 
-
-
 class ViewController: UIViewController {
     
     let gacha = GachaSystem()
+    let getData = GetDataFishing.getData()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -30,6 +29,9 @@ class ViewController: UIViewController {
             button.widthAnchor.constraint(equalToConstant: 100),
             button.heightAnchor.constraint(equalToConstant: 50)
         ])
+
+    
+
     }
     
    
