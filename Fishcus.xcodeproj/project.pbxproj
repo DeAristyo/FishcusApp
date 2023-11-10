@@ -15,6 +15,9 @@
 		5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */; };
 		7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */; };
 		86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31196A59B6EED78958140F92 /* Assets.xcassets */; };
+		A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789A2AFBD6F800F264AB /* BubbleView.swift */; };
+		A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789D2AFBF80700F264AB /* BubbleGameController.swift */; };
+		A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
@@ -35,6 +38,9 @@
 		60591540336BD1286C10617C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8D33A05DB6C464BA8293F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A538789A2AFBD6F800F264AB /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
+		A538789D2AFBF80700F264AB /* BubbleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameController.swift; sourceTree = "<group>"; };
+		A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -87,6 +93,30 @@
 			path = Services;
 			sourceTree = "<group>";
 		};
+		A53878992AFBD6E000F264AB /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				A538789A2AFBD6F800F264AB /* BubbleView.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		A538789C2AFBF7D300F264AB /* StimulateGameView */ = {
+			isa = PBXGroup;
+			children = (
+				A538789D2AFBF80700F264AB /* BubbleGameController.swift */,
+			);
+			path = StimulateGameView;
+			sourceTree = "<group>";
+		};
+		A538789F2AFC0E3700F264AB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
 		A54AA40A126C869AA62DD78E /* Config */ = {
 			isa = PBXGroup;
 			children = (
@@ -105,6 +135,7 @@
 				2DEEDA37D3F7A229D3E4E87E /* LaunchScreen.storyboard */,
 				60591540336BD1286C10617C /* SceneDelegate.swift */,
 				FDCD50641CAA176E210E10C4 /* ViewController.swift */,
+				A53878992AFBD6E000F264AB /* ViewModel */,
 				87EA1E0E014A13A4CE158701 /* Services */,
 				E48D0FECA1163CB5BB72D8B2 /* View */,
 			);
@@ -132,12 +163,14 @@
 		E48D0FECA1163CB5BB72D8B2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				EFB3509B3E0C943E71428632 /* CountDownRingView.swift */,
 				B020708D44C6706B46A2EA01 /* FocusViewController.swift */,
 				8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */,
 				FC088CEAD3CFD228AC35590F /* ResultViewController.swift */,
 				E119061096C4A36904EC0AD3 /* ReusableViewController.swift */,
 				CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */,
+				EFB3509B3E0C943E71428632 /* CountDownRingView.swift */,
+				A538789F2AFC0E3700F264AB /* Components */,
+				A538789C2AFBF7D300F264AB /* StimulateGameView */,
 				094D98526646CCDB2A5D3D4A /* alerts */,
 			);
 			path = View;
@@ -174,11 +207,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-					B74225766FB375F60F2112AC = {
-						DevelopmentTeam = MNPQBHRKTX;
-					};
-				};
 			};
 			buildConfigurationList = FA10F1AF169403A828F9D8A4 /* Build configuration list for PBXProject "Fishcus" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -218,12 +246,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */,
+				A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */,
 				5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */,
 				CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
 				F250374E843BD8AF51B3B5A6 /* DelegateProtocol.swift in Sources */,
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,
 				3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */,
+				A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */,
 				ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */,
 				CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */,
 				39AADC20B08DE9F1B7B1C2B5 /* ReusableViewController.swift in Sources */,
@@ -231,6 +261,7 @@
 				EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */,
 				F82D89878AC79D25F8AC93F9 /* focusBreakExhaustedAlert.swift in Sources */,
 				7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */,
+				A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,7 +351,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
@@ -405,7 +436,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
