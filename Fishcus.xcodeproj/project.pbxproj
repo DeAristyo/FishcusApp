@@ -21,6 +21,9 @@
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
+		DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */; };
+		DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */; };
+		DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */; };
 		EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCD50641CAA176E210E10C4 /* ViewController.swift */; };
 		ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC088CEAD3CFD228AC35590F /* ResultViewController.swift */; };
 		F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020708D44C6706B46A2EA01 /* FocusViewController.swift */; };
@@ -48,6 +51,9 @@
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
 		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = FocusModeAnimation.mov; sourceTree = "<group>"; };
+		DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = PauseModeAnimation.mov; sourceTree = "<group>"; };
+		DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = ReelingAnimation.mov; sourceTree = "<group>"; };
 		DE10A3330C10559522AD7B0E /* DelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateProtocol.swift; sourceTree = "<group>"; };
 		E119061096C4A36904EC0AD3 /* ReusableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewController.swift; sourceTree = "<group>"; };
 		EFB3509B3E0C943E71428632 /* CountDownRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownRingView.swift; sourceTree = "<group>"; };
@@ -107,6 +113,7 @@
 		A779152ED636EBBC4A73620A /* Fishcus */ = {
 			isa = PBXGroup;
 			children = (
+				DDADDA352AFCEB7C0012CC1C /* Video */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
 				31196A59B6EED78958140F92 /* Assets.xcassets */,
 				51E971755197E04B9AC46CCB /* Info.plist */,
@@ -135,6 +142,16 @@
 				A779152ED636EBBC4A73620A /* Fishcus */,
 				6B6ADA367ADFD13C408441A9 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		DDADDA352AFCEB7C0012CC1C /* Video */ = {
+			isa = PBXGroup;
+			children = (
+				DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */,
+				DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */,
+				DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */,
+			);
+			path = Video;
 			sourceTree = "<group>";
 		};
 		E48D0FECA1163CB5BB72D8B2 /* View */ = {
@@ -215,7 +232,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */,
+				DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */,
+				DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
+				DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
