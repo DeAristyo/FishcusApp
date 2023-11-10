@@ -353,16 +353,11 @@ class HomeViewController: UIViewController {
     @objc func focusStart(){
         
         if focusIsBegin{
-            btnFocus.isEnabled = false
-            UIView.animate(withDuration: 0.5, animations: {
-                self.countDownTimer.alpha = 1.0
-            })
             UIView.animate(withDuration: 0.3, animations: {
                 self.userInfoOverlay2.alpha = 0.0
             })
-            countDownTimer.startCountdown()
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 self.nextScreen()
             }
         }else{
@@ -373,7 +368,7 @@ class HomeViewController: UIViewController {
     }
     
     func nextScreen(){
-        let vc = FocusViewController()
+        let vc = BubbleGameController()
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
