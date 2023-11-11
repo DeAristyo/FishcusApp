@@ -373,10 +373,20 @@ class HomeViewController: UIViewController {
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
             vc = FocusViewController()
         }else{
-            vc = BubbleGameController()
+            vc = randomizeGameController()
         }
         
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    func randomizeGameController() -> UIViewController {
+        let randomIndex = Int(arc4random_uniform(2))
+        
+        if randomIndex == 0 {
+            return FishColorGameController()
+        } else {
+            return BubbleGameController()
+        }
     }
     
 }
