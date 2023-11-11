@@ -10,65 +10,129 @@ import UIKit
 class ResultListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!
-        var focusData: [[String: String]] = []
+    var fishingData = GetDataFishing.getData()
+    
+    private var infoScreen =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot1, labelText: "\"Take a look at your Focus History here and see how far you've come.\"", position: false, labelTextStyle: .label14)
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        // Create a custom view for the back button
+        let backButton = UIButton(type: .system)
+        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
+        backButton.setImage(UIImage(systemName: "chevron.backward")?.withConfiguration(symbolConfiguration), for: .normal)
+        backButton.setTitle("Back", for: .normal)
+        backButton.titleLabel?.textColor = UIColor(named: "back-btn")
+        backButton.titleLabel?.font = UIFont.rounded(ofSize: 15, weight: .bold)
+        backButton.contentMode = .scaleAspectFit
+        backButton.tintColor = UIColor(named: "back-btn")
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.sizeToFit()
         
-        override func viewDidLoad() {
-            super.viewDidLoad()
+        // Create a bar button item with the custom view
+        let customBackButton = UIBarButtonItem(customView: backButton)
+        
+        // Assign the custom back button to the left bar button item
+        navigationItem.leftBarButtonItem = customBackButton
+
+        let titleAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.rounded(ofSize: 28, weight: .heavy), // Replace with your desired font and size
+            .foregroundColor: UIColor(named: "primaryColor") // Set the desired color here
+        ]
+        
+        navigationController?.navigationBar.titleTextAttributes = titleAttributes
+        navigationItem.title = "Focus Result"
+        
+       
+    
+        // Initialize the table view
+        tableView = UITableView(frame: view.bounds, style: .plain)
+        tableView.backgroundColor = UIColor.clear
+        tableView.delegate = self
+        tableView.dataSource = self
+
+
+        let listBg = UIImageView()
+        listBg.image = UIImage(named: "bg-list")
+        listBg.contentMode = .scaleAspectFill
+        listBg.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(listBg)
+
+        NSLayoutConstraint.activate([
+            listBg.topAnchor.constraint(equalTo: view.topAnchor),
+            listBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            listBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            listBg.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        view.addSubview(tableView)
+
+        NSLayoutConstraint.activate([
+            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
+
+        tableView.register(CustomTableView.self, forCellReuseIdentifier: "cell")
+        
+        if self.fishingData.count <= 1{
+            let initialShowInfo = self.infoScreen
+            initialShowInfo.layer.zPosition = 5
             
-            // Create a new bar button item
-                let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(backButtonTapped))
-                
-                // Set the new bar button item as the left bar button item
-                self.navigationItem.leftBarButtonItem = backButton
+            self.view.addSubview(initialShowInfo)
             
-            view.backgroundColor = UIColor.white
-            navigationItem.title = "Focus Result"
-            // Initialize the table view
-            tableView = UITableView(frame: view.bounds, style: .plain)
-            tableView.delegate = self
-            tableView.dataSource = self
-            tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+            NSLayoutConstraint.activate([
+                initialShowInfo.topAnchor.constraint(equalTo: self.view.topAnchor),
+                initialShowInfo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                initialShowInfo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+                initialShowInfo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            ])
             
-            // Add the table view to the view hierarchy
-            view.addSubview(tableView)
-            
-            // Load the data from UserDefaults
-            loadData()
+            let guideInfoGestureRecog = UITapGestureRecognizer(target: self, action: #selector(self.guideTapGesture))
+            initialShowInfo.isUserInteractionEnabled = true
+            initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
         }
-        
-        func loadData() {
-            let myUserDefault = UserDefaults.standard
-            if let data = myUserDefault.data(forKey: "focusData"),
-               let decodedData = try? JSONDecoder().decode([[String: String]].self, from: data) {
-                focusData = decodedData
-            }
-        }
-        
-        // MARK: - UITableViewDataSource
-        
-        func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-            return focusData.count
-        }
-        
-        func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-            let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-            
-            let data = focusData[indexPath.row]
-            cell.textLabel?.text = "\(data["date"] ?? "") - \(data["time"] ?? "") - \(data["activity"] ?? "")"// Display the activity as the cell text
-            
-            return cell
-        }
-        
-        // MARK: - UITableViewDelegate
-        
-        func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-            tableView.deselectRow(at: indexPath, animated: true)
-            
-            let data = focusData[indexPath.row]
-            
-            let resultScreenVC = ResultViewController(time: data["time"] ?? "", activity: data["activity"] ?? "", fish: data["fish"] ?? "", rare: data["rarerity"] ?? "")
-            self.navigationController?.pushViewController(resultScreenVC, animated: true)
-        }
+
+        // Load the data from UserDefaults
+    }
+    
+    @objc func guideTapGesture(gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        currentView.removeFromSuperview()
+    }
+
+    // MARK: - UITableViewDataSource
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return fishingData.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableView
+        cell.listDataFishing = fishingData[indexPath.row]
+
+        return cell
+    }
+
+    // MARK: - UITableViewDelegate
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        let data = fishingData[indexPath.row]
+
+        let resultScreenVC = ResultViewController(time: (data.time ?? ""), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""))
+        self.navigationController?.pushViewController(resultScreenVC, animated: true)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 85
+    }
+
+    func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+        cell.backgroundColor = UIColor.clear // Set the background color of the cell to yellow
+    }
     
     @objc func backButtonTapped() {
         // Instantiate the view controller you want to navigate to
@@ -76,6 +140,5 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         // Push the new view controller onto the navigation stack
         self.navigationController?.setViewControllers([newViewController], animated: true)
     }
-    
-
 }
+
