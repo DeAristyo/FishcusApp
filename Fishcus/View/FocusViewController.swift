@@ -872,8 +872,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         ])
         
 
-        
-        
         // Create and start the timer
         startTimer()
         
