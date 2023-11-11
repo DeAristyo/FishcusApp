@@ -368,7 +368,14 @@ class HomeViewController: UIViewController {
     }
     
     func nextScreen(){
-        let vc = BubbleGameController()
+        var vc: UIViewController
+        
+        if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
+            vc = FocusViewController()
+        }else{
+            vc = BubbleGameController()
+        }
+        
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
