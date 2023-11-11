@@ -210,6 +210,7 @@ class ShareResultViewController: UIViewController {
                                UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
             self.labelBig.text = "Nothing :("
+            self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
             break
             
         }

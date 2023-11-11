@@ -7,7 +7,8 @@
 
 import UIKit
 
-class BubbleView: UIImageView {    var number: Int
+class BubbleView: UIImageView {   
+    var number: Int
     let bubbleSize = 55
     var xPosition = 0
     var yPosition = 0
