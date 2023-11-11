@@ -21,6 +21,7 @@ class BubbleGameController: UIViewController{
     private let countDownTimer = CountdownRingView()
     private var initialCountValue = 3
     private var initialCountTimer: Timer!
+    private var isGameStarting: Bool = false
     
     //Count down label
     lazy var countDownLabel: UILabel = {
@@ -389,6 +390,7 @@ class BubbleGameController: UIViewController{
     func startTimer(){
         countDownTimer.startCountdown()
         initialCountTimer = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(updateCountdown), userInfo: nil, repeats: true)
+        isGameStarting = true
     }
     
     
@@ -509,7 +511,6 @@ class BubbleGameController: UIViewController{
     
     func positionBubbles() {
         if !isBubblePositioned {
-            gameBg.layoutIfNeeded()
             for bubble in bubbleViews {
                 if bubble.superview != nil {
                     var newPosition: CGPoint
@@ -524,6 +525,7 @@ class BubbleGameController: UIViewController{
                         bubble.widthAnchor.constraint(equalToConstant: bubble.frame.width),
                         bubble.heightAnchor.constraint(equalToConstant: bubble.frame.height)
                     ])
+                    gameBg.layoutIfNeeded()
                 }
             }
         }
@@ -575,7 +577,7 @@ class BubbleGameController: UIViewController{
     
     func allBubblesTapped() {
         print("All bubbles are tapped!")
-        if gameLevel <= 5{
+        if gameLevel <= 5 && isGameStarting == true{
             numberOfBubbles += 1
             for bubble in bubbleViews {
                 bubble.removeFromSuperview()
@@ -588,6 +590,7 @@ class BubbleGameController: UIViewController{
             fadeOutElements()
             numberOfBubbles = 5
             gameLevel = 1
+            isGameStarting = false
         }
     }
     
