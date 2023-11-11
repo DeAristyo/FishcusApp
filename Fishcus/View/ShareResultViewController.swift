@@ -37,7 +37,6 @@ class ShareResultViewController: UIViewController {
     
     let fishImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "r-beta")
         view.contentMode = .scaleAspectFill
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 10
@@ -135,8 +134,8 @@ class ShareResultViewController: UIViewController {
         gradient.frame = gradientContainer.bounds
         gradientContainer.layer.insertSublayer(gradient, at: 0)
         
-        self.labelRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
-        self.rectangleRarerity.alpha = self.rare == "R" || self.rare == "N" ? 1.0 : 0.0
+        self.labelRarerity.alpha =  1.0
+        self.rectangleRarerity.alpha =  1.0
         
         
         switch rare{
@@ -144,6 +143,9 @@ class ShareResultViewController: UIViewController {
             gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
                                UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            self.labelRarerity.text = "COMMON"
+            self.labelRarerity.textColor = UIColor(named: "pale-green")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "pale-green")?.cgColor
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -181,7 +183,7 @@ class ShareResultViewController: UIViewController {
             }
             
             break
-        default:
+        case "N":
             gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
                                UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1)
@@ -202,6 +204,12 @@ class ShareResultViewController: UIViewController {
                 self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-beta")
                 break
             }
+            break
+        default:
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            self.labelBig.text = "Nothing :("
             break
             
         }

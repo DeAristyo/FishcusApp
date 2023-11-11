@@ -57,7 +57,6 @@ class ResultViewController: UIViewController {
     
     let fishImage: UIImageView = {
         let view = UIImageView()
-        view.image = UIImage(named: "r-beta")
         view.contentMode = .scaleAspectFill
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 10
@@ -205,8 +204,8 @@ class ResultViewController: UIViewController {
                                UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
             self.labelRarerity.text = "COMMON"
-            self.labelRarerity.textColor = UIColor(named: "secondaryColor")
-            self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
+            self.labelRarerity.textColor = UIColor(named: "pale-green")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "pale-green")?.cgColor
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -244,7 +243,7 @@ class ResultViewController: UIViewController {
             }
             
             break
-        default: 
+        case "N":
             gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
                                UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1).cgColor]
             self.gradientBackground.backgroundColor = UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1)
@@ -265,6 +264,14 @@ class ResultViewController: UIViewController {
                 self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-beta")
                 break
             }
+            break
+        default :
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
+            self.labelBig.text = "Nothing :("
+    
             break
             
         }

@@ -307,8 +307,12 @@ class ReuseableInfoView: UIView{
         case .label14 :
             let theText = "\(self.labelText)"
             let textRange =  (theText as NSString).range(of: "look at your Focus History here")
+            let textRang2 =  (theText as NSString).range(of: "\"Take a")
+            let textRang3 =  (theText as NSString).range(of: "see how far you've come.")
             let attribute = NSMutableAttributedString.init(string: theText)
             attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRange)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRang2)
+            attribute.addAttribute(NSAttributedString.Key.font, value: UIFont.rounded(ofSize: 18, weight: .bold), range: textRang3)
             attribute.addAttribute(NSAttributedString.Key.foregroundColor, value: UIColor(named: "highlight-text") ?? UIColor.white, range: textRange)
             labelInfo.attributedText =  attribute
         }

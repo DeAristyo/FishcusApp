@@ -498,7 +498,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     }()
     
     private var alertOnPodomoro: OnFocusAlerts = {
-        let view = OnFocusAlerts(icon: .icon2, labelInfo: "Study 20 min, break 5 min, repeat for more breaks!")
+        let view = OnFocusAlerts(icon: .icon2, labelInfo: "You’ll get +5 mins break for every 20 minutes study.")
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -1089,7 +1089,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         
         let currentDate = Date()
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "dd MMM"
+        dateFormatter.dateFormat = "dd MMM YYYY"
         let dateString = dateFormatter.string(from: currentDate)
         gachaSytem.gachaPull()
         let setFish = gachaSytem.setFish
@@ -1099,8 +1099,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             "date": dateString,
             "time": "\(minuteToString(time: TimeInterval(timerStart)))",
             "activity": text,
-            "fish": setFish,
-            "rarerity": setRarerity
+            "fish": timerStart >= 1200 ? setFish : "nil",
+            "rarerity": timerStart >= 1200 ? setRarerity : "nil"
         ]
         
         var existingData: [[String: String]]
@@ -1130,7 +1130,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         }
         
         
-        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity)
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: timerStart >= 1200 ? setFish : "nil", rare: timerStart >= 1200 ? setRarerity : "nil")
         gachaSytem.reset()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -1199,24 +1199,50 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 break
             case 3:
                 timerPauseContainer.layer.zPosition = 15
+                animatePause()
+                if let recog = view.gestureRecognizers{
+                    for recognizer in recog {
+                        recognizer.isEnabled = false
+                    }
+                }
+                
                 if timerPauseContainer.totalPauseTimer <= 0{
                     UIView.animate(withDuration: 0.5, animations: {
                         self.breakExhausted.alpha = 1.0
                     })
                 }else{
-                    UIView.animate(withDuration: 0.4, animations: {
-                        self.timerPauseContainer.alpha = 1.0
-                        self.iconStop.alpha = 0.0
-                        self.stopContainer.alpha = 0.0
-                        self.mainBg.image = UIImage(named: "bg-pause")
-                        self.swipeUpIcon.image = UIImage(named: "icon-down")
-                        self.swipeUpLabel.text = "Resume"
+                    playReelingAnimation()
+                    fokus?.pause()
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.videoBgFocus.alpha = 0.0
+                        self.tempFocus.alpha = 0.0
+                        self.videoBgReel.alpha = 1.0
+                        self.tempReel.alpha = 1.0
+                    })
+                    UIView.animate(withDuration: 0.5, animations: {
                         self.hideIcon.alpha = 0.0
                         self.hideTimer.alpha = 0.0
                         self.timerLabel.alpha = 0.0
                         self.timerShownContainer.alpha = 0.0
                         self.hideTimerIcon.alpha = 0.0
+                        self.iconStop.alpha = 0.0
+                        self.stopContainer.alpha = 0.0
                     })
+                    DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
+                        let gestureswipeDownOnly = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(_:)))
+                        gestureswipeDownOnly.direction = .down
+                        self.view.addGestureRecognizer(gestureswipeDownOnly)
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.videoBgPause.alpha = 1.0
+                            self.tempPause.alpha = 1.0
+                            self.playVideoPause()
+                            self.timerPauseContainer.alpha = 1.0
+                            self.mainBg.image = UIImage(named: "bg-pause")
+                            self.swipeUpIcon.image = UIImage(named: "icon-down")
+                            self.swipeUpLabel.text = "Resume"
+                        })
+                    }
+                   
                     
                     if timer != nil {
                         timer?.invalidate()
@@ -1235,7 +1261,14 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 nextView.addGestureRecognizer(gesture)
                 break
             case 5:
-                UIView.animate(withDuration: 0.4, animations: {
+                animatePause()
+                if let recog = view.gestureRecognizers{
+                    for recognizer in recog {
+                        recognizer.isEnabled = true
+                    }
+                }
+                   
+                UIView.animate(withDuration: 0.5, animations: {
                     self.timerPauseContainer.alpha = 0.0
                     self.iconStop.alpha = 1.0
                     self.infoLabel.alpha = 0.0
@@ -1248,6 +1281,12 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                     self.timerLabel.alpha = 1.0
                     self.timerShownContainer.alpha = 1.0
                     self.hideTimerIcon.alpha = 1.0
+                    self.videoBgFocus.alpha = 1.0
+                    self.tempFocus.alpha = 1.0
+                    self.videoBgReel.alpha = 0.0
+                    self.videoBgPause.alpha = 0.0
+                    self.tempReel.alpha = 0.0
+                    self.tempPause.alpha = 0.0
                     self.infoEndSession.alpha = 1.0
                     self.infoPodomoro.alpha = 1.0
                     self.infoEndSession.layer.zPosition = 15
@@ -1257,6 +1296,10 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                     timer?.invalidate()
                     startTimer()
                 }
+                playVideoFocus()
+                reel?.pause()
+                pause?.pause()
+                
                 let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
                 nextView.addGestureRecognizer(gesture)
                 break
@@ -1353,6 +1396,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     }
     
     @objc func handleSwipeDown(_ gesture : UISwipeGestureRecognizer){
+        animatePause()
         if let recog = view.gestureRecognizers{
             for recognizer in recog {
                 recognizer.isEnabled = true
@@ -1417,7 +1461,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
-            
+            animatePause()
             if let recog = view.gestureRecognizers{
                 for recognizer in recog {
                     recognizer.isEnabled = false
@@ -1526,12 +1570,13 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             motionManager.startDeviceMotionUpdates(to: .main) { [weak self] (motionData, error) in
                 guard let motionData = motionData else { return }
                 if self?.isShaking(motionData) == true {
-                    
                     if((self?.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
                         self?.stopTimer()
                         self?.motionManager.stopAccelerometerUpdates()
                     }else{
                         self?.infoEndFocus.removeFromSuperview()
+                        let generator = UINotificationFeedbackGenerator()
+                        generator.notificationOccurred(.success)
                         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(self?.dismissKeyboard))
                         self?.view.addGestureRecognizer(tapGesture)
                         UIView.animate(withDuration: 0.4, animations: {
@@ -1574,6 +1619,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     }
     
     func stopTimer() {
+        let generator = UINotificationFeedbackGenerator()
+        generator.notificationOccurred(.success)
         if timer != nil {
             timer?.invalidate()
             timer = nil
