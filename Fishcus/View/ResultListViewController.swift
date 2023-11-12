@@ -17,33 +17,28 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Create a custom view for the back button
+        /// Create a custom view for the back button
         let backButton = UIButton(type: .system)
         let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
         backButton.setImage(UIImage(systemName: "chevron.backward")?.withConfiguration(symbolConfiguration), for: .normal)
         backButton.setTitle("Back", for: .normal)
-        backButton.titleLabel?.textColor = UIColor(named: "back-btn")
         backButton.titleLabel?.font = UIFont.rounded(ofSize: 15, weight: .bold)
-        backButton.contentMode = .scaleAspectFit
-        backButton.tintColor = UIColor(named: "back-btn")
+        backButton.tintColor = UIColor(named: "primaryColor") ?? UIColor.white
+
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         backButton.sizeToFit()
-        
-        // Create a bar button item with the custom view
+
         let customBackButton = UIBarButtonItem(customView: backButton)
-        
+
         // Assign the custom back button to the left bar button item
         navigationItem.leftBarButtonItem = customBackButton
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.rounded(ofSize: 28, weight: .heavy), // Replace with your desired font and size
-            .foregroundColor: UIColor(named: "primaryColor") // Set the desired color here
         ]
         
         navigationController?.navigationBar.titleTextAttributes = titleAttributes
         navigationItem.title = "Focus Result"
-        
-       
     
         // Initialize the table view
         tableView = UITableView(frame: view.bounds, style: .plain)
