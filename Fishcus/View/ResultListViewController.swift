@@ -130,10 +130,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     @objc func backButtonTapped() {
-        // Instantiate the view controller you want to navigate to
-        let newViewController = HomeViewController()
-        // Push the new view controller onto the navigation stack
-        self.navigationController?.setViewControllers([newViewController], animated: true)
+        self.navigationController?.popToRootViewController(animated: true)
     }
 }
 

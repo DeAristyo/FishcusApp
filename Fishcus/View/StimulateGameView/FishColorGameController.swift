@@ -605,41 +605,41 @@ class FishColorGameController: UIViewController{
         
         // Set a majority of the fishes to the most common type
         let majorityCount = Int(ceil(Double(numberOfFishes) * 0.6)) // e.g., 60% of total fish
-
+        
         // Assign the majority to the most common fish
         for _ in 0..<majorityCount {
             createAndPlaceFish(ofType: mostCommonFishColor, placedPositions: &placedPositions)
         }
-
+        
         // Distribute the remaining fishes among the other types
         for _ in majorityCount..<numberOfFishes {
             let fishType = fishTypes.filter { $0 != mostCommonFishColor }.randomElement()!
             createAndPlaceFish(ofType: fishType, placedPositions: &placedPositions)
         }
-
+        
         // We need to layout the view now to apply constraints
         fishBg.layoutIfNeeded()
     }
-
+    
     func createAndPlaceFish(ofType fishType: String, placedPositions: inout [CGPoint]) {
         fishCounts[fishType, default: 0] += 1
-
+        
         let fishImage = UIImage(named: fishType)
         let fishImageView = UIImageView(image: fishImage)
         fishImageView.contentMode = .scaleAspectFit
         fishImageView.translatesAutoresizingMaskIntoConstraints = false
         fishImageView.alpha = 0.0
-
+        
         fishBg.addSubview(fishImageView)
         fishImageViews.append(fishImageView)
-
+        
         var fishPosition: CGPoint
         repeat {
             fishPosition = generateRandomPositionForFish()
         } while doesOverlapFish(at: fishPosition, with: placedPositions)
-
+        
         placedPositions.append(fishPosition)
-
+        
         NSLayoutConstraint.activate([
             fishImageView.widthAnchor.constraint(equalTo: fishBg.widthAnchor, multiplier: 0.3),
             fishImageView.heightAnchor.constraint(equalTo: fishImageView.widthAnchor),
@@ -685,6 +685,13 @@ class FishColorGameController: UIViewController{
                 button.setTitle(title, for: .normal)
                 titles[index].text = title // Ensure this updates the button's visible title
                 button.addTarget(self, action: #selector(self.fishButtonTapped(_:)), for: .touchUpInside)
+                
+                if index != (buttonTitles.count - 1) {
+                    titles[index].textColor = UIColor(named: buttonTitles[index+1])
+                }else {
+                    titles[index].textColor = UIColor(named: buttonTitles[0])
+                }
+                
             }
         }
         buttonOne.layoutIfNeeded()
@@ -850,14 +857,20 @@ class FishColorGameController: UIViewController{
             
             //Fish button one text constraint
             buttonOneText.topAnchor.constraint(equalTo: buttonOne.topAnchor, constant: 10),
+            buttonOneText.bottomAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: -15),
+            //            buttonOneText.centerYAnchor.constraint(equalTo: buttonOne.centerYAnchor, constant: -20),
             buttonOneText.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
             
             //Fish button two text constraint
             buttonTwoText.topAnchor.constraint(equalTo: buttonTwo.topAnchor, constant: 10),
+            buttonTwoText.bottomAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: -15),
+            //            buttonTwoText.centerYAnchor.constraint(equalTo: buttonTwo.centerYAnchor, constant: -40),
             buttonTwoText.centerXAnchor.constraint(equalTo: buttonTwo.centerXAnchor),
             
             //Fish button three constraint
             buttonThreeText.topAnchor.constraint(equalTo: buttonThree.topAnchor, constant: 10),
+            buttonThreeText.bottomAnchor.constraint(equalTo: buttonThree.bottomAnchor, constant: -15),
+            //            buttonThreeText.centerYAnchor.constraint(equalTo: buttonThree.centerYAnchor, constant: -30),
             buttonThreeText.centerXAnchor.constraint(equalTo: buttonThree.centerXAnchor),
         ])
     }
