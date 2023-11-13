@@ -9,8 +9,6 @@ import UIKit
 
 class HomeViewController: UIViewController {
     
-    
-    let countDownTimer = CountdownRingView()
     var timer: Timer?
     private var showInfo1 = false
     private var showInfo2 = false
@@ -187,20 +185,20 @@ class HomeViewController: UIViewController {
         self.navigationItem.hidesBackButton = true
         
 //        countDownTimer.startIcon = UIImage(named: "icon-fish-loading")
-        countDownTimer.translatesAutoresizingMaskIntoConstraints = false
-        countDownTimer.layer.zPosition = 10
-        countDownTimer.alpha = 0.0
-        userInfoOverlay.alpha = 0.0
-        userInfoOverlay2.alpha = 0.0
-
-        
-        view.addSubview(countDownTimer)
-    
-        
-        NSLayoutConstraint.activate([
-            countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50)
-        ])
+//        countDownTimer.translatesAutoresizingMaskIntoConstraints = false
+//        countDownTimer.layer.zPosition = 10
+//        countDownTimer.alpha = 0.0
+//        userInfoOverlay.alpha = 0.0
+//        userInfoOverlay2.alpha = 0.0
+//
+//        
+//        view.addSubview(countDownTimer)
+//    
+//        
+//        NSLayoutConstraint.activate([
+//            countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: -50)
+//        ])
         
         view.addSubview(userInfoOverlay)
     
