@@ -97,12 +97,15 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     var showInfo = false
     var infoStep = 0 {
         didSet{
-            print("nilai baru adalah \(infoStep)")
             if infoStep == 6 {
                 UIView.animate(withDuration: 0.5, animations: {
-                    self.infoEndSession.alpha = 0.0
+                    self.infoEndSession.alpha = 1.0
+                    self.infoEndSessionLabel.alpha = 1.0
+                    self.infoEndSessionIcon.alpha = 1.0
                     self.infoPodomoro.alpha = 0.0
-                    self.infoEndSession.layer.zPosition = 12
+                    self.infoEndSession.layer.zPosition = 15
+                    self.infoEndSessionIcon.layer.zPosition = 15
+                    self.infoEndSessionLabel.layer.zPosition = 15
                     self.infoPodomoro.layer.zPosition = 12
                 })
                
@@ -1355,7 +1358,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 
             }
             
-           
                 nextView.layer.zPosition = 12
                 UIView.animate(withDuration: 0.5, animations: {
                     self.view.addSubview(nextView)
@@ -1645,6 +1647,13 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                             self?.iconStop.alpha = 0.0
                             self?.stopContainer.alpha = 0.0
                             self?.infoInputTask.alpha = 1.0
+                            self?.infoEndSession.alpha = 0.0
+                            self?.infoEndSessionLabel.alpha = 0.0
+                            self?.infoEndSessionIcon.alpha = 0.0
+                            self?.infoEndSession.layer.zPosition = 12
+                            self?.infoEndSessionIcon.layer.zPosition = 12
+                            self?.infoEndSessionLabel.layer.zPosition = 12
+                           
                         })
                         
                        
