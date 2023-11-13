@@ -996,8 +996,13 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         self.tempPause.layer.addSublayer(pauseLayer!)
         
         playVideoFocus()
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
        
        
+    }
+    
+    @objc func becomeActive(){
+        playVideoFocus()
     }
 
     func playReelingAnimation() {

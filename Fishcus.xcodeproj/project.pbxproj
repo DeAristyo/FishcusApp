@@ -60,6 +60,7 @@
 		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
+		CCE17E652B0221E70036D455 /* Fishcus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fishcus.entitlements; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
 		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,6 +151,7 @@
 		A779152ED636EBBC4A73620A /* Fishcus */ = {
 			isa = PBXGroup;
 			children = (
+				CCE17E652B0221E70036D455 /* Fishcus.entitlements */,
 				CC9713152AFEC14B00A5D733 /* Model */,
 				DDADDA352AFCEB7C0012CC1C /* Video */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
@@ -402,6 +404,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
@@ -489,6 +492,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
