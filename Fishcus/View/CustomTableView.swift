@@ -145,15 +145,15 @@ class CustomTableView: UITableViewCell {
     }
     
     func convertMinuteStringToHourMinuteSecond(minuteString: String) -> String {
-        guard let minutes = Int(minuteString) else {
-            return "Invalid input"
-        }
+        guard let totalSeconds = Int(minuteString) else {
+                return "Invalid input"
+            }
+
+        let hours = totalSeconds / 3600
+        let minutes = (totalSeconds % 3600) / 60
+        let seconds = totalSeconds % 60
         
-        let hours = minutes / 60
-        let remainingMinutes = minutes % 60
-        let seconds = remainingMinutes * 60
-        
-        let timeString = String(format: "%02d:%02d:%02d", hours, remainingMinutes, seconds)
+        let timeString = String(format: "%02d:%02d:%02d", hours, minutes, seconds)
         return timeString
     }
    

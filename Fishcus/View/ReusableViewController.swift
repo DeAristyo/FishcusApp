@@ -464,8 +464,6 @@ class TimerPause: UIView {
 
 class EndFocus : UIView {
         
-    
-    var timerStart: Int?
     private var bgEndFocus: UIView = {
         let view = UIView()
         view.clipsToBounds = true
@@ -518,28 +516,11 @@ class EndFocus : UIView {
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
         headTitle.lineBreakMode = .byWordWrapping
-//        headTitle.text = "Continue for another ... minutes to get fish or nothing at all"
         headTitle.translatesAutoresizingMaskIntoConstraints = false
         
         return headTitle
     }()
-    
-//    private var btnContinue: UIImageView = {
-//       let image = UIImageView()
-//        image.image = UIImage(named: "btn-finish")
-//        image.contentMode = .center
-//        image.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        return image
-//    }()
-    
-//    private var endHome: EndFocusBack = {
-//        let view = EndFocusBack()
-//        view.layer.zPosition = 13
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        
-//        return view
-//    }()
+
     
     
     required init?(coder: NSCoder) {
@@ -560,19 +541,7 @@ class EndFocus : UIView {
         addSubview(line)
         addSubview(contentLabel)
         
-        
-      
-//        addSubview(btnContinue)
-//        addSubview(endHome)
-        
-//        endHome.alpha = 0.0
-        
         NSLayoutConstraint.activate([
-//            endHome.topAnchor.constraint(equalTo: topAnchor),
-//            endHome.leadingAnchor.constraint(equalTo: leadingAnchor),
-//            endHome.trailingAnchor.constraint(equalTo: trailingAnchor),
-//            endHome.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
             bgEndFocus.topAnchor.constraint(equalTo: topAnchor),
             bgEndFocus.leadingAnchor.constraint(equalTo: leadingAnchor),
             bgEndFocus.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -599,127 +568,9 @@ class EndFocus : UIView {
             contentLabel.widthAnchor.constraint(equalToConstant: 276),
             contentLabel.heightAnchor.constraint(equalToConstant: 50),
             
-//            btnContinue.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 30),
-//            btnContinue.centerXAnchor.constraint(equalTo: alertContainer.centerXAnchor)
-            
         ])
-        
-//        print(focusState.timerStart)
-      
+    
     }
     
    
-}
-
-class EndFocusBack : UIView {
-
-    private var bgEndFocus: UIView = {
-        let view = UIView()
-        view.clipsToBounds = true
-        view.layer.shouldRasterize = true
-        view.layer.rasterizationScale = UIScreen.main.scale
-        view.layer.backgroundColor = UIColor(named: "primaryColor")?.cgColor
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private var headTitle : UILabel = {
-        let headTitle = UILabel()
-        headTitle.frame = CGRect(x: 0, y: 0, width: 204, height: 52)
-        headTitle.textColor = UIColor(named: "highlight-text")
-        headTitle.font = UIFont.rounded(ofSize: 33, weight: .bold)
-        headTitle.numberOfLines = 0
-        headTitle.textAlignment = .center
-        headTitle.text = "Cool!"
-        headTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        return headTitle
-    }()
-    
-    private var line: UIView = {
-        let line = UIView()
-        line.backgroundColor = .white
-        line.layer.borderWidth = 4.0
-        line.layer.borderColor = UIColor(named: "regular-text")?.cgColor
-        line.translatesAutoresizingMaskIntoConstraints = false
-        
-        return line
-    }()
-    
-    private var contentLabel: UILabel = {
-        let headTitle = UILabel()
-        headTitle.frame = CGRect(x: 0, y: 0, width: 276, height: 52)
-        headTitle.textColor = UIColor(named: "regular-text")
-        headTitle.font = UIFont.rounded(ofSize: 17, weight: .semibold)
-        headTitle.numberOfLines = 0
-        headTitle.textAlignment = .center
-        headTitle.lineBreakMode = .byWordWrapping
-        headTitle.text = "During the focus session you already had, you got fish!"
-        headTitle.translatesAutoresizingMaskIntoConstraints = false
-        
-        return headTitle
-    }()
-    
-    private var btnContinue: UIImageView = {
-       let image = UIImageView()
-        image.image = UIImage(named: "btn-backmain")
-        image.contentMode = .center
-        image.translatesAutoresizingMaskIntoConstraints = false
-        
-        return image
-    }()
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupEndFocus()
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupEndFocus()
-    }
-    
-    private func setupEndFocus()
-    {
-        addSubview(bgEndFocus)
-       
-        addSubview(headTitle)
-        addSubview(line)
-        addSubview(contentLabel)
-//        addSubview(btnContinue)
-        
-        NSLayoutConstraint.activate([
-            bgEndFocus.topAnchor.constraint(equalTo: topAnchor),
-            bgEndFocus.leadingAnchor.constraint(equalTo: leadingAnchor),
-            bgEndFocus.trailingAnchor.constraint(equalTo: trailingAnchor),
-            bgEndFocus.bottomAnchor.constraint(equalTo: bottomAnchor),
-            
-            
-            headTitle.centerXAnchor.constraint(equalTo: bgEndFocus.centerXAnchor),
-            headTitle.centerYAnchor.constraint(equalTo: bgEndFocus.centerYAnchor, constant: -100),
-            
-            line.topAnchor.constraint(equalTo: headTitle.bottomAnchor, constant: 13.5),
-            line.centerXAnchor.constraint(equalTo: bgEndFocus.centerXAnchor),
-            line.heightAnchor.constraint(equalToConstant: 2),
-            line.widthAnchor.constraint(equalToConstant: 282),
-            
-            contentLabel.topAnchor.constraint(equalTo: line.bottomAnchor, constant: 13.5),
-            contentLabel.centerXAnchor.constraint(equalTo: bgEndFocus.centerXAnchor),
-            contentLabel.widthAnchor.constraint(equalToConstant: 276),
-            contentLabel.heightAnchor.constraint(equalToConstant: 50),
-            
-//            btnContinue.topAnchor.constraint(equalTo: contentLabel.bottomAnchor, constant: 55),
-//            btnContinue.centerXAnchor.constraint(equalTo: bgEndFocus.centerXAnchor)
-            
-        ])
-        
-//        let btnFinishGesture = UITapGestureRecognizer(target: self, action: #selector(btnFinish))
-//        btnContinue.isUserInteractionEnabled = true
-//        btnContinue.addGestureRecognizer(btnFinishGesture)
-    }
-    
-//    @objc func btnFinish(){
-//       
-//    }
 }

@@ -9,6 +9,7 @@ import UIKit
 
 
 struct ModelFishing{
+    let id: Int
     let activity: String?
     let date: String?
     let time: String?
@@ -29,7 +30,7 @@ class GetDataFishing{
         
         for fishing in focusData{ 
                 myData += [
-                    ModelFishing(activity: (fishing["activity"] ?? ""), date: (fishing["date"] ?? ""), time: (fishing["time"] ?? ""), fish: (fishing["fish"] ?? ""), rare: (fishing["rarerity"] ?? ""))
+                    ModelFishing(id: Int(fishing["id"] ?? "1") ?? 1,activity: (fishing["activity"] ?? ""), date: (fishing["date"] ?? ""), time: (fishing["time"] ?? ""), fish: (fishing["fish"] ?? ""), rare: (fishing["rarerity"] ?? ""))
                 ]
         
         }
