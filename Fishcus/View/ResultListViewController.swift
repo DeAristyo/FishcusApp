@@ -10,7 +10,7 @@ import UIKit
 class ResultListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!
-    var fishingData = GetDataFishing.getData()
+    var fishingData = GetDataFishing.getData().sorted{$0.id > $1.id}
     
     private var infoScreen =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot1, labelText: "\"Take a look at your Focus History here and see how far you've come.\"", position: false, labelTextStyle: .label14)
 
@@ -94,7 +94,8 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
             initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
         }
 
-        // Load the data from UserDefaults
+        // sort Descending data list
+       print(fishingData)
     }
     
     @objc func guideTapGesture(gesture: UITapGestureRecognizer){

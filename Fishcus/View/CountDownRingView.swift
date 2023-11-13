@@ -24,6 +24,21 @@ class CountdownRingView: UIView {
     private var startTime: Date?
     private var timer: Timer?
     
+    private var backgroundOverlay: UIView = {
+        let view = UIView()
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        view.clipsToBounds = true
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
+        view.layer.backgroundColor = UIColor.white.cgColor
+        view.alpha = 0.5
+        view.addSubview(blurEffectView)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupRing()

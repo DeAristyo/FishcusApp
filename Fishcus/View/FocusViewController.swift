@@ -85,6 +85,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     
     let gachaSytem = GachaSystem()
+    let countDownTimer = CountdownRingView()
     var fokusLayer: AVPlayerLayer?
     var fokus: AVPlayer?
     var reelLayer: AVPlayerLayer?
@@ -131,10 +132,10 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         return timerLabel
     }()
     
-    var timerStart: Int = 0
+    var timerStart: Int = 1200
     
     let motionManager = CMMotionManager()
-    let motionThreshold: Double = 5.0 // Adjust the threshold as needed
+    let motionThreshold: Double = 2.5 // Adjust the threshold as needed
     
     
     private var mainBg: UIImageView = {
@@ -505,6 +506,20 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         return view
     }()
     
+    private var backgroundOverlay: UIView = {
+        let view = UIView()
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        view.clipsToBounds = true
+        view.layer.shouldRasterize = true
+        view.layer.rasterizationScale = UIScreen.main.scale
+        view.layer.backgroundColor = UIColor.white.cgColor
+        view.alpha = 0.5
+        view.addSubview(blurEffectView)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -544,8 +559,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         tempReel.alpha = 0.0
         videoBgPause.alpha = 0.0
         tempPause.alpha = 0.0
-        
-        
+        alertOnFocus.alpha = 0.0
         
         view.addSubview(videoBgFocus)
         view.addSubview(tempFocus)
@@ -573,6 +587,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         ])
 
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
+            startTimer()
             alertOnFocus.alpha = 0.0
 
             let initialShowInfo = userGuideInfo[0]
@@ -595,7 +610,36 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             for myIndex in userGuideInfo{
                 myIndex.removeFromSuperview()
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+            
+            let blurEffect = UIBlurEffect(style: .light)
+            let blurEffectView = UIVisualEffectView(effect: blurEffect)
+            
+            view.addSubview(blurEffectView)
+            
+            view.addSubview(countDownTimer)
+            countDownTimer.translatesAutoresizingMaskIntoConstraints = false
+            countDownTimer.layer.zPosition = 12
+            countDownTimer.transform = CGAffineTransform(rotationAngle: -90 * .pi / 180.0)
+        
+            
+            NSLayoutConstraint.activate([
+                countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+            countDownTimer.startCountdown()
+            DispatchQueue.main.asyncAfter(deadline: .now()+3.5){
+                // Create and start the timer
+                self.startTimer()
+                if((self.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
+                    UIView.animate(withDuration: 0.5, animations: {
+                        self.alertOnFocus.alpha = 1.0
+                    })
+                }
+                blurEffectView.removeFromSuperview()
+                self.countDownTimer.removeFromSuperview()
+            }
+            
+            DispatchQueue.main.asyncAfter(deadline: .now() + 9.0){
                 UIView.animate(withDuration: 0.5, animations: {
                     self.alertOnFocus.removeFromSuperview()
                 }, completion: { done in
@@ -605,7 +649,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                             self.alertOnPodomoro.alpha = 1.0
                         })
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.5){
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
                             UIView.animate(withDuration: 0.5, animations: {
                                 self.alertOnPodomoro.removeFromSuperview()
                             })
@@ -872,8 +916,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         ])
         
 
-        // Create and start the timer
-        startTimer()
+      
         
         
         startMotionUpdates()
@@ -950,6 +993,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         self.tempPause.layer.addSublayer(pauseLayer!)
         
         playVideoFocus()
+       
+       
     }
 
     func playReelingAnimation() {
@@ -1084,7 +1129,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         
         
         let myUserDefault = UserDefaults.standard
-        
+        let fishingData = GetDataFishing.getData().count
         let currentDate = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "dd MMM YYYY"
@@ -1094,8 +1139,9 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         let setRarerity = gachaSytem.setRarerity
         
         let newData: [String: String] = [
+            "id": fishingData < 1 ? "1" : "\(fishingData+1)",
             "date": dateString,
-            "time": "\(minuteToString(time: TimeInterval(timerStart)))",
+            "time": "\(timerStart)",
             "activity": text,
             "fish": timerStart >= 1200 ? setFish : "nil",
             "rarerity": timerStart >= 1200 ? setRarerity : "nil"
@@ -1589,7 +1635,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                             self?.inputTaskTextField.alpha = 1.0
                             self?.btnContinue.alpha = 0.0
                             self?.endFocus.alpha = 0.0
-                            self?.inputTaskTitle.text = "What task you have been working on for the last 05 minutes?"
+                            self?.inputTaskTitle.text = "What task you have been working on for the last \(self!.minuteToString(time: TimeInterval(self!.timerStart ))) minutes?"
                             self?.hideIcon.alpha = 0.0
                             self?.hideTimer.alpha = 0.0
                             self?.timerLabel.alpha = 0.0
