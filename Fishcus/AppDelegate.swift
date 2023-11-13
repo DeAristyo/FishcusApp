@@ -33,25 +33,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    func applicationDidEnterBackground(_ application: UIApplication) {
-        let center = UNUserNotificationCenter.current()
-
-            let content = UNMutableNotificationContent()
-            content.title = "App in background"
-            content.body = "You've entered the pause screen"
-            content.sound = UNNotificationSound.default
-
-            let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-            let request = UNNotificationRequest(identifier: "AppEnteredBackground", content: content, trigger: trigger)
-
-            center.add(request) { (error) in
-                if error != nil {
-                    // Handle any errors.
-                    print(error ?? "")
-                }
-            }
-    }
-    
     private func registerForPushNotifications() {
         UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) {

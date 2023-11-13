@@ -98,6 +98,12 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
        print(fishingData)
     }
     
+    func minuteToString(time: TimeInterval) -> String {
+        let minute = Int(time) / 60
+        
+        return String(format: "%02i", minute)
+    }
+    
     @objc func guideTapGesture(gesture: UITapGestureRecognizer){
         guard let currentView = gesture.view else {return}
         currentView.removeFromSuperview()
@@ -123,7 +129,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
 
         let data = fishingData[indexPath.row]
 
-        let resultScreenVC = ResultViewController(time: (data.time ?? ""), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""))
+        let resultScreenVC = ResultViewController(time: (minuteToString(time: TimeInterval(data.time ?? "") ?? 0.0)), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""))
         self.navigationController?.pushViewController(resultScreenVC, animated: true)
     }
 

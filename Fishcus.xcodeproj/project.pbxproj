@@ -27,6 +27,9 @@
 		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
+		CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E662B0276320036D455 /* NotificationServices.swift */; };
+		CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E682B02A02C0036D455 /* MotionServices.swift */; };
+		CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6A2B02AC270036D455 /* DataPersistence.swift */; };
 		DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */; };
 		DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */; };
 		DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */; };
@@ -61,6 +64,9 @@
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
 		CCE17E652B0221E70036D455 /* Fishcus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fishcus.entitlements; sourceTree = "<group>"; };
+		CCE17E662B0276320036D455 /* NotificationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServices.swift; sourceTree = "<group>"; };
+		CCE17E682B02A02C0036D455 /* MotionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionServices.swift; sourceTree = "<group>"; };
+		CCE17E6A2B02AC270036D455 /* DataPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistence.swift; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
 		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -110,6 +116,9 @@
 				2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */,
 				DE10A3330C10559522AD7B0E /* DelegateProtocol.swift */,
 				CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */,
+				CCE17E662B0276320036D455 /* NotificationServices.swift */,
+				CCE17E682B02A02C0036D455 /* MotionServices.swift */,
+				CCE17E6A2B02AC270036D455 /* DataPersistence.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -293,9 +302,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */,
+				CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */,
 				C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */,
 				A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */,
 				5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */,
+				CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */,
 				CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
 				F250374E843BD8AF51B3B5A6 /* DelegateProtocol.swift in Sources */,

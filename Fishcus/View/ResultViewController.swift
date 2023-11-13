@@ -271,6 +271,7 @@ class ResultViewController: UIViewController {
             self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
             self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
             self.labelBig.text = "Nothing :("
+            self.fishImage.image = UIImage(named: "nothing-img")
     
             break
             
