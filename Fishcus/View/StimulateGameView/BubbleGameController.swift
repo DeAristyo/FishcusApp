@@ -11,6 +11,7 @@ import UIKit
 class BubbleGameController: UIViewController{
     
     //View variables declaration
+    private let bubblePopSound = BubbleSound()
     private let progressBar = ProgressBarView()
     private var bubbleViews: [BubbleView] = []
     private var isBubblePositioned: Bool = false
@@ -157,7 +158,7 @@ class BubbleGameController: UIViewController{
     lazy var infoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "bubbleGameTutorial")
-        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         image.layer.zPosition = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         
@@ -557,6 +558,7 @@ class BubbleGameController: UIViewController{
             
             if tappedBubble.number == lowestNumber {
                 tappedBubble.removeFromSuperview()
+                bubblePopSound.playSound()
                 if let index = bubbleViews.firstIndex(of: tappedBubble) {
                     bubbleViews.remove(at: index)
                 }
@@ -606,7 +608,7 @@ class BubbleGameController: UIViewController{
             //Warning Rectangle Constraint
             warningView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             warningView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            warningView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
+            warningView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.28),
             warningView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //Overlay Background Constraint
@@ -625,10 +627,10 @@ class BubbleGameController: UIViewController{
             divider.heightAnchor.constraint(equalToConstant: 2),
             divider.leadingAnchor.constraint(equalTo: warningView.leadingAnchor, constant: 20),
             divider.trailingAnchor.constraint(equalTo: warningView.trailingAnchor, constant: -20),
-            divider.topAnchor.constraint(equalTo: warningLabel.bottomAnchor, constant: 15),
+            divider.topAnchor.constraint(lessThanOrEqualTo: warningLabel.bottomAnchor, constant: 15),
             
             //Warning Label Constraint
-            warningLabel.topAnchor.constraint(equalTo: warningView.topAnchor, constant: 35),
+            warningLabel.topAnchor.constraint(lessThanOrEqualTo: warningView.topAnchor, constant: 35),
             warningLabel.centerXAnchor.constraint(equalTo: warningView.centerXAnchor),
             
             //Warning Message Constraint
@@ -640,6 +642,7 @@ class BubbleGameController: UIViewController{
             warningButton.topAnchor.constraint(equalTo: warningMessage.bottomAnchor, constant: 25),
             warningButton.widthAnchor.constraint(equalTo: warningView.widthAnchor, multiplier: 0.6),
             warningButton.centerXAnchor.constraint(equalTo: warningView.centerXAnchor),
+            warningButton.bottomAnchor.constraint(equalTo: warningView.bottomAnchor, constant: -30),
             
             //Warning button text constraint
             buttonText.topAnchor.constraint(equalTo: warningButton.topAnchor, constant: 5),
@@ -648,18 +651,21 @@ class BubbleGameController: UIViewController{
             //Info Rectangle Constraint
             infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             infoView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            infoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.46),
+            infoView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.46),
             infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //info image constraint
-            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
-            infoImage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 10),
-            infoImage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -10),
+            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 10),
+            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 10),
+            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -10),
+            infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
+            infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
             
             //Info Message constraint
-            infoMessage.topAnchor.constraint(equalTo: infoImage.bottomAnchor, constant: 35),
+            infoMessage.topAnchor.constraint(lessThanOrEqualTo: infoImage.bottomAnchor, constant: 30),
             infoMessage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 25),
             infoMessage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -25),
+            infoMessage.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: -24),
             
             //Info Label Constraint
             infoLabel.bottomAnchor.constraint(equalTo: infoView.topAnchor, constant: -20),
@@ -667,7 +673,7 @@ class BubbleGameController: UIViewController{
             infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -65),
             
             //Warning Button Constraint
-            infoButton.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: 25),
+            infoButton.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: 30),
             infoButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             infoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -676,7 +682,7 @@ class BubbleGameController: UIViewController{
             infoButtonText.centerXAnchor.constraint(equalTo: infoButton.centerXAnchor),
             
             //Skip Button Constraint
-            skipButton.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 10),
+            skipButton.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 20),
             skipButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             

@@ -34,7 +34,8 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         navigationItem.leftBarButtonItem = customBackButton
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.rounded(ofSize: 28, weight: .heavy), // Replace with your desired font and size
+            .font: UIFont.rounded(ofSize: 28, weight: .heavy),
+            .foregroundColor: UIColor.white
         ]
         
         navigationController?.navigationBar.titleTextAttributes = titleAttributes

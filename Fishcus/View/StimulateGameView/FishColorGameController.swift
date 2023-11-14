@@ -158,7 +158,7 @@ class FishColorGameController: UIViewController{
     lazy var infoImage: UIImageView = {
         let image = UIImageView()
         image.image = UIImage(named: "fishGameTutorial")
-        image.contentMode = .scaleAspectFill
+        image.clipsToBounds = true
         image.layer.zPosition = 10
         image.translatesAutoresizingMaskIntoConstraints = false
         
@@ -387,9 +387,9 @@ class FishColorGameController: UIViewController{
     func subviews(){
         //View subviews
         view.addSubview(mainBg)
+        view.addSubview(progressBar)
         view.addSubview(countDownTimer)
         view.addSubview(countDownLabel)
-        view.addSubview(progressBar)
         view.addSubview(label)
         view.addSubview(gameBg)
         view.addSubview(overlayBg)
@@ -431,6 +431,7 @@ class FishColorGameController: UIViewController{
         
         //Skip button subview
         skipButton.addSubview(skipButtonText)
+    
     }
     
     override func viewDidLayoutSubviews() {
@@ -457,6 +458,7 @@ class FishColorGameController: UIViewController{
     }
     
     func fadeInElements() {
+        isGameStarting = true
         UIView.animate(withDuration: 0.5, animations: {
             // Set the alpha of elements to 0.0 for a fade-out effect
             self.countDownTimer.alpha = 0.0
@@ -571,6 +573,7 @@ class FishColorGameController: UIViewController{
             progressBar.updateBar()
             print(gameLevel)
             if gameLevel > 5 {
+                isGameStarting = false
                 removeAllFish()
                 fadeOutElements()
             } else {
@@ -718,6 +721,7 @@ class FishColorGameController: UIViewController{
     //Setup Constraint
     func setupLayout(){
         NSLayoutConstraint.activate([
+            
             //Label Constraint
             label.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 40),
             label.heightAnchor.constraint(equalToConstant: 80),
@@ -727,7 +731,7 @@ class FishColorGameController: UIViewController{
             //Warning Rectangle Constraint
             warningView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             warningView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            warningView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
+            warningView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.28),
             warningView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //Overlay Background Constraint
@@ -746,10 +750,10 @@ class FishColorGameController: UIViewController{
             divider.heightAnchor.constraint(equalToConstant: 2),
             divider.leadingAnchor.constraint(equalTo: warningView.leadingAnchor, constant: 20),
             divider.trailingAnchor.constraint(equalTo: warningView.trailingAnchor, constant: -20),
-            divider.topAnchor.constraint(equalTo: warningLabel.bottomAnchor, constant: 15),
+            divider.topAnchor.constraint(lessThanOrEqualTo: warningLabel.bottomAnchor, constant: 15),
             
             //Warning Label Constraint
-            warningLabel.topAnchor.constraint(equalTo: warningView.topAnchor, constant: 35),
+            warningLabel.topAnchor.constraint(lessThanOrEqualTo: warningView.topAnchor, constant: 35),
             warningLabel.centerXAnchor.constraint(equalTo: warningView.centerXAnchor),
             
             //Warning Message Constraint
@@ -761,6 +765,7 @@ class FishColorGameController: UIViewController{
             warningButton.topAnchor.constraint(equalTo: warningMessage.bottomAnchor, constant: 25),
             warningButton.widthAnchor.constraint(equalTo: warningView.widthAnchor, multiplier: 0.6),
             warningButton.centerXAnchor.constraint(equalTo: warningView.centerXAnchor),
+            warningButton.bottomAnchor.constraint(equalTo: warningView.bottomAnchor, constant: -30),
             
             //Warning button text constraint
             buttonText.topAnchor.constraint(equalTo: warningButton.topAnchor, constant: 5),
@@ -769,18 +774,21 @@ class FishColorGameController: UIViewController{
             //Info Rectangle Constraint
             infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             infoView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            infoView.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.46),
+            infoView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.46),
             infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //info image constraint
-            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
-            infoImage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 10),
-            infoImage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -10),
+            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 10),
+            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 10),
+            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -10),
+            infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
+            infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
             
             //Info Message constraint
-            infoMessage.topAnchor.constraint(equalTo: infoImage.bottomAnchor, constant: 35),
+            infoMessage.topAnchor.constraint(lessThanOrEqualTo: infoImage.bottomAnchor, constant: 30),
             infoMessage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 25),
             infoMessage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -25),
+            infoMessage.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: -24),
             
             //Info Label Constraint
             infoLabel.bottomAnchor.constraint(equalTo: infoView.topAnchor, constant: -20),
@@ -788,7 +796,7 @@ class FishColorGameController: UIViewController{
             infoLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -65),
             
             //Warning Button Constraint
-            infoButton.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: 25),
+            infoButton.topAnchor.constraint(equalTo: infoView.bottomAnchor, constant: 30),
             infoButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             infoButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -797,7 +805,7 @@ class FishColorGameController: UIViewController{
             infoButtonText.centerXAnchor.constraint(equalTo: infoButton.centerXAnchor),
             
             //Skip Button Constraint
-            skipButton.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 10),
+            skipButton.topAnchor.constraint(equalTo: infoButton.bottomAnchor, constant: 20),
             skipButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.6),
             skipButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
@@ -858,19 +866,16 @@ class FishColorGameController: UIViewController{
             //Fish button one text constraint
             buttonOneText.topAnchor.constraint(equalTo: buttonOne.topAnchor, constant: 10),
             buttonOneText.bottomAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: -15),
-            //            buttonOneText.centerYAnchor.constraint(equalTo: buttonOne.centerYAnchor, constant: -20),
             buttonOneText.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
             
             //Fish button two text constraint
             buttonTwoText.topAnchor.constraint(equalTo: buttonTwo.topAnchor, constant: 10),
             buttonTwoText.bottomAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: -15),
-            //            buttonTwoText.centerYAnchor.constraint(equalTo: buttonTwo.centerYAnchor, constant: -40),
             buttonTwoText.centerXAnchor.constraint(equalTo: buttonTwo.centerXAnchor),
             
             //Fish button three constraint
             buttonThreeText.topAnchor.constraint(equalTo: buttonThree.topAnchor, constant: 10),
             buttonThreeText.bottomAnchor.constraint(equalTo: buttonThree.bottomAnchor, constant: -15),
-            //            buttonThreeText.centerYAnchor.constraint(equalTo: buttonThree.centerYAnchor, constant: -30),
             buttonThreeText.centerXAnchor.constraint(equalTo: buttonThree.centerXAnchor),
         ])
     }

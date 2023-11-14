@@ -18,6 +18,8 @@
 		A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789A2AFBD6F800F264AB /* BubbleView.swift */; };
 		A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789D2AFBF80700F264AB /* BubbleGameController.swift */; };
 		A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */; };
+		A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = A57D87572B0373700064AD70 /* bubbleSound.wav */; };
+		A57D875A2B0373BF0064AD70 /* BubbleSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D87592B0373BF0064AD70 /* BubbleSound.swift */; };
 		A58D67892AFF8C54001CBA37 /* FishColorGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
@@ -53,6 +55,8 @@
 		A538789A2AFBD6F800F264AB /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		A538789D2AFBF80700F264AB /* BubbleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameController.swift; sourceTree = "<group>"; };
 		A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		A57D87572B0373700064AD70 /* bubbleSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bubbleSound.wav; path = ../../../../../Downloads/bubbleSound.wav; sourceTree = "<group>"; };
+		A57D87592B0373BF0064AD70 /* BubbleSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSound.swift; sourceTree = "<group>"; };
 		A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishColorGameController.swift; sourceTree = "<group>"; };
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
@@ -127,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				A538789A2AFBD6F800F264AB /* BubbleView.swift */,
+				A57D87592B0373BF0064AD70 /* BubbleSound.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -157,10 +162,19 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
+		A57D87562B03734F0064AD70 /* Sound */ = {
+			isa = PBXGroup;
+			children = (
+				A57D87572B0373700064AD70 /* bubbleSound.wav */,
+			);
+			path = Sound;
+			sourceTree = "<group>";
+		};
 		A779152ED636EBBC4A73620A /* Fishcus */ = {
 			isa = PBXGroup;
 			children = (
 				CCE17E652B0221E70036D455 /* Fishcus.entitlements */,
+				A57D87562B03734F0064AD70 /* Sound */,
 				CC9713152AFEC14B00A5D733 /* Model */,
 				DDADDA352AFCEB7C0012CC1C /* Video */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
@@ -291,6 +305,7 @@
 				DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */,
 				DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
+				A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */,
 				DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -307,6 +322,7 @@
 				C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */,
 				A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */,
 				5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */,
+				A57D875A2B0373BF0064AD70 /* BubbleSound.swift in Sources */,
 				CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */,
 				CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
@@ -418,10 +434,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
-
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -508,10 +522,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
-
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -522,6 +534,7 @@
 				);
 				MARKETING_VERSION = 1.3.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
