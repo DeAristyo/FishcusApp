@@ -386,6 +386,7 @@ class ResultViewController: UIViewController {
       
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
+        containerBtnDone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(finish)))
         animate()
         loadData()
         
