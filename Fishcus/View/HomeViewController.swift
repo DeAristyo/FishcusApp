@@ -382,6 +382,8 @@ class HomeViewController: UIViewController {
         
         if randomIndex == 0 {
             return FishColorGameController()
+        } else if randomIndex == 1 {
+            return SwipeGameViewController()
         } else {
             return BubbleGameController()
         }

@@ -11,13 +11,15 @@ class ProgressBarView: UIView {
     private var backgroundLayer: CAShapeLayer!
     private var barLayer: CAShapeLayer!
     private var startIconLayer: CALayer!
+    private var startIconLayerSwipe: CALayer!
+    private var updateCount: Int = 0
     
     var barColor: UIColor = UIColor(named: "primaryColor")!
     var barHeight: CGFloat = 20.0
     var startIcon = UIImage(named:"greenIconFIsh")
     
     var countdownDuration: TimeInterval = 05.0
-    private var currentWidth: CGFloat = 50  // Initial width
+    private var currentWidth: CGFloat = 0  // Initial width
     
     private var startTime: Date?
     private var timer: Timer?
@@ -58,7 +60,7 @@ class ProgressBarView: UIView {
         
         let padding: CGFloat = 5.0
         let barY = (bounds.height - barHeight) / 2
-        let barPath = UIBezierPath(roundedRect: CGRect(x: padding, y: barY, width: 50, height: barHeight), cornerRadius: cornerRadius)
+        let barPath = UIBezierPath(roundedRect: CGRect(x: padding, y: barY, width: currentWidth, height: barHeight), cornerRadius: cornerRadius)
         barLayer.path = barPath.cgPath
         
         let iconY = (bounds.height - 100) / 2
@@ -68,11 +70,11 @@ class ProgressBarView: UIView {
             startIconLayer?.contents = startIcon.cgImage
             startIconLayer?.contentsGravity = .resizeAspect
             startIconLayer?.zPosition = 100
-            startIconLayer?.frame = CGRect(x: 0, y: iconY, width: 70, height: 100)
+            startIconLayer?.frame = CGRect(x: -20, y: iconY, width: 70, height: 100)
             layer.addSublayer(startIconLayer!)
         } else {
             // Update the existing startIconLayer's position
-            startIconLayer?.frame = CGRect(x: 0, y: iconY, width: 70, height: 100)
+            startIconLayer?.frame = CGRect(x: -20, y: iconY, width: 70, height: 100)
         }
     }
     
@@ -88,6 +90,40 @@ class ProgressBarView: UIView {
         
         currentWidth += targetWidth  // Increment the width
         currentWidth = min(currentWidth, finalWidth)  // Ensure it does not exceed finalWidth
+        
+        animateBarWidth(currentWidth)
+        
+        if let startIconLayer = startIconLayer {
+            let iconX = padding + currentWidth - barHeight / 2
+            let newPosition = CGPoint(x: iconX, y: bounds.midY)
+            
+            let positionAnimation = CABasicAnimation(keyPath: "position")
+            positionAnimation.fromValue = NSValue(cgPoint: startIconLayer.position)
+            positionAnimation.toValue = NSValue(cgPoint: newPosition)
+            positionAnimation.duration = 0.5  // Use the same duration as the barLayer animation
+            positionAnimation.fillMode = .forwards
+            positionAnimation.isRemovedOnCompletion = false
+            
+            startIconLayer.position = newPosition
+            startIconLayer.add(positionAnimation, forKey: "iconPositionAnimation")
+        }
+    }
+    
+    func updateSwipeBar() {
+        let padding: CGFloat = 5.0
+        let finalWidth = bounds.width - 2 * padding
+        let targetWidth = finalWidth / 13  // Calculate targetWidth
+        
+        // Increment the update count
+        if updateCount < 13 {
+            updateCount += 1
+        }
+        
+        // Calculate the currentWidth
+        currentWidth = CGFloat(updateCount) * targetWidth
+        
+        // Ensure it does not exceed finalWidth
+        currentWidth = min(currentWidth, finalWidth)
         
         animateBarWidth(currentWidth)
         

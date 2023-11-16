@@ -213,7 +213,7 @@ class BubbleGameController: UIViewController{
     //Info Label view
     lazy var infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Follow The Number!"
+        label.text = "Follow The\nNumber!"
         label.textColor = UIColor(named: "regular-text")
         label.layer.shadowColor = UIColor.black.cgColor
         label.textAlignment = .center
@@ -233,7 +233,7 @@ class BubbleGameController: UIViewController{
     //Info Message view
     lazy var infoMessage: UILabel = {
         let label = UILabel()
-        label.text = "Pick from the smallest number!"
+        label.text = "Pick from the smallest\nnumber!"
         label.textColor = UIColor(named: "regular-text")
         label.textAlignment = .center
         label.layer.masksToBounds = false
@@ -407,7 +407,6 @@ class BubbleGameController: UIViewController{
                 self.label.alpha = 1.0
                 self.gameBg.alpha = 1.0
                 self.progressBar.alpha = 1.0
-                
                 for subview in self.gameBg.subviews {
                     subview.alpha = 1.0
                 }
@@ -571,6 +570,7 @@ class BubbleGameController: UIViewController{
                 }
             } else {
                 print("false tap")
+                shakeAnimation()
                 feedbackGenerator.notificationOccurred(.warning)
                 wrongTap += 1
             }
@@ -594,6 +594,16 @@ class BubbleGameController: UIViewController{
             gameLevel = 1
             isGameStarting = false
         }
+    }
+    
+    private func shakeAnimation() {
+        let shakeAnimation = CABasicAnimation(keyPath: "position")
+        shakeAnimation.duration = 0.07
+        shakeAnimation.repeatCount = 3
+        shakeAnimation.autoreverses = true
+        shakeAnimation.fromValue = NSValue(cgPoint: CGPoint(x: gameBg.center.x - 10, y: gameBg.center.y))
+        shakeAnimation.toValue = NSValue(cgPoint: CGPoint(x: gameBg.center.x + 10, y: gameBg.center.y))
+        gameBg.layer.add(shakeAnimation, forKey: "shake")
     }
     
     //Setup layout / constraint

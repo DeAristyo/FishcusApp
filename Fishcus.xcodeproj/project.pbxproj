@@ -21,6 +21,7 @@
 		A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = A57D87572B0373700064AD70 /* bubbleSound.wav */; };
 		A57D875A2B0373BF0064AD70 /* BubbleSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D87592B0373BF0064AD70 /* BubbleSound.swift */; };
 		A58D67892AFF8C54001CBA37 /* FishColorGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */; };
+		A5A16F812B04B75600387A0F /* SwipeGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A16F802B04B75600387A0F /* SwipeGameViewController.swift */; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
@@ -58,6 +59,7 @@
 		A57D87572B0373700064AD70 /* bubbleSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bubbleSound.wav; path = ../../../../../Downloads/bubbleSound.wav; sourceTree = "<group>"; };
 		A57D87592B0373BF0064AD70 /* BubbleSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSound.swift; sourceTree = "<group>"; };
 		A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishColorGameController.swift; sourceTree = "<group>"; };
+		A5A16F802B04B75600387A0F /* SwipeGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeGameViewController.swift; sourceTree = "<group>"; };
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
@@ -141,6 +143,7 @@
 			children = (
 				A538789D2AFBF80700F264AB /* BubbleGameController.swift */,
 				A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */,
+				A5A16F802B04B75600387A0F /* SwipeGameViewController.swift */,
 			);
 			path = StimulateGameView;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */,
 				EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */,
 				F82D89878AC79D25F8AC93F9 /* focusBreakExhaustedAlert.swift in Sources */,
+				A5A16F812B04B75600387A0F /* SwipeGameViewController.swift in Sources */,
 				7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */,
 				A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */,
 			);

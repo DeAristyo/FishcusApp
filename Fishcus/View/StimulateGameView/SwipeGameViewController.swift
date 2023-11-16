@@ -1,28 +1,27 @@
 //
-//  FishColorGameController.swift
+//  SwipeGameViewController.swift
 //  Fishcus
 //
-//  Created by Dimas Aristyo Rahadian on 11/11/23.
+//  Created by Dimas Aristyo Rahadian on 15/11/23.
 //
 
 import Foundation
 import UIKit
 
-class FishColorGameController: UIViewController{
-    
+class SwipeGameViewController: UIViewController{
     //View variable declaration
     private let progressBar = ProgressBarView()
     private var gameLevel = 1
-    private var numberOfFishes = 5
     private let feedbackGenerator = UINotificationFeedbackGenerator()
-    private var wrongTap = 0
+    private var wrongSwipe = 0
     private let countDownTimer = CountdownRingView()
     private var initialCountValue = 3
     private var initialCountTimer: Timer!
     private var isGameStarting: Bool = false
     private var fishCounts: [String: Int] = ["RedFish": 0, "BlueFish": 0, "GreenFish": 0]
     private var fishTypes = ["RedFish", "BlueFish", "GreenFish"]
-    private var fishImageViews = [UIImageView]()
+    private var arrowDirection: String = ""
+    private var previousArrow: String = ""
     
     //Count down label
     lazy var countDownLabel: UILabel = {
@@ -157,7 +156,7 @@ class FishColorGameController: UIViewController{
     //Info image
     lazy var infoImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "fishGameTutorial")
+        image.image = UIImage(named: "swipeGameTutorial")
         image.clipsToBounds = true
         image.layer.zPosition = 10
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -213,7 +212,7 @@ class FishColorGameController: UIViewController{
     //Info Label view
     lazy var infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Guess The\nDominant Color!"
+        label.text = "Swipe or\nUnswipe!"
         label.textColor = UIColor(named: "regular-text")
         label.layer.shadowColor = UIColor.black.cgColor
         label.textAlignment = .center
@@ -233,7 +232,7 @@ class FishColorGameController: UIViewController{
     //Info Message view
     lazy var infoMessage: UILabel = {
         let label = UILabel()
-        label.text = "Choose which color is the\nmost dominant!"
+        label.text = "Swipe by following or\nunfollowing the direction!"
         label.textColor = UIColor(named: "regular-text")
         label.textAlignment = .center
         label.layer.masksToBounds = false
@@ -255,92 +254,10 @@ class FishColorGameController: UIViewController{
         return rectangle
     }()
     
-    //Fish Container
-    lazy var fishBg: UIView = {
-        let rectangle = UIView()
-        rectangle.backgroundColor = UIColor.clear
-        rectangle.translatesAutoresizingMaskIntoConstraints = false
-        rectangle.alpha = 0.0
-        
-        return rectangle
-    }()
-    
-    //Fish color Button
-    lazy var buttonOne: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "btn-empty"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.zPosition = 1
-        button.titleLabel?.font = .rounded(ofSize: 16, weight: .bold)
-        button.setTitleColor(UIColor(named: "primaryColor"), for: .normal)
-        
-        return button
-    }()
-    
-    //Fish color Button
-    lazy var buttonTwo: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "btn-empty"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.zPosition = 1
-        button.titleLabel?.font = .rounded(ofSize: 16, weight: .bold)
-        button.setTitleColor(UIColor(named: "primaryColor"), for: .normal)
-        
-        return button
-    }()
-    
-    //Fish color Button
-    lazy var buttonThree: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(named: "btn-empty"), for: .normal)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.zPosition = 1
-        button.titleLabel?.font = .rounded(ofSize: 16, weight: .bold)
-        button.setTitleColor(UIColor(named: "primaryColor"), for: .normal)
-        
-        return button
-    }()
-    
-    //Fish button one Label view
-    lazy var buttonOneText: UILabel = {
-        let label = UILabel()
-        label.text = "Let’s go!"
-        label.textColor = UIColor(named: "primaryColor")
-        label.textAlignment = .center
-        label.font = .rounded(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    //Fish button two Label view
-    lazy var buttonTwoText: UILabel = {
-        let label = UILabel()
-        label.text = "Let’s go!"
-        label.textColor = UIColor(named: "primaryColor")
-        label.textAlignment = .center
-        label.font = .rounded(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
-    //Fish button three Label view
-    lazy var buttonThreeText: UILabel = {
-        let label = UILabel()
-        label.text = "Let’s go!"
-        label.textColor = UIColor(named: "primaryColor")
-        label.textAlignment = .center
-        label.font = .rounded(ofSize: 16, weight: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
     //Label view
     lazy var label: UILabel = {
         let label = UILabel()
-        label.text = "What colors do you see the most?"
+        label.text = "Swipe in order or in reverse!"
         label.textColor = UIColor(named: "primaryColor")
         label.layer.shadowColor = UIColor.black.cgColor
         label.textAlignment = .center
@@ -358,6 +275,15 @@ class FishColorGameController: UIViewController{
         return label
     }()
     
+    lazy var arrowImage: UIImageView = {
+        let arrow = UIImageView()
+        arrow.image = UIImage(named: "UpGreen")
+        arrow.layer.zPosition = 20
+        arrow.translatesAutoresizingMaskIntoConstraints = false
+        
+        return arrow
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -367,8 +293,14 @@ class FishColorGameController: UIViewController{
         // Initialize the feedback generator
         feedbackGenerator.prepare()
         
+        //Generate random arrow
+        generateRandomArrow()
+        
         //Call the constraint function
         setupLayout()
+        
+        //Setup the swipe gesture
+        setupGestures()
         
         self.navigationItem.setHidesBackButton(true, animated: false)
         view.backgroundColor = .systemBackground
@@ -393,16 +325,8 @@ class FishColorGameController: UIViewController{
         view.addSubview(warningView)
         view.addSubview(infoOverlayBg)
         
-        //Game view subviews
-        gameBg.addSubview(buttonOne)
-        gameBg.addSubview(buttonTwo)
-        gameBg.addSubview(buttonThree)
-        gameBg.addSubview(fishBg)
-        
-        //Button fish tittles
-        buttonOne.addSubview(buttonOneText)
-        buttonTwo.addSubview(buttonTwoText)
-        buttonThree.addSubview(buttonThreeText)
+        //GameBg Subview
+        gameBg.addSubview(arrowImage)
         
         //Warning view subviews
         warningView.addSubview(warningLabel)
@@ -428,13 +352,7 @@ class FishColorGameController: UIViewController{
         
         //Skip button subview
         skipButton.addSubview(skipButtonText)
-    
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        randomizeAndPlaceFishes()
-        randomizeButtons()
+        
     }
     
     @objc func nextScreen(_ sender: UIButton){
@@ -472,8 +390,6 @@ class FishColorGameController: UIViewController{
                 }
             })
         }
-        randomizeAndPlaceFishes()
-        randomizeButtons()
     }
     
     func fadeOutElements() {
@@ -532,186 +448,78 @@ class FishColorGameController: UIViewController{
     }
     
     func generateText(){
-        if wrongTap <= 3{
+        if wrongSwipe <= 3{
             warningLabel.text = "Impressive!"
             warningMessage.text = "Excellent progress! Your focus mode is just a click away~"
-        }else if wrongTap <= 10{
+        }else if wrongSwipe <= 10{
             warningLabel.text = "Awesome!"
             warningMessage.text = "You've nailed it! Now, time to switch on your focus mode!"
-        }else if wrongTap > 10{
+        }else if wrongSwipe > 10{
             warningLabel.text = "Great!"
             warningMessage.text = "You seem to be focused! Ready for your study session?"
         }
     }
     
-    func setButtonAlpha(){
-        buttonOneText.alpha = 0.0
-        buttonTwoText.alpha = 0.0
-        buttonThreeText.alpha = 0.0
+    //Game Logic Starts Below
+    private func generateRandomArrow() {
+        let arrows = ["DownGreen", "DownRed", "UpRed", "LeftRed", "LeftGreen", "RightRed", "RightGreen"]
+        var randomArrow = arrows.randomElement()!
         
-        UIView.animate(withDuration: 0.8) {
-            self.buttonOneText.alpha = 1.0
-            self.buttonTwoText.alpha = 1.0
-            self.buttonThreeText.alpha = 1.0
+        if randomArrow == previousArrow{
+            randomArrow = arrows.randomElement()!
         }
+        
+        previousArrow = randomArrow
+        arrowDirection = randomArrow
+        arrowImage.image = UIImage(named: randomArrow)
     }
     
-    // Define color button actions
-    @objc func fishButtonTapped(_ sender: UIButton) {
-        guard let title = sender.currentTitle else { return }
+    private func setupGestures() {
+        let swipeDirections: [UISwipeGestureRecognizer.Direction] = [.up, .down, .left, .right]
+        for direction in swipeDirections {
+            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
+            swipe.direction = direction
+            arrowImage.addGestureRecognizer(swipe)
+        }
+        arrowImage.isUserInteractionEnabled = true
+    }
+    
+    @objc private func handleSwipe(_ sender: UISwipeGestureRecognizer) {
+        let swipeLocation = sender.location(in: arrowImage)
         
-        let mostDisplayedFishCount = fishCounts.values.max() ?? 0
-        let selectedFishCount = fishCounts[title + "Fish"] ?? 0
-        
-        if selectedFishCount == mostDisplayedFishCount {
-            print("\(title) is the most displayed!")
-            numberOfFishes += 1
-            gameLevel += 1
-            progressBar.updateBar()
-            print(gameLevel)
-            if gameLevel > 5 {
-                isGameStarting = false
-                removeAllFish()
-                fadeOutElements()
-                print(isGameStarting)
-            } else {
-                removeAllFish()
-                randomizeAndPlaceFishes()
-                randomizeButtons()
-                setButtonAlpha()
+        if arrowImage.bounds.contains(swipeLocation) {
+            var correctSwipeDirection: UISwipeGestureRecognizer.Direction
+            
+            switch arrowDirection {
+            case "UpRed", "DownGreen":
+                correctSwipeDirection = .down
+            case "DownRed", "UpGreen":
+                correctSwipeDirection = .up
+            case "LeftRed", "RightGreen":
+                correctSwipeDirection = .right
+            case "RightRed", "LeftGreen":
+                correctSwipeDirection = .left
+            default:
+                correctSwipeDirection = .up
             }
-        } else {
-            print("\(title) is not the most displayed.")
-            shakeAnimation()
-            feedbackGenerator.notificationOccurred(.warning)
-            wrongTap += 1
-        }
-    }
-    
-    func removeAllFish() {
-        fishImageViews.forEach { $0.removeFromSuperview() }
-        fishImageViews.removeAll()
-        fishCounts = ["RedFish": 0, "BlueFish": 0, "GreenFish": 0]
-    }
-    
-    func randomizeAndPlaceFishes() {
-        // Clear previous fish images and reset counts
-        guard isGameStarting else { return }
-        removeAllFish()
-        
-        var placedPositions: [CGPoint] = []
-        
-        // Determine the color of fish to show the most
-        let mostCommonFishColor = fishTypes.randomElement()!
-        
-        // Set a majority of the fishes to the most common type
-        let majorityCount = Int(ceil(Double(numberOfFishes) * 0.6)) // e.g., 60% of total fish
-        
-        // Assign the majority to the most common fish
-        for _ in 0..<majorityCount {
-            createAndPlaceFish(ofType: mostCommonFishColor, placedPositions: &placedPositions)
-        }
-        
-        // Distribute the remaining fishes among the other types
-        for _ in majorityCount..<numberOfFishes {
-            let fishType = fishTypes.filter { $0 != mostCommonFishColor }.randomElement()!
-            createAndPlaceFish(ofType: fishType, placedPositions: &placedPositions)
-        }
-        
-        // We need to layout the view now to apply constraints
-        fishBg.layoutIfNeeded()
-    }
-    
-    func createAndPlaceFish(ofType fishType: String, placedPositions: inout [CGPoint]) {
-        fishCounts[fishType, default: 0] += 1
-        
-        let fishImage = UIImage(named: fishType)
-        let fishImageView = UIImageView(image: fishImage)
-        fishImageView.contentMode = .scaleAspectFit
-        fishImageView.translatesAutoresizingMaskIntoConstraints = false
-        fishImageView.alpha = 0.0
-        
-        fishBg.addSubview(fishImageView)
-        fishImageViews.append(fishImageView)
-        
-        var fishPosition: CGPoint
-        repeat {
-            fishPosition = generateRandomPositionForFish()
-        } while doesOverlapFish(at: fishPosition, with: placedPositions)
-        
-        placedPositions.append(fishPosition)
-        
-        NSLayoutConstraint.activate([
-            fishImageView.widthAnchor.constraint(equalTo: fishBg.widthAnchor, multiplier: 0.3),
-            fishImageView.heightAnchor.constraint(equalTo: fishImageView.widthAnchor),
-            fishImageView.leadingAnchor.constraint(equalTo: fishBg.leadingAnchor, constant: fishPosition.x),
-            fishImageView.topAnchor.constraint(equalTo: fishBg.topAnchor, constant: fishPosition.y)
-        ])
-        
-        UIView.animate(withDuration: 0.8) {
-            fishImageView.alpha = 1.0
-        }
-    }
-    
-    func generateRandomPositionForFish() -> CGPoint {
-        let fishSize = fishBg.bounds.size.width * 0.2
-        let maxX = fishBg.bounds.width - fishSize
-        let maxY = fishBg.bounds.height - fishSize
-        let randomX = CGFloat.random(in: 0...maxX)
-        let randomY = CGFloat.random(in: 0...maxY)
-        return CGPoint(x: randomX, y: randomY)
-    }
-    
-    func doesOverlapFish(at position: CGPoint, with positions: [CGPoint]) -> Bool {
-        let threshold: CGFloat = fishBg.bounds.size.width * 0.2
-        for otherPosition in positions {
-            if abs(otherPosition.x - position.x) < threshold && abs(otherPosition.y - position.y) < threshold {
-                return true
-            }
-        }
-        return false
-    }
-    
-    func randomizeButtons() {
-        guard isGameStarting else { return }
-        let buttonTitles = ["Red", "Blue", "Green"].shuffled()
-        let buttons = [buttonOne, buttonTwo, buttonThree]
-        let titles = [buttonOneText, buttonTwoText, buttonThreeText]
-        
-        // Clear any previous actions to prevent duplicate actions being called
-        buttons.forEach { $0.removeTarget(nil, action: nil, for: .allEvents) }
-        
-        for (index, button) in buttons.enumerated() {
-            DispatchQueue.main.async {
-                let title = buttonTitles[index]
-                button.setTitle(title, for: .normal)
-                titles[index].text = title // Ensure this updates the button's visible title
-                button.addTarget(self, action: #selector(self.fishButtonTapped(_:)), for: .touchUpInside)
-                
-                if index != (buttonTitles.count - 1) {
-                    titles[index].textColor = UIColor(named: buttonTitles[index+1])
-                }else {
-                    titles[index].textColor = UIColor(named: buttonTitles[0])
+            
+            if sender.direction == correctSwipeDirection {
+                if gameLevel <= 13 {
+                    print("Correct Swipe")
+                    print(gameLevel)
+                    generateRandomArrow()
+                    progressBar.updateSwipeBar()
+                    gameLevel += 1
+                }else{
+                    fadeOutElements()
+                    gameLevel = 1
+                    isGameStarting = false
                 }
-                
-            }
-        }
-        buttonOne.layoutIfNeeded()
-        buttonTwo.layoutIfNeeded()
-        buttonThree.layoutIfNeeded()
-        updateButtonTags(buttons: buttons)
-    }
-    
-    func updateButtonTags(buttons: [UIButton]) {
-        // Determine the most displayed fish
-        guard let mostDisplayedFish = fishCounts.max(by: { a, b in a.value < b.value })?.key else { return }
-        
-        // Store the tag in each button to identify the most displayed fish
-        for button in buttons {
-            if let title = button.currentTitle {
-                button.tag = (title + "Fish" == mostDisplayedFish) ? 1 : 0
             } else {
-                button.tag = 0
+                print("Wrong Swipe")
+                wrongSwipe += 1
+                shakeAnimation()
+                feedbackGenerator.notificationOccurred(.warning)
             }
         }
     }
@@ -721,9 +529,9 @@ class FishColorGameController: UIViewController{
         shakeAnimation.duration = 0.07
         shakeAnimation.repeatCount = 3
         shakeAnimation.autoreverses = true
-        shakeAnimation.fromValue = NSValue(cgPoint: CGPoint(x: gameBg.center.x - 10, y: gameBg.center.y))
-        shakeAnimation.toValue = NSValue(cgPoint: CGPoint(x: gameBg.center.x + 10, y: gameBg.center.y))
-        gameBg.layer.add(shakeAnimation, forKey: "shake")
+        shakeAnimation.fromValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x - 10, y: arrowImage.center.y))
+        shakeAnimation.toValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x + 10, y: arrowImage.center.y))
+        arrowImage.layer.add(shakeAnimation, forKey: "shake")
     }
     
     //Setup Constraint
@@ -847,47 +655,13 @@ class FishColorGameController: UIViewController{
             gameBg.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
             gameBg.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
             
-            //Fish container constraint
-            fishBg.topAnchor.constraint(equalTo: gameBg.topAnchor),
-            fishBg.leadingAnchor.constraint(equalTo: gameBg.leadingAnchor),
-            fishBg.trailingAnchor.constraint(equalTo: gameBg.trailingAnchor),
-            fishBg.bottomAnchor.constraint(equalTo: gameBg.bottomAnchor, constant: -120),
-            
-            //Fish Button one Constraints
-            buttonOne.bottomAnchor.constraint(equalTo: gameBg.bottomAnchor),
-            buttonOne.widthAnchor.constraint(equalTo: gameBg.widthAnchor, multiplier: 0.4),
-            buttonOne.heightAnchor.constraint(equalTo: gameBg.heightAnchor, multiplier: 0.1),
-            buttonOne.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
-            
-            //Fish Button Two Constraints
-            buttonTwo.bottomAnchor.constraint(equalTo: buttonOne.topAnchor, constant: -10),
-            buttonTwo.widthAnchor.constraint(equalTo: gameBg.widthAnchor, multiplier: 0.4),
-            buttonTwo.leadingAnchor.constraint(equalTo: gameBg.leadingAnchor, constant: 20),
-            buttonTwo.heightAnchor.constraint(equalTo: gameBg.heightAnchor, multiplier: 0.1),
-            
-            //Fish Button Three Constraints
-            buttonThree.bottomAnchor.constraint(equalTo: buttonOne.topAnchor, constant: -10),
-            buttonThree.widthAnchor.constraint(equalTo: gameBg.widthAnchor, multiplier: 0.4),
-            buttonThree.trailingAnchor.constraint(equalTo: gameBg.trailingAnchor, constant: -20),
-            buttonThree.heightAnchor.constraint(equalTo: gameBg.heightAnchor, multiplier: 0.1),
-            
-            //Fish button one text constraint
-            buttonOneText.topAnchor.constraint(equalTo: buttonOne.topAnchor, constant: 10),
-            buttonOneText.bottomAnchor.constraint(equalTo: buttonOne.bottomAnchor, constant: -15),
-            buttonOneText.centerXAnchor.constraint(equalTo: buttonOne.centerXAnchor),
-            
-            //Fish button two text constraint
-            buttonTwoText.topAnchor.constraint(equalTo: buttonTwo.topAnchor, constant: 10),
-            buttonTwoText.bottomAnchor.constraint(equalTo: buttonTwo.bottomAnchor, constant: -15),
-            buttonTwoText.centerXAnchor.constraint(equalTo: buttonTwo.centerXAnchor),
-            
-            //Fish button three constraint
-            buttonThreeText.topAnchor.constraint(equalTo: buttonThree.topAnchor, constant: 10),
-            buttonThreeText.bottomAnchor.constraint(equalTo: buttonThree.bottomAnchor, constant: -15),
-            buttonThreeText.centerXAnchor.constraint(equalTo: buttonThree.centerXAnchor),
+            //Arrow Image constraint
+            arrowImage.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
+            arrowImage.centerYAnchor.constraint(equalTo: gameBg.centerYAnchor, constant: -40),
+            arrowImage.heightAnchor.constraint(lessThanOrEqualTo: gameBg.heightAnchor, multiplier: 0.5),
+            arrowImage.widthAnchor.constraint(lessThanOrEqualTo: gameBg.widthAnchor, multiplier: 0.68),
         ])
     }
     
+    
 }
-
-
