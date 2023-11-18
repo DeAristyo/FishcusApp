@@ -32,7 +32,6 @@ class GetDataFishing{
                 myData += [
                     ModelFishing(id: Int(fishing["id"] ?? "1") ?? 1,activity: (fishing["activity"] ?? ""), date: (fishing["date"] ?? ""), time: (fishing["time"] ?? ""), fish: (fishing["fish"] ?? ""), rare: (fishing["rarerity"] ?? ""))
                 ]
-        
         }
         
         return myData

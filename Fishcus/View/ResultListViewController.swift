@@ -89,8 +89,6 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
             initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
         }
 
-        // sort Descending data list
-       print(fishingData)
     }
     
     func minuteToString(time: TimeInterval) -> String {
