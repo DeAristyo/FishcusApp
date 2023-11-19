@@ -428,7 +428,13 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        self.navigationController?.pushViewController(ResultListViewController(), animated: true)
+        print("TEPENCET KONTOL")
+        print(self.tabBarController!)
+        self.navigationController?.popToRootViewController(animated: true)
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1
+        }
+
     }
     
     
@@ -452,7 +458,7 @@ class ResultViewController: UIViewController {
                     self.gradientContainer.alpha = 1.0
                     self.gradientBackground.alpha = 1.0
                     self.labelRarerity.alpha = 1.0
-                    self.rectangleRarerity.alpha = 1.0 
+                    self.rectangleRarerity.alpha = 1.0
                     
                     if self.focusData.count <= 1{
                         let initialShowInfo = self.userGuideInfo[0]

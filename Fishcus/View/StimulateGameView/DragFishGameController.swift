@@ -1,14 +1,14 @@
 //
-//  SwipeGameViewController.swift
+//  DragFishGameController.swift
 //  Fishcus
 //
-//  Created by Dimas Aristyo Rahadian on 15/11/23.
+//  Created by Dimas Aristyo Rahadian on 16/11/23.
 //
 
 import Foundation
 import UIKit
 
-class SwipeGameViewController: UIViewController{
+class DragFishGameController: UIViewController{
     //View variable declaration
     private let progressBar = ProgressBarView()
     private var gameLevel = 1
@@ -22,6 +22,31 @@ class SwipeGameViewController: UIViewController{
     private var fishTypes = ["RedFish", "BlueFish", "GreenFish"]
     private var arrowDirection: String = ""
     private var previousArrow: String = ""
+    private var originalTopAnchor: NSLayoutConstraint?
+    private var originalCenterXAnchor: NSLayoutConstraint?
+    
+    
+    //Info Label view
+    lazy var countDownTopLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Get Ready!"
+        label.textColor = UIColor(named: "primaryColor")
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.textAlignment = .center
+        label.layer.shadowRadius = 0.5
+        label.layer.shadowOpacity = 0.1
+        label.layer.zPosition = 2
+        label.layer.shadowOffset = CGSize(width: 3, height: 3)
+        label.layer.masksToBounds = false
+        label.font = .rounded(ofSize: 30, weight: .bold)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.layer.zPosition = 10
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0.0
+        
+        return label
+    }()
     
     //Count down label
     lazy var countDownLabel: UILabel = {
@@ -156,7 +181,7 @@ class SwipeGameViewController: UIViewController{
     //Info image
     lazy var infoImage: UIImageView = {
         let image = UIImageView()
-        image.image = UIImage(named: "swipeGameTutorial")
+        image.image = UIImage.tutorial.dragGameTutorial
         image.clipsToBounds = true
         image.layer.zPosition = 10
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -179,7 +204,8 @@ class SwipeGameViewController: UIViewController{
     //Info Button
     lazy var infoButton: UIButton = {
         let button = UIButton()
-        button.setImage(UIImage(named: "btn-empty"), for: .normal)
+        button.setImage(UIImage.button.btnEmpty, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.zPosition = 1
         button.addTarget(self, action: #selector(startGameElements(_:)), for: .touchUpInside)
@@ -212,7 +238,7 @@ class SwipeGameViewController: UIViewController{
     //Info Label view
     lazy var infoLabel: UILabel = {
         let label = UILabel()
-        label.text = "Swipe or\nUnswipe!"
+        label.text = "Drag The Fish!"
         label.textColor = UIColor(named: "regular-text")
         label.layer.shadowColor = UIColor.black.cgColor
         label.textAlignment = .center
@@ -232,7 +258,7 @@ class SwipeGameViewController: UIViewController{
     //Info Message view
     lazy var infoMessage: UILabel = {
         let label = UILabel()
-        label.text = "Swipe by following or\nunfollowing the direction!"
+        label.text = "Drag the fish according to\ntheir color block!"
         label.textColor = UIColor(named: "regular-text")
         label.textAlignment = .center
         label.layer.masksToBounds = false
@@ -254,10 +280,82 @@ class SwipeGameViewController: UIViewController{
         return rectangle
     }()
     
+    //Color frame left
+    lazy var leftFrame: UIImageView = {
+        let frame = UIImageView()
+        frame.image = UIImage.frames.frameLeftGreen
+        frame.translatesAutoresizingMaskIntoConstraints = false
+        
+        return frame
+    }()
+    
+    //Color frame right
+    lazy var rightFrame: UIImageView = {
+        let frame = UIImageView()
+        frame.image = UIImage.frames.frameRightGreen
+        frame.translatesAutoresizingMaskIntoConstraints = false
+        
+        return frame
+    }()
+    
+    //Divider vertical
+    lazy var verticalDivider: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 1
+        
+        return view
+    }()
+    
+    //Fishes
+    //Fish to drag
+    lazy var fishToDrag: UIImageView = {
+        let fish = UIImageView()
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handleDrag(_:)))
+        fish.image = UIImage.fishes.RedFish
+        fish.translatesAutoresizingMaskIntoConstraints = false
+        fish.layer.zPosition = 2
+        fish.isUserInteractionEnabled = true
+        fish.addGestureRecognizer(panGesture)
+        
+        return fish
+    }()
+    
+    //Fish to drag
+    lazy var fishOne: UIImageView = {
+        let fish = UIImageView()
+        fish.image = UIImage.fishes.GreenFish
+        fish.translatesAutoresizingMaskIntoConstraints = false
+        fish.layer.zPosition = 2
+        
+        return fish
+    }()
+    
+    //Fish to drag
+    lazy var fishTwo: UIImageView = {
+        let fish = UIImageView()
+        fish.image = UIImage.fishes.GreenFish
+        fish.translatesAutoresizingMaskIntoConstraints = false
+        fish.layer.zPosition = 2
+        
+        return fish
+    }()
+    
+    //Fish to drag
+    lazy var fishThree: UIImageView = {
+        let fish = UIImageView()
+        fish.image = UIImage.fishes.GreenFish
+        fish.translatesAutoresizingMaskIntoConstraints = false
+        fish.layer.zPosition = 2
+        
+        return fish
+    }()
+    
     //Label view
     lazy var label: UILabel = {
         let label = UILabel()
-        label.text = "Swipe in order or in reverse!"
+        label.text = "Drag the fish to the same\ncolor block!"
         label.textColor = UIColor(named: "primaryColor")
         label.layer.shadowColor = UIColor.black.cgColor
         label.textAlignment = .center
@@ -275,17 +373,11 @@ class SwipeGameViewController: UIViewController{
         return label
     }()
     
-    lazy var arrowImage: UIImageView = {
-        let arrow = UIImageView()
-        arrow.image = UIImage(named: "UpGreen")
-        arrow.layer.zPosition = 20
-        arrow.translatesAutoresizingMaskIntoConstraints = false
-        
-        return arrow
-    }()
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        originalTopAnchor = fishToDrag.topAnchor.constraint(equalTo: verticalDivider.topAnchor, constant: -25)
+        originalCenterXAnchor = fishToDrag.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor)
         
         //Calling the subviews
         subviews()
@@ -293,14 +385,8 @@ class SwipeGameViewController: UIViewController{
         // Initialize the feedback generator
         feedbackGenerator.prepare()
         
-        //Generate random arrow
-        generateRandomArrow()
-        
         //Call the constraint function
         setupLayout()
-        
-        //Setup the swipe gesture
-        setupGestures()
         
         self.navigationItem.setHidesBackButton(true, animated: false)
         view.backgroundColor = .systemBackground
@@ -319,14 +405,12 @@ class SwipeGameViewController: UIViewController{
         view.addSubview(progressBar)
         view.addSubview(countDownTimer)
         view.addSubview(countDownLabel)
+        view.addSubview(countDownTopLabel)
         view.addSubview(label)
         view.addSubview(gameBg)
         view.addSubview(overlayBg)
         view.addSubview(warningView)
         view.addSubview(infoOverlayBg)
-        
-        //GameBg Subview
-        gameBg.addSubview(arrowImage)
         
         //Warning view subviews
         warningView.addSubview(warningLabel)
@@ -353,6 +437,15 @@ class SwipeGameViewController: UIViewController{
         //Skip button subview
         skipButton.addSubview(skipButtonText)
         
+        //gameBg subviews
+        gameBg.addSubview(verticalDivider)
+        gameBg.addSubview(leftFrame)
+        gameBg.addSubview(rightFrame)
+        gameBg.addSubview(fishToDrag)
+        gameBg.addSubview(fishOne)
+        gameBg.addSubview(fishTwo)
+        gameBg.addSubview(fishThree)
+        
     }
     
     @objc func nextScreen(_ sender: UIButton){
@@ -378,6 +471,7 @@ class SwipeGameViewController: UIViewController{
             // Set the alpha of elements to 0.0 for a fade-out effect
             self.countDownTimer.alpha = 0.0
             self.countDownLabel.alpha = 0.0
+            self.countDownTopLabel.alpha = 0.0
         }){ _ in
             // After fade-out animation completes, set the alpha of overlayBg to 1.0 with fadeIn animation
             UIView.animate(withDuration: 0.5, animations: {
@@ -436,6 +530,7 @@ class SwipeGameViewController: UIViewController{
             UIView.animate(withDuration: 0.5, animations: {
                 self.countDownTimer.alpha = 1.0
                 self.countDownLabel.alpha = 1.0
+                self.countDownTopLabel.alpha = 1.0
             })
         }
         startTimer()
@@ -461,78 +556,71 @@ class SwipeGameViewController: UIViewController{
     }
     
     //Game Logic Starts Below
-    private func generateRandomArrow() {
-        let arrows = ["DownGreen", "DownRed", "UpRed", "UpGreen", "LeftRed", "LeftGreen", "RightRed", "RightGreen"]
-        var randomArrow = arrows.randomElement()!
-        
-        if randomArrow == previousArrow{
-            randomArrow = arrows.randomElement()!
-        }
-        
-        previousArrow = randomArrow
-        arrowDirection = randomArrow
-        arrowImage.image = UIImage(named: randomArrow)
-    }
     
-    private func setupGestures() {
-        let swipeDirections: [UISwipeGestureRecognizer.Direction] = [.up, .down, .left, .right]
-        for direction in swipeDirections {
-            let swipe = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-            swipe.direction = direction
-            arrowImage.addGestureRecognizer(swipe)
-        }
-        arrowImage.isUserInteractionEnabled = true
-    }
-    
-    @objc private func handleSwipe(_ sender: UISwipeGestureRecognizer) {
-        let swipeLocation = sender.location(in: arrowImage)
+    @objc func handleDrag(_ gesture: UIPanGestureRecognizer) {
+        let translation = gesture.translation(in: view)
         
-        if arrowImage.bounds.contains(swipeLocation) {
-            var correctSwipeDirection: UISwipeGestureRecognizer.Direction
-            
-            switch arrowDirection {
-            case "UpRed", "DownGreen":
-                correctSwipeDirection = .down
-            case "DownRed", "UpGreen":
-                correctSwipeDirection = .up
-            case "LeftRed", "RightGreen":
-                correctSwipeDirection = .right
-            case "RightRed", "LeftGreen":
-                correctSwipeDirection = .left
-            default:
-                correctSwipeDirection = .up
+        switch gesture.state {
+        case .began:
+            if originalTopAnchor == nil && originalCenterXAnchor == nil {
+                // Store the initial top anchor and centerX anchor
+                originalTopAnchor = fishToDrag.topAnchor.constraint(equalTo: self.verticalDivider.topAnchor, constant: -50)
+                originalCenterXAnchor = fishToDrag.centerXAnchor.constraint(equalTo: self.gameBg.centerXAnchor)
             }
+        case .changed:
+            // Move the fish based on the translation
+            fishToDrag.center = CGPoint(x: fishToDrag.center.x + translation.x, y: fishToDrag.center.y + translation.y)
+            gesture.setTranslation(.zero, in: view) // Reset the translation
             
-            if sender.direction == correctSwipeDirection {
-                if gameLevel <= 13 {
-                    print("Correct Swipe")
-                    print(gameLevel)
-                    generateRandomArrow()
-                    progressBar.updateSwipeBar()
-                    gameLevel += 1
-                }else{
-                    fadeOutElements()
-                    gameLevel = 1
-                    isGameStarting = false
+        case .ended, .cancelled:
+            // Check if the fish is over any of the frames
+            if leftFrame.frame.contains(fishToDrag.center) || rightFrame.frame.contains(fishToDrag.center) {
+                if checkForColorMatch(fishToDrag) {
+                    print("Match")
                 }
-            } else {
-                print("Wrong Swipe")
-                wrongSwipe += 1
-                shakeAnimation()
-                feedbackGenerator.notificationOccurred(.warning)
+            }else{
+                print("Doesn't match")
+                animateFishToOriginalPosition()
             }
+            
+        default:
+            break
         }
     }
-    
-    private func shakeAnimation() {
-        let shakeAnimation = CABasicAnimation(keyPath: "position")
-        shakeAnimation.duration = 0.07
-        shakeAnimation.repeatCount = 3
-        shakeAnimation.autoreverses = true
-        shakeAnimation.fromValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x - 10, y: arrowImage.center.y))
-        shakeAnimation.toValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x + 10, y: arrowImage.center.y))
-        arrowImage.layer.add(shakeAnimation, forKey: "shake")
+
+    func animateFishToOriginalPosition() {
+        UIView.animate(withDuration: 0.3) {
+//            self.originalTopAnchor?.isActive = false
+//            self.originalCenterXAnchor?.isActive = false
+//            
+//            self.originalTopAnchor = self.fishToDrag.topAnchor.constraint(equalTo: self.verticalDivider.topAnchor, constant: -50)
+//            self.originalCenterXAnchor = self.fishToDrag.centerXAnchor.constraint(equalTo: self.gameBg.centerXAnchor)
+            
+            NSLayoutConstraint.activate([self.originalTopAnchor!, self.originalCenterXAnchor!])
+            self.view.layoutIfNeeded()
+        }
     }
+
+    
+    func checkForColorMatch(_ fish: UIView) -> Bool {
+        // Perform the color check only if the fish center is within the frame bounds
+        if leftFrame.frame.contains(fish.center) && fish.backgroundColor == leftFrame.backgroundColor {
+            return true
+        } else if rightFrame.frame.contains(fish.center) && fish.backgroundColor == rightFrame.backgroundColor {
+            return true
+        }
+        return false
+    }
+    
+    //    private func shakeAnimation() {
+    //        let shakeAnimation = CABasicAnimation(keyPath: "position")
+    //        shakeAnimation.duration = 0.07
+    //        shakeAnimation.repeatCount = 3
+    //        shakeAnimation.autoreverses = true
+    //        shakeAnimation.fromValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x - 10, y: arrowImage.center.y))
+    //        shakeAnimation.toValue = NSValue(cgPoint: CGPoint(x: arrowImage.center.x + 10, y: arrowImage.center.y))
+    //        arrowImage.layer.add(shakeAnimation, forKey: "shake")
+    //    }
     
     //Setup Constraint
     func setupLayout(){
@@ -643,6 +731,10 @@ class SwipeGameViewController: UIViewController{
             countDownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
             
+            //Countdown Top Label Constraint
+            countDownTopLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownTopLabel.bottomAnchor.constraint(equalTo: countDownLabel.topAnchor, constant: -130),
+            
             //Progress bar Constraint
             progressBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
             progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
@@ -651,15 +743,50 @@ class SwipeGameViewController: UIViewController{
             
             //Game position constraint
             gameBg.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30),
-            gameBg.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            gameBg.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -30),
-            gameBg.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -150),
+            gameBg.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 24),
+            gameBg.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
+            gameBg.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            //Arrow Image constraint
-            arrowImage.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
-            arrowImage.centerYAnchor.constraint(equalTo: gameBg.centerYAnchor, constant: -40),
-            arrowImage.heightAnchor.constraint(lessThanOrEqualTo: gameBg.heightAnchor, multiplier: 0.5),
-            arrowImage.widthAnchor.constraint(lessThanOrEqualTo: gameBg.widthAnchor, multiplier: 0.68),
+            //Left Frame position constraint
+            leftFrame.leadingAnchor.constraint(equalTo: gameBg.leadingAnchor),
+            leftFrame.topAnchor.constraint(greaterThanOrEqualTo: gameBg.topAnchor, constant: 60),
+            leftFrame.bottomAnchor.constraint(greaterThanOrEqualTo: gameBg.bottomAnchor, constant: -300),
+            
+            //Right Frame position constraint
+            rightFrame.trailingAnchor.constraint(equalTo: gameBg.trailingAnchor),
+            rightFrame.topAnchor.constraint(greaterThanOrEqualTo: gameBg.topAnchor, constant: 60),
+            rightFrame.bottomAnchor.constraint(greaterThanOrEqualTo: gameBg.bottomAnchor, constant: -300),
+            
+            //Vertical divider constraint
+            verticalDivider.bottomAnchor.constraint(equalTo: gameBg.bottomAnchor),
+            verticalDivider.topAnchor.constraint(equalTo: gameBg.topAnchor, constant: 180),
+            verticalDivider.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
+            verticalDivider.widthAnchor.constraint(equalToConstant: 2),
+            
+            //Fishes constrains
+            //Fish to drag constraint
+            originalTopAnchor!,
+            originalCenterXAnchor!,
+            fishToDrag.widthAnchor.constraint(greaterThanOrEqualToConstant: 200),
+            fishToDrag.heightAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            
+            //Fishone constraint
+            fishOne.topAnchor.constraint(equalTo: verticalDivider.topAnchor, constant: 200),
+            fishOne.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
+            fishOne.widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            fishOne.heightAnchor.constraint(greaterThanOrEqualToConstant: 45),
+            
+            //Fishone constraint
+            fishTwo.topAnchor.constraint(equalTo: fishOne.topAnchor, constant: 70),
+            fishTwo.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
+            fishTwo.widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            fishTwo.heightAnchor.constraint(greaterThanOrEqualToConstant: 45),
+            
+            //Fishone constraint
+            fishThree.topAnchor.constraint(equalTo: fishTwo.topAnchor, constant: 70),
+            fishThree.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),
+            fishThree.widthAnchor.constraint(greaterThanOrEqualToConstant: 90),
+            fishThree.heightAnchor.constraint(greaterThanOrEqualToConstant: 45),
         ])
     }
 }

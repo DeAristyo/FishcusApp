@@ -309,6 +309,11 @@ class HomeViewController: UIViewController {
        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     @objc func ShowListFocus(){
         let vc = ResultListViewController()
         
@@ -374,6 +379,7 @@ class HomeViewController: UIViewController {
             vc = randomizeGameController()
         }
         
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

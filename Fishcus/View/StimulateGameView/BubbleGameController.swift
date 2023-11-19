@@ -665,9 +665,9 @@ class BubbleGameController: UIViewController{
             infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //info image constraint
-            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 10),
-            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 10),
-            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -10),
+            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
+            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 15),
+            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -15),
             infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
             infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
             
