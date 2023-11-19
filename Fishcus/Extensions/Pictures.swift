@@ -25,6 +25,9 @@ extension UIImage{
         static var btnHistory: UIImage = {return UIImage(named: "btn-history")!}()
         static var btnShare: UIImage = {return UIImage(named: "btn-share")!}()
         static var btnTake: UIImage = {return UIImage(named: "btn-take")!}()
+        static var bubblesGame: UIImage = {return UIImage(named: "BubbleGame")!}()
+        static var colorGame: UIImage = {return UIImage(named: "ColorGame")!}()
+        static var swipeGame: UIImage = {return UIImage(named: "SwipeGame")!}()
     }
     
     struct frames{
@@ -46,6 +49,10 @@ extension UIImage{
         static var day: UIImage = {return UIImage(named: "HomeScreen.001")!}()
         static var evening: UIImage = {return UIImage(named: "HomeScreen.002")!}()
         static var night: UIImage = {return UIImage(named: "HomeScreen.003")!}()
+    }
+    
+    struct viewBackgrounds{
+        static var gameScreenBg: UIImage = {return UIImage(named: "GameScreenBackground")!}()
     }
     
     struct dynamicButton{

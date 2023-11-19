@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bg-1.png",
+      "filename" : "BubbleGame.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "BubbleGame@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "BubbleGame@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

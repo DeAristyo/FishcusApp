@@ -274,10 +274,10 @@
 				CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */,
 				CC9713132AFEBEE500A5D733 /* CustomTableView.swift */,
 				EFB3509B3E0C943E71428632 /* CountDownRingView.swift */,
+				A5476D312B09E2C00055B300 /* DynamicHomeViewController.swift */,
 				A538789F2AFC0E3700F264AB /* Components */,
 				A538789C2AFBF7D300F264AB /* StimulateGameView */,
 				094D98526646CCDB2A5D3D4A /* alerts */,
-				A5476D312B09E2C00055B300 /* DynamicHomeViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";

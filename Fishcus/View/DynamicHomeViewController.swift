@@ -22,7 +22,7 @@ class DynamicHomeViewController: UIViewController{
         "Every chapter is a lure, every lesson, a catch to secure."
     ]
     
-    //View Variable Declaration
+    //MARK: - View Variable Declaration
     //Background video layer
     lazy var bgVideoPlayer: UIView = {
         let view = UIView()
@@ -221,6 +221,7 @@ class DynamicHomeViewController: UIViewController{
         return circleButton
     }()
     
+    //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -231,11 +232,21 @@ class DynamicHomeViewController: UIViewController{
         setupView()
         
         setBackgroundBasedOnTime()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        bgVideo?.play()
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        // Pause the video when the view disappears
+        bgVideo?.pause()
     }
     
     override func viewDidLayoutSubviews() {
@@ -245,6 +256,15 @@ class DynamicHomeViewController: UIViewController{
     
     deinit {
         NotificationCenter.default.removeObserver(self)
+    }
+    
+    //MARK: - View functionality
+    @objc func appDidEnterBackground() {
+        bgVideo?.pause()
+    }
+
+    @objc func appWillEnterForeground() {
+        bgVideo?.play()
     }
     
     @objc func nextScreen(){
@@ -264,11 +284,11 @@ class DynamicHomeViewController: UIViewController{
         let randomIndex = Int(arc4random_uniform(2))
         
         if randomIndex == 0 {
-            return FishColorGameController()
+            return FishColorGameController(isStimulateGame: true)
         } else if randomIndex == 1 {
-            return SwipeGameViewController()
+            return SwipeGameViewController(isStimulateGame: true)
         } else {
-            return BubbleGameController()
+            return BubbleGameController(isStimulateGame: true)
         }
     }
     
@@ -296,6 +316,8 @@ class DynamicHomeViewController: UIViewController{
         
     }
     
+    
+    //MARK: - Logics
     func setupBackgroundLayerVideo(withVideoNamed videoName: String) {
         guard let path = Bundle.main.path(forResource: videoName, ofType: "mov") else {
             print("Video file not found")
@@ -348,14 +370,15 @@ class DynamicHomeViewController: UIViewController{
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
+        print(hour)
         
-        if (8...15).contains(hour) { // 8 AM to 3:30 PM
+        if (8...14).contains(hour) { // 8 AM to 3:30 PM
             mainBg.image = UIImage.staticHomeBg.day
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenDay")
             dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
             dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
             dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
-        } else if (15...19).contains(hour) { // 3:30 PM to 7 PM
+        } else if (15...18).contains(hour) { // 3:30 PM to 7 PM
             mainBg.image = UIImage.staticHomeBg.evening
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenEvening")
             dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
@@ -392,7 +415,7 @@ class DynamicHomeViewController: UIViewController{
         }
     }
     
-    
+    //MARK: - Constraints
     //Constraints
     func setupView(){
         NSLayoutConstraint.activate([
@@ -452,15 +475,15 @@ class DynamicHomeViewController: UIViewController{
             
             //Eclipse constraint
             focusEclipse.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            focusEclipse.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.32),
+            focusEclipse.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
             focusEclipse.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
             focusEclipse.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -250),
             
             //Focus Button constraint
             focusButton.centerXAnchor.constraint(equalTo: focusEclipse.centerXAnchor),
             focusButton.centerYAnchor.constraint(equalTo: focusEclipse.centerYAnchor),
-            focusButton.heightAnchor.constraint(greaterThanOrEqualToConstant: 142),
-            focusButton.widthAnchor.constraint(greaterThanOrEqualToConstant: 142),
+            focusButton.heightAnchor.constraint(lessThanOrEqualTo: focusEclipse.heightAnchor, multiplier: 0.95),
+            focusButton.widthAnchor.constraint(lessThanOrEqualTo: focusEclipse.widthAnchor),
             
             //Change background 1 constrain
             dynamicButtonOne.trailingAnchor.constraint(greaterThanOrEqualTo: dynamicButtonTwo.leadingAnchor, constant: -32),

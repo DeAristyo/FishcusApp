@@ -428,7 +428,6 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        print("TEPENCET KONTOL")
         print(self.tabBarController!)
         self.navigationController?.popToRootViewController(animated: true)
         if let tabBarController = self.tabBarController {

@@ -387,11 +387,11 @@ class HomeViewController: UIViewController {
         let randomIndex = Int(arc4random_uniform(2))
         
         if randomIndex == 0 {
-            return FishColorGameController()
+            return FishColorGameController(isStimulateGame: true)
         } else if randomIndex == 1 {
-            return SwipeGameViewController()
+            return SwipeGameViewController(isStimulateGame: true)
         } else {
-            return BubbleGameController()
+            return BubbleGameController(isStimulateGame: true)
         }
     }
     

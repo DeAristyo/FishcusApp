@@ -65,11 +65,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
                                      cornerRadius: layerHeight / 2).cgPath
         layer.path = layerPath
         layer.fillColor = UIColor.MyColors.primaryColor.cgColor
+        layer.opacity = 0.8
         layer.zPosition = -2
         tabBar.layer.insertSublayer(layer, at: 0)
         
         // Adjust the item insets to center the icons vertically
-        let tabBarItemInset: CGFloat = (layerHeight - tabBar.bounds.height) / 6
+        let tabBarItemInset: CGFloat = bottomPadding > 0 ? (layerHeight - tabBar.bounds.height) / 6 : 0
         UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -tabBarItemInset)
         
         // Set unselected and selected item colors

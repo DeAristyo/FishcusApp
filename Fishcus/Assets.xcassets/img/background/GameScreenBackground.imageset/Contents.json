@@ -1,15 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "bg-2.png",
+      "filename" : "GameScreenBackground.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "GameScreenBackground@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
+      "filename" : "GameScreenBackground@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }

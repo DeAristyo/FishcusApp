@@ -1,17 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "HomeScreen Sementara 1.png",
+      "filename" : "ColorGame.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "HomeScreen Sementara 1@2x.png",
+      "filename" : "ColorGame@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-      "filename" : "HomeScreen Sementara 1@3x.png",
+      "filename" : "ColorGame@3x.png",
       "idiom" : "universal",
       "scale" : "3x"
     }
