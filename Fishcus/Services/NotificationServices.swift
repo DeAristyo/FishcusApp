@@ -15,8 +15,8 @@ class NotificationServices{
         let center = UNUserNotificationCenter.current()
         
         let content = UNMutableNotificationContent()
-        content.title = "App in background"
-        content.body = "You've entered the pause screen"
+        content.title = "🐟 The fish are waiting!"
+        content.body = "Remember to come back or you will miss out on rare fish! 🐟"
         content.sound = UNNotificationSound.default
         
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)

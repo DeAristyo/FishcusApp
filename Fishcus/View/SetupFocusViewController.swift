@@ -80,6 +80,18 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         super.viewDidLoad()
         view.backgroundColor = UIColor.MyColors.primaryColor
         
+        /// Create a custom view for the back button
+        let backButton = UIButton()
+        backButton.setImage(UIImage(named: "btn-navigation-back"), for: .normal)
+      
+        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
+        backButton.sizeToFit()
+
+        let customBackButton = UIBarButtonItem(customView: backButton)
+
+        // Assign the custom back button to the left bar button item
+        navigationItem.leftBarButtonItem = customBackButton
+        
         // SetupView
         SetupView()
         
@@ -89,6 +101,10 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         // Setup Delegate
         SetupDelegate()
         
+    }
+    
+    @objc func backButtonTapped(){
+        self.navigationController?.popToRootViewController(animated: true)
     }
     
     func SetupDelegate(){

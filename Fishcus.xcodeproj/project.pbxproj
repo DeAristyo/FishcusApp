@@ -23,6 +23,7 @@
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
+		CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC525FF02B08F91900FF29C6 /* BreakAlert.swift */; };
 		CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713132AFEBEE500A5D733 /* CustomTableView.swift */; };
 		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
@@ -73,6 +74,7 @@
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
 		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
 		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
+		CC525FF02B08F91900FF29C6 /* BreakAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakAlert.swift; sourceTree = "<group>"; };
 		CC9713132AFEBEE500A5D733 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -126,6 +128,7 @@
 				26A1CAD6F13AC04235988469 /* focusBreakExhaustedAlert.swift */,
 				D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */,
 				CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */,
+				CC525FF02B08F91900FF29C6 /* BreakAlert.swift */,
 			);
 			path = alerts;
 			sourceTree = "<group>";
@@ -389,6 +392,7 @@
 				CCEC20A42B06AAD6003319A3 /* SetupFocusViewController.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
 				F250374E843BD8AF51B3B5A6 /* DelegateProtocol.swift in Sources */,
+				CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */,
 				CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */,
 				CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */,
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,

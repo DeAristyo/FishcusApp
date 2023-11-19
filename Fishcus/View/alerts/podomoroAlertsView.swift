@@ -125,18 +125,11 @@ class PodomoroAlerts : UIView {
             
         ])
         
-      
-        btnNo.addTarget(self, action: #selector(takeNo), for: .touchUpInside)
-        btnTake.addTarget(self, action: #selector(take), for: .touchUpInside)
+//      
+//        btnNo.addTarget(self, action: #selector(takeNo), for: .touchUpInside)
+//        btnTake.addTarget(self, action: #selector(take), for: .touchUpInside)
     }
     
-    @objc func takeNo(){
-        delegate?.continuePodomoroAlert()
-    }
-    
-    @objc func take(){
-        delegate?.takePodomoroAlert()
-    }
     
 }
 

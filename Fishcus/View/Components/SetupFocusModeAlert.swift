@@ -16,8 +16,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
                 delegateChangeScreen?.ShowAlertMinFocusDuration()
                 btnStart.isEnabled = false
             }else{
-                btnStart.isEnabled = true
-                
+
                 SetBreakDuration(focusDuration)
             }
         }
@@ -38,7 +37,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     private var inputTaskTextField: UITextField = {
         let textField = UITextField()
         let font = UIFont.rounded(ofSize: 17, weight: .bold)
-        textField.borderStyle = .roundedRect
+        textField.layer.cornerRadius = 10
         textField.backgroundColor = UIColor(named: "regular-text")
         textField.placeholder = "Study Math"
         textField.font = UIFont.rounded(ofSize: 17, weight: .bold)
@@ -71,7 +70,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         button.titleLabel?.textColor = UIColor.MyColors.primaryColor
         button.setTitleColor(UIColor.MyColors.primaryColor, for: .normal)
         button.titleLabel?.textAlignment = .center
-        button.layer.cornerRadius = 5
+        button.layer.cornerRadius = 10
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -163,10 +162,15 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         self.addGestureRecognizer(gesture)
         
         btnStart.addTarget(self, action: #selector(changeScreen), for: .touchUpInside)
+        btnStart.isEnabled = false
     }
     
     @objc func changeScreen(){
-        delegateChangeScreen?.changeScreen()
+        if focusDuration >= 300{
+            btnStart.isEnabled = true
+            delegateChangeScreen?.changeScreen()
+        }
+        
     }
     
     @objc func gestureTap(){
@@ -174,13 +178,17 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         delegateChangeScreen?.SendDataFocus(inputTaskTextField.text ?? "Empty", focusDuration, breakDuration)
         inputTimeTextField.isHidden = true
         buttonPicker.isEnabled = true
-//        btnStart.isEnabled = true
+        toggleSwitcher.isEnabled = true
+        btnStart.isEnabled = true
+        
+       
     }
     
     @objc func showPicker(){
         inputTimeTextField.isHidden = false
         buttonPicker.isEnabled = false
         btnStart.isEnabled = false
+        toggleSwitcher.isEnabled = false
     }
     
     func sendFocusDuration(time: String) {

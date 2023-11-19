@@ -325,7 +325,7 @@ class ReuseableInfoView: UIView{
 class TimerPause: UIView {
     
     var timer: Timer?
-    var totalPauseTimer = 600
+    var totalPauseTimer: Int = 0 
     
     weak var delegate: DelegateProtocol?
     
@@ -444,7 +444,6 @@ class TimerPause: UIView {
         if totalPauseTimer >= 0 {
             totalPauseTimer -= 1
             let currentPauseTime = convertTimerToString(time: TimeInterval(totalPauseTimer))
-            print(currentPauseTime)
             label2.text = currentPauseTime
         }else{
             timer?.invalidate()
@@ -487,7 +486,6 @@ class EndFocus : UIView {
     
     private var headTitle : UILabel = {
         let headTitle = UILabel()
-        headTitle.frame = CGRect(x: 0, y: 0, width: 204, height: 52)
         headTitle.textColor = UIColor(named: "highlight-text")
         headTitle.font = UIFont.rounded(ofSize: 22, weight: .bold)
         headTitle.numberOfLines = 0
@@ -554,8 +552,8 @@ class EndFocus : UIView {
         
             
             headTitle.topAnchor.constraint(equalTo: alertContainer.topAnchor, constant: 25),
-            headTitle.leadingAnchor.constraint(equalTo: alertContainer.leadingAnchor),
-            headTitle.trailingAnchor.constraint(equalTo: alertContainer.trailingAnchor),
+            headTitle.widthAnchor.constraint(equalToConstant: 250),
+            headTitle.heightAnchor.constraint(equalToConstant: 65),
             headTitle.centerXAnchor.constraint(equalTo: alertContainer.centerXAnchor),
             
             line.topAnchor.constraint(equalTo: headTitle.bottomAnchor, constant: 13.5),

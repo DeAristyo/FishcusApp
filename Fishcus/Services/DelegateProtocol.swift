@@ -9,9 +9,9 @@ import UIKit
 
 protocol DelegateProtocol: AnyObject{
     func changeShowInfo()
-    func takePodomoroAlert()
-    func continuePodomoroAlert()
-    func dismissBreakExhausted()
+    func breakBtn()
+    func continueBtn()
+    func finishBtn()
 }
 
 protocol DelegateButtonStart: AnyObject{

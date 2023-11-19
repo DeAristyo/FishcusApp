@@ -37,7 +37,7 @@ class ShareResultViewController: UIViewController {
     
     let fishImage: UIImageView = {
         let view = UIImageView()
-        view.contentMode = .scaleAspectFill
+        view.contentMode = .center
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowRadius = 10
         view.layer.shadowOpacity = 0.4
@@ -146,6 +146,8 @@ class ShareResultViewController: UIViewController {
             self.labelRarerity.text = "COMMON"
             self.labelRarerity.textColor = UIColor(named: "pale-green")
             self.rectangleRarerity.layer.borderColor = UIColor(named: "pale-green")?.cgColor
+            self.myBgImage.image = UIImage(named: "bg-result")
+            view.backgroundColor = UIColor(named: "result-color")
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -168,6 +170,8 @@ class ShareResultViewController: UIViewController {
             self.labelRarerity.text = "RARE"
             self.labelRarerity.textColor = UIColor(named: "secondaryColor")
             self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
+            self.myBgImage.image = UIImage(named: "afternoon-bg")
+            view.backgroundColor = UIColor(named: "afternoon-theme")
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -191,6 +195,8 @@ class ShareResultViewController: UIViewController {
             self.labelRarerity.textColor = UIColor(named: "rare-color")
             self.labelBig.textColor = UIColor(named: "rare-color")
             self.rectangleRarerity.layer.borderColor = UIColor(named: "rare-color")?.cgColor
+            self.myBgImage.image = UIImage(named: "night-bg")
+            view.backgroundColor = UIColor(named: "night-theme")
             switch fish{
             case "1":
                 self.labelBig.text = "Swordfish, the Warrior!"
@@ -205,13 +211,14 @@ class ShareResultViewController: UIViewController {
                 break
             }
             break
-        default:
+        default :
             gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
-            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
-            self.labelBig.text = "Nothing :("
-            self.fishImage.image = UIImage(named: "nothing-img")
+                               UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1)
             self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
+            self.labelBig.text = "I failed to focus.."
+            self.fishImage.image = UIImage(named: "death-fish")
+            view.backgroundColor = UIColor(named: "result-color")
             break
             
         }

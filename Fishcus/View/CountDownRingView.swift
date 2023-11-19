@@ -9,19 +9,18 @@ import UIKit
 
 class CountdownRingView: UIView {
     private var backgroundLayer: CAShapeLayer!
-    private var ringLayer: CAShapeLayer!
-//    private var startIconLayer: CALayer!
+    var ringLayer: CAShapeLayer!
     
     // Properties to customize the ring
     var ringColor: UIColor = UIColor(named: "primaryColor")!
     var ringWidth: CGFloat = 10.0
     var backgroundWidth: CGFloat = 15.0
-//    var startIcon: UIImage?
+
     
     // The duration for the countdown in seconds
     var countdownDuration: TimeInterval = 03.0
     
-    private var startTime: Date?
+    var startTime: Date?
     private var timer: Timer?
     
     private var backgroundOverlay: UIView = {
@@ -65,11 +64,6 @@ class CountdownRingView: UIView {
         ringLayer.lineCap = .round
         layer.addSublayer(ringLayer)
         
-        // Create the start icon layer
-//        startIconLayer = CALayer()
-//        startIconLayer.contentsGravity = .center
-//        layer.addSublayer(startIconLayer)
-        
     }
     
     override func layoutSubviews() {
@@ -94,16 +88,8 @@ class CountdownRingView: UIView {
         ringLayer.strokeEnd = 1.0
         
         
-        // Set the start icon image
-//        if let startIcon = startIcon {
-//            startIconLayer.contents = startIcon.cgImage
-//            startIconLayer.transform = CATransform3DMakeScale(0.5, 0.5, 0.5)
-//            startIconLayer.position = CGPoint(x: 100, y: 10)
-//            let rotationAngle: CGFloat = CGFloat.pi / 1.5 // Adjust the rotation angle as needed
-//            startIconLayer.transform = CATransform3DRotate(startIconLayer.transform, rotationAngle, 0, 0, -0.8)
-//        }
-        
     }
+
     
     func startCountdown() {
         startTime = Date()
