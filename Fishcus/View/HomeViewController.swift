@@ -309,6 +309,11 @@ class HomeViewController: UIViewController {
        
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     @objc func ShowListFocus(){
         let vc = ResultListViewController()
         self.navigationController?.pushViewController(vc, animated: true)
@@ -369,6 +374,7 @@ class HomeViewController: UIViewController {
         
         vc = SetupFocusViewController()
         
+        vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -376,9 +382,11 @@ class HomeViewController: UIViewController {
         let randomIndex = Int(arc4random_uniform(2))
         
         if randomIndex == 0 {
-            return FishColorGameController()
+            return FishColorGameController(isStimulateGame: true)
+        } else if randomIndex == 1 {
+            return SwipeGameViewController(isStimulateGame: true)
         } else {
-            return BubbleGameController()
+            return BubbleGameController(isStimulateGame: true)
         }
     }
     

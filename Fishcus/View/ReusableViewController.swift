@@ -490,7 +490,7 @@ class EndFocus : UIView {
         headTitle.font = UIFont.rounded(ofSize: 22, weight: .bold)
         headTitle.numberOfLines = 0
         headTitle.textAlignment = .center
-        headTitle.text = "Are you sure? You might lose the fish!"
+        headTitle.text = "Are you sure?\nYou might lose the fish!"
         headTitle.translatesAutoresizingMaskIntoConstraints = false
         
         return headTitle
@@ -552,8 +552,13 @@ class EndFocus : UIView {
         
             
             headTitle.topAnchor.constraint(equalTo: alertContainer.topAnchor, constant: 25),
+
+            headTitle.leadingAnchor.constraint(equalTo: alertContainer.leadingAnchor, constant: 30),
+            headTitle.trailingAnchor.constraint(equalTo: alertContainer.trailingAnchor, constant: -30),
+
             headTitle.widthAnchor.constraint(equalToConstant: 250),
             headTitle.heightAnchor.constraint(equalToConstant: 65),
+
             headTitle.centerXAnchor.constraint(equalTo: alertContainer.centerXAnchor),
             
             line.topAnchor.constraint(equalTo: headTitle.bottomAnchor, constant: 13.5),

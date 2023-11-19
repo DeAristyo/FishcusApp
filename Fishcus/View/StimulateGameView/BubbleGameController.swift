@@ -5,12 +5,21 @@
 //  Created by Dimas Aristyo Rahadian on 09/11/23.
 //
 
-import Foundation
 import UIKit
 
 class BubbleGameController: UIViewController{
     
+    init(isStimulateGame: Bool){
+        self.isStimulateGame = isStimulateGame
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     //View variables declaration
+    private let bubblePopSound = BubbleSound()
     private let progressBar = ProgressBarView()
     private var bubbleViews: [BubbleView] = []
     private var isBubblePositioned: Bool = false
@@ -22,6 +31,29 @@ class BubbleGameController: UIViewController{
     private var initialCountValue = 3
     private var initialCountTimer: Timer!
     private var isGameStarting: Bool = false
+    private var isStimulateGame: Bool = true
+    
+    //Count Down top Label view
+    lazy var countDownTopLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Get Ready!"
+        label.textColor = UIColor(named: "primaryColor")
+        label.layer.shadowColor = UIColor.black.cgColor
+        label.textAlignment = .center
+        label.layer.shadowRadius = 0.5
+        label.layer.shadowOpacity = 0.1
+        label.layer.zPosition = 2
+        label.layer.shadowOffset = CGSize(width: 3, height: 3)
+        label.layer.masksToBounds = false
+        label.font = .rounded(ofSize: 30, weight: .bold)
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.layer.zPosition = 10
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.alpha = 0.0
+        
+        return label
+    }()
     
     //Count down label
     lazy var countDownLabel: UILabel = {
@@ -121,7 +153,7 @@ class BubbleGameController: UIViewController{
     //Warning Label view
     lazy var buttonText: UILabel = {
         let label = UILabel()
-        label.text = "Let’s go!"
+        label.text = isStimulateGame ? "Let’s go!" : "Back"
         label.textColor = UIColor(named: "primaryColor")
         label.textAlignment = .center
         label.font = .rounded(ofSize: 16, weight: .bold)
@@ -205,6 +237,7 @@ class BubbleGameController: UIViewController{
         button.translatesAutoresizingMaskIntoConstraints = false
         button.layer.zPosition = 1
         button.addTarget(self, action: #selector(nextScreen(_:)), for: .touchUpInside)
+        button.alpha = isStimulateGame ? 1.0 : 0.0
         
         return button
     }()
@@ -315,6 +348,7 @@ class BubbleGameController: UIViewController{
         view.addSubview(mainBg)
         view.addSubview(countDownTimer)
         view.addSubview(countDownLabel)
+        view.addSubview(countDownTopLabel)
         view.addSubview(progressBar)
         view.addSubview(label)
         view.addSubview(gameBg)
@@ -349,8 +383,13 @@ class BubbleGameController: UIViewController{
     }
     
     @objc func nextScreen(_ sender: UIButton){
-        let vc = FocusViewController()
-        self.navigationController?.pushViewController(vc, animated: true)
+        if isStimulateGame{
+            let vc = FocusViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }else{
+            self.navigationController?.popViewController(animated: false)
+        }
+        
     }
     
     @objc func updateCountdown() {
@@ -379,9 +418,20 @@ class BubbleGameController: UIViewController{
             self.skipButtonText.alpha = 0.0
         }){ _ in
             // After fade-out animation completes, set the alpha of overlayBg to 1.0 with fadeIn animation
+            self.infoView.removeFromSuperview()
+            self.infoImage.removeFromSuperview()
+            self.infoLabel.removeFromSuperview()
+            self.infoButton.removeFromSuperview()
+            self.infoOverlayBg.removeFromSuperview()
+            self.infoButtonText.removeFromSuperview()
+            self.infoMessage.removeFromSuperview()
+            self.skipButton.removeFromSuperview()
+            self.skipButtonText.removeFromSuperview()
+            
             UIView.animate(withDuration: 0.5, animations: {
                 self.countDownTimer.alpha = 1.0
                 self.countDownLabel.alpha = 1.0
+                self.countDownTopLabel.alpha = 1.0
             })
         }
                 startTimer()
@@ -400,8 +450,12 @@ class BubbleGameController: UIViewController{
             // Set the alpha of elements to 0.0 for a fade-out effect
             self.countDownTimer.alpha = 0.0
             self.countDownLabel.alpha = 0.0
+            self.countDownTopLabel.alpha = 0.0
         }){ _ in
-            // After fade-out animation completes, set the alpha of overlayBg to 1.0 with fadeIn animation
+            self.countDownTopLabel.removeFromSuperview()
+            self.countDownTimer.removeFromSuperview()
+            self.countDownLabel.removeFromSuperview()
+            
             UIView.animate(withDuration: 0.5, animations: {
                 self.label.alpha = 1.0
                 self.gameBg.alpha = 1.0
@@ -421,13 +475,12 @@ class BubbleGameController: UIViewController{
             self.progressBar.alpha = 0.0
             self.label.alpha = 0.0
             self.gameBg.alpha = 0.0
-            
-            // Loop through the subviews of gameBg and set their alpha to 0.0
-            for subview in self.gameBg.subviews {
-                subview.alpha = 0.0
-            }
         }){ _ in
             // After fade-out animation completes, set the alpha of overlayBg to 1.0 with fadeIn animation
+            self.progressBar.removeFromSuperview()
+            self.label.removeFromSuperview()
+            self.gameBg.removeFromSuperview()
+            
             UIView.animate(withDuration: 0.5, animations: {
                 self.overlayBg.alpha = 1.0
                 self.warningView.alpha = 1.0
@@ -442,16 +495,33 @@ class BubbleGameController: UIViewController{
     }
     
     func generateText(){
-        if wrongTap <= 3{
-            warningLabel.text = "Impressive!"
-            warningMessage.text = "Excellent progress! Your focus mode is just a click away~"
-        }else if wrongTap <= 10{
-            warningLabel.text = "Awesome!"
-            warningMessage.text = "You've nailed it! Now, time to switch on your focus mode!"
-        }else if wrongTap > 10{
-            warningLabel.text = "Great!"
-            warningMessage.text = "You seem to be focused! Ready for your study session?"
+        if isStimulateGame{
+            if wrongTap <= 3{
+                warningLabel.text = "Impressive!"
+                warningMessage.text = "Excellent progress! Your focus mode is just a click away~"
+            }else if wrongTap <= 10{
+                warningLabel.text = "Awesome!"
+                warningMessage.text = "You've nailed it! Now, time to switch on your focus mode!"
+            }else if wrongTap > 10{
+                warningLabel.text = "Great!"
+                warningMessage.text = "You seem to be focused! Ready for your study session?"
+            }
+        }else{
+            if wrongTap <= 3{
+                warningLabel.text = "Impressive!"
+                warningMessage.text = "Wrong Tap : \(wrongTap)"
+            }else if wrongTap <= 5{
+                warningLabel.text = "Awesome!"
+                warningMessage.text = "Wrong Tap : \(wrongTap)"
+            }else if wrongTap <= 10{
+                warningLabel.text = "Great!"
+                warningMessage.text = "Wrong Tap : \(wrongTap)"
+            }else{
+                warningLabel.text = "Hmmm..."
+                warningMessage.text = "Wrong Tap : \(wrongTap)"
+            }
         }
+        
     }
     
     func addInitialBubbles() {
@@ -556,6 +626,7 @@ class BubbleGameController: UIViewController{
             
             if tappedBubble.number == lowestNumber {
                 tappedBubble.removeFromSuperview()
+                bubblePopSound.playSound()
                 if let index = bubbleViews.firstIndex(of: tappedBubble) {
                     bubbleViews.remove(at: index)
                 }
@@ -576,7 +647,6 @@ class BubbleGameController: UIViewController{
     }
     
     func allBubblesTapped() {
-        print("All bubbles are tapped!")
         if gameLevel <= 5 && isGameStarting == true{
             numberOfBubbles += 1
             for bubble in bubbleViews {
@@ -586,7 +656,7 @@ class BubbleGameController: UIViewController{
             
             addInitialBubbles()
         }else{
-            print("done the game is done")
+            gameBg.removeFromSuperview()
             fadeOutElements()
             numberOfBubbles = 5
             gameLevel = 1
@@ -653,8 +723,9 @@ class BubbleGameController: UIViewController{
             warningButton.bottomAnchor.constraint(equalTo: warningView.bottomAnchor, constant: -30),
             
             //Warning button text constraint
-            buttonText.topAnchor.constraint(equalTo: warningButton.topAnchor, constant: 5),
+//            buttonText.topAnchor.constraint(equalTo: warningButton.topAnchor, constant: isStimulateGame ? 5 : 18),
             buttonText.centerXAnchor.constraint(equalTo: warningButton.centerXAnchor),
+            buttonText.centerYAnchor.constraint(equalTo: warningButton.centerYAnchor, constant: -3),
             
             //Info Rectangle Constraint
             infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
@@ -663,9 +734,10 @@ class BubbleGameController: UIViewController{
             infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //info image constraint
-            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 10),
-            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 10),
-            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -10),
+
+            infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
+            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 15),
+            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -15),
             infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
             infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
             
@@ -711,6 +783,10 @@ class BubbleGameController: UIViewController{
             //Countdown Label Constraint
             countDownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            //Countdown Top Label Constraint
+            countDownTopLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownTopLabel.bottomAnchor.constraint(equalTo: countDownLabel.topAnchor, constant: -130),
             
             //Progress bar Constraint
             progressBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),

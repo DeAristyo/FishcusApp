@@ -17,26 +17,12 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        /// Create a custom view for the back button
-        let backButton = UIButton(type: .system)
-        let symbolConfiguration = UIImage.SymbolConfiguration(pointSize: 12, weight: .bold)
-        backButton.setImage(UIImage(systemName: "chevron.backward")?.withConfiguration(symbolConfiguration), for: .normal)
-        backButton.setTitle("Back", for: .normal)
-        backButton.titleLabel?.font = UIFont.rounded(ofSize: 15, weight: .bold)
-        backButton.tintColor = UIColor(named: "primaryColor") ?? UIColor.white
-
-        backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
-        backButton.sizeToFit()
-
-        let customBackButton = UIBarButtonItem(customView: backButton)
-
-        // Assign the custom back button to the left bar button item
-        navigationItem.leftBarButtonItem = customBackButton
-
         let titleAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.rounded(ofSize: 28, weight: .heavy), // Replace with your desired font and size
+            .font: UIFont.rounded(ofSize: 28, weight: .heavy),
+            .foregroundColor: UIColor.white
         ]
         
+        navigationItem.setHidesBackButton(true, animated: false)
         navigationController?.navigationBar.titleTextAttributes = titleAttributes
         navigationItem.title = "Focus Result"
     
@@ -91,6 +77,11 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
 
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.tabBarController?.tabBar.isHidden = false
+    }
+    
     func minuteToString(time: TimeInterval) -> String {
         let minute = Int(time) / 60
         
@@ -123,6 +114,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         let data = fishingData[indexPath.row]
 
         let resultScreenVC = ResultViewController(time: (minuteToString(time: TimeInterval(data.time ?? "") ?? 0.0)), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""))
+        resultScreenVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(resultScreenVC, animated: true)
     }
 

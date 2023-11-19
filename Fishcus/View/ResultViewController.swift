@@ -391,6 +391,7 @@ class ResultViewController: UIViewController {
       
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
+        containerBtnDone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(finish)))
         animate()
         loadData()
         
@@ -432,7 +433,12 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        self.navigationController?.pushViewController(ResultListViewController(), animated: true)
+        print(self.tabBarController!)
+        self.navigationController?.popToRootViewController(animated: true)
+        if let tabBarController = self.tabBarController {
+            tabBarController.selectedIndex = 1
+        }
+
     }
     
     
@@ -456,7 +462,7 @@ class ResultViewController: UIViewController {
                     self.gradientContainer.alpha = 1.0
                     self.gradientBackground.alpha = 1.0
                     self.labelRarerity.alpha = 1.0
-                    self.rectangleRarerity.alpha = 1.0 
+                    self.rectangleRarerity.alpha = 1.0
                     
                     if self.focusData.count <= 1{
                         let initialShowInfo = self.userGuideInfo[0]
