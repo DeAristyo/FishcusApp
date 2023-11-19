@@ -7,13 +7,17 @@
 
 import UIKit
 
+
+
 class ViewController: UIViewController {
     
     let gacha = GachaSystem()
     let getData = GetDataFishing.getData()
+   
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .black
         
         let button = UIButton(type: .system)
         button.setTitle("Pull", for: .normal)
@@ -29,18 +33,18 @@ class ViewController: UIViewController {
             button.widthAnchor.constraint(equalToConstant: 100),
             button.heightAnchor.constraint(equalToConstant: 50)
         ])
-
-    
-
+        
+  
+        
     }
     
-   
     @objc func gachaPull(){
-        gacha.gachaPull()
+        gacha.gachaPullGroup4()
         print(gacha.setFish)
         print(gacha.setRarerity)
         gacha.reset()
     }
+    
     
     
 }

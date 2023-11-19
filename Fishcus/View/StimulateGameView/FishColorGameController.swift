@@ -421,6 +421,7 @@ class FishColorGameController: UIViewController{
         view.addSubview(countDownTimer)
         view.addSubview(countDownLabel)
         view.addSubview(countDownTopLabel)
+
         view.addSubview(label)
         view.addSubview(gameBg)
         view.addSubview(overlayBg)
@@ -856,6 +857,7 @@ class FishColorGameController: UIViewController{
             infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
             infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 15),
             infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -15),
+
             infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
             infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
             
@@ -960,5 +962,4 @@ class FishColorGameController: UIViewController{
     }
     
 }
-
 

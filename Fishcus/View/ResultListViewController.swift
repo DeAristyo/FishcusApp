@@ -75,8 +75,6 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
             initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
         }
 
-        // sort Descending data list
-       print(fishingData)
     }
     
     override func viewWillAppear(_ animated: Bool) {

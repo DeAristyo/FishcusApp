@@ -35,13 +35,28 @@
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
+		CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC525FF02B08F91900FF29C6 /* BreakAlert.swift */; };
 		CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713132AFEBEE500A5D733 /* CustomTableView.swift */; };
 		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
+		CCBEDD342B07744A004D23A0 /* CustomPickerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBEDD332B07744A004D23A0 /* CustomPickerTime.swift */; };
+		CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD382B089B4C004D23A0 /* focus-evening.mov */; };
+		CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */; };
+		CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */; };
+		CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */; };
+		CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD402B089C49004D23A0 /* focus-night.mov */; };
+		CCBEDD432B089C68004D23A0 /* reeling-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD422B089C68004D23A0 /* reeling-night.mov */; };
+		CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD442B089C7F004D23A0 /* pause-night.mov */; };
+		CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD462B089CA2004D23A0 /* transition-night.mov */; };
 		CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E662B0276320036D455 /* NotificationServices.swift */; };
 		CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E682B02A02C0036D455 /* MotionServices.swift */; };
 		CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6A2B02AC270036D455 /* DataPersistence.swift */; };
+		CCE17E6D2B0377410036D455 /* FilterNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6C2B0377410036D455 /* FilterNotifications.swift */; };
+		CCEC209D2B05CC1D003319A3 /* SetupFocusModeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC209C2B05CC1D003319A3 /* SetupFocusModeAlert.swift */; };
+		CCEC20A02B05FCEE003319A3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC209F2B05FCEE003319A3 /* Colors.swift */; };
+		CCEC20A22B060189003319A3 /* ToggleSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC20A12B060189003319A3 /* ToggleSwitch.swift */; };
+		CCEC20A42B06AAD6003319A3 /* SetupFocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC20A32B06AAD6003319A3 /* SetupFocusViewController.swift */; };
 		DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */; };
 		DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */; };
 		DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */; };
@@ -83,14 +98,29 @@
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
 		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
 		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
+		CC525FF02B08F91900FF29C6 /* BreakAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakAlert.swift; sourceTree = "<group>"; };
 		CC9713132AFEBEE500A5D733 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
+		CCBEDD332B07744A004D23A0 /* CustomPickerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerTime.swift; sourceTree = "<group>"; };
+		CCBEDD382B089B4C004D23A0 /* focus-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "focus-evening.mov"; sourceTree = "<group>"; };
+		CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-evening.mov"; sourceTree = "<group>"; };
+		CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "pause-evening.mov"; sourceTree = "<group>"; };
+		CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "reeling-evening.mov"; sourceTree = "<group>"; };
+		CCBEDD402B089C49004D23A0 /* focus-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "focus-night.mov"; sourceTree = "<group>"; };
+		CCBEDD422B089C68004D23A0 /* reeling-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "reeling-night.mov"; sourceTree = "<group>"; };
+		CCBEDD442B089C7F004D23A0 /* pause-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "pause-night.mov"; sourceTree = "<group>"; };
+		CCBEDD462B089CA2004D23A0 /* transition-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-night.mov"; sourceTree = "<group>"; };
 		CCE17E652B0221E70036D455 /* Fishcus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fishcus.entitlements; sourceTree = "<group>"; };
 		CCE17E662B0276320036D455 /* NotificationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServices.swift; sourceTree = "<group>"; };
 		CCE17E682B02A02C0036D455 /* MotionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionServices.swift; sourceTree = "<group>"; };
 		CCE17E6A2B02AC270036D455 /* DataPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistence.swift; sourceTree = "<group>"; };
+		CCE17E6C2B0377410036D455 /* FilterNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNotifications.swift; sourceTree = "<group>"; };
+		CCEC209C2B05CC1D003319A3 /* SetupFocusModeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupFocusModeAlert.swift; sourceTree = "<group>"; };
+		CCEC209F2B05FCEE003319A3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
+		CCEC20A12B060189003319A3 /* ToggleSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSwitch.swift; sourceTree = "<group>"; };
+		CCEC20A32B06AAD6003319A3 /* SetupFocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupFocusViewController.swift; sourceTree = "<group>"; };
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
 		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -122,6 +152,7 @@
 				26A1CAD6F13AC04235988469 /* focusBreakExhaustedAlert.swift */,
 				D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */,
 				CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */,
+				CC525FF02B08F91900FF29C6 /* BreakAlert.swift */,
 			);
 			path = alerts;
 			sourceTree = "<group>";
@@ -171,6 +202,9 @@
 			isa = PBXGroup;
 			children = (
 				A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */,
+				CCEC20A12B060189003319A3 /* ToggleSwitch.swift */,
+				CCEC209C2B05CC1D003319A3 /* SetupFocusModeAlert.swift */,
+				CCBEDD332B07744A004D23A0 /* CustomPickerTime.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -207,6 +241,7 @@
 				A5A16F842B074DDC00387A0F /* Extensions */,
 				CCE17E652B0221E70036D455 /* Fishcus.entitlements */,
 				A57D87562B03734F0064AD70 /* Sound */,
+				CC9DAB742AF3E5230000B271 /* Extensions */,
 				CC9713152AFEC14B00A5D733 /* Model */,
 				DDADDA352AFCEB7C0012CC1C /* Video */,
 				46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */,
@@ -233,15 +268,48 @@
 		CC9DAB742AF3E5230000B271 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				CCEC209F2B05FCEE003319A3 /* Colors.swift */,
 				CC9DAB752AF3E53A0000B271 /* Font.swift */,
+				CCE17E6C2B0377410036D455 /* FilterNotifications.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CCBEDD352B089B06004D23A0 /* morning */ = {
+			isa = PBXGroup;
+			children = (
+				DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */,
+				DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */,
+				DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */,
+			);
+			path = morning;
+			sourceTree = "<group>";
+		};
+		CCBEDD362B089B0E004D23A0 /* evening */ = {
+			isa = PBXGroup;
+			children = (
+				CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */,
+				CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */,
+				CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */,
+				CCBEDD382B089B4C004D23A0 /* focus-evening.mov */,
+			);
+			path = evening;
+			sourceTree = "<group>";
+		};
+		CCBEDD372B089B16004D23A0 /* night */ = {
+			isa = PBXGroup;
+			children = (
+				CCBEDD462B089CA2004D23A0 /* transition-night.mov */,
+				CCBEDD442B089C7F004D23A0 /* pause-night.mov */,
+				CCBEDD422B089C68004D23A0 /* reeling-night.mov */,
+				CCBEDD402B089C49004D23A0 /* focus-night.mov */,
+			);
+			path = night;
 			sourceTree = "<group>";
 		};
 		DD102DC42555D4A2CE988A6C = {
 			isa = PBXGroup;
 			children = (
-				CC9DAB742AF3E5230000B271 /* Extensions */,
 				A54AA40A126C869AA62DD78E /* Config */,
 				A779152ED636EBBC4A73620A /* Fishcus */,
 				6B6ADA367ADFD13C408441A9 /* Products */,
@@ -251,12 +319,18 @@
 		DDADDA352AFCEB7C0012CC1C /* Video */ = {
 			isa = PBXGroup;
 			children = (
+
 				A5476D342B0A1C7B0055B300 /* HomeScreenDay.mov */,
 				A5476D352B0A1C7B0055B300 /* HomeScreenEvening.mov */,
 				A5476D332B0A1C7B0055B300 /* HomeScreenNight.mov */,
 				DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */,
 				DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */,
 				DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */,
+
+				CCBEDD372B089B16004D23A0 /* night */,
+				CCBEDD362B089B0E004D23A0 /* evening */,
+				CCBEDD352B089B06004D23A0 /* morning */,
+
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -268,6 +342,7 @@
 				A5A16FB52B091CC700387A0F /* GameViewController.swift */,
 				B020708D44C6706B46A2EA01 /* FocusViewController.swift */,
 				8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */,
+				CCEC20A32B06AAD6003319A3 /* SetupFocusViewController.swift */,
 				FC088CEAD3CFD228AC35590F /* ResultViewController.swift */,
 				E119061096C4A36904EC0AD3 /* ReusableViewController.swift */,
 				CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */,
@@ -339,14 +414,29 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+
 				A5476D372B0A1C7B0055B300 /* HomeScreenDay.mov in Resources */,
+
+				CCBEDD432B089C68004D23A0 /* reeling-night.mov in Resources */,
+
 				86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */,
+				CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */,
+				CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */,
 				DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */,
+				CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */,
 				DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */,
+
 				A5476D362B0A1C7B0055B300 /* HomeScreenNight.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
 				A5476D382B0A1C7B0055B300 /* HomeScreenEvening.mov in Resources */,
 				A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */,
+
+				CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */,
+				CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */,
+				CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */,
+				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
+				CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */,
+
 				DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -359,9 +449,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */,
+
 				A5A16FB42B091C2E00387A0F /* TabBarController.swift in Sources */,
+
+				CCEC20A02B05FCEE003319A3 /* Colors.swift in Sources */,
+
 				CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */,
+				CCE17E6D2B0377410036D455 /* FilterNotifications.swift in Sources */,
 				C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */,
+				CCBEDD342B07744A004D23A0 /* CustomPickerTime.swift in Sources */,
 				A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */,
 				5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */,
 				A5A16FB22B09024300387A0F /* Colors.swift in Sources */,
@@ -371,12 +467,15 @@
 				CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */,
 				A5A16F832B06616800387A0F /* DragFishGameController.swift in Sources */,
 				CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */,
+				CCEC20A42B06AAD6003319A3 /* SetupFocusViewController.swift in Sources */,
 				50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */,
 				F250374E843BD8AF51B3B5A6 /* DelegateProtocol.swift in Sources */,
+				CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */,
 				CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */,
 				CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */,
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,
 				A58D67892AFF8C54001CBA37 /* FishColorGameController.swift in Sources */,
+				CCEC20A22B060189003319A3 /* ToggleSwitch.swift in Sources */,
 				3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */,
 				CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */,
 				A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */,
@@ -386,6 +485,7 @@
 				39AADC20B08DE9F1B7B1C2B5 /* ReusableViewController.swift in Sources */,
 				F61BA4A3D589BC28986F6320 /* SceneDelegate.swift in Sources */,
 				CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */,
+				CCEC209D2B05CC1D003319A3 /* SetupFocusModeAlert.swift in Sources */,
 				EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */,
 				F82D89878AC79D25F8AC93F9 /* focusBreakExhaustedAlert.swift in Sources */,
 				A5A16F812B04B75600387A0F /* SwipeGameViewController.swift in Sources */,
@@ -482,8 +582,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 75VHUVZJF4;
+
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = MNPQBHRKTX;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -492,7 +593,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.dev.fishcus;
 				PRODUCT_NAME = Fishcus;
@@ -571,8 +672,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+
 				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = 75VHUVZJF4;
+
+				CURRENT_PROJECT_VERSION = 4;
+				DEVELOPMENT_TEAM = MNPQBHRKTX;
+
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -581,7 +687,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.3;
+				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
 				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.fishcus;
 				PRODUCT_NAME = Fishcus;

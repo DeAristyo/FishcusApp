@@ -2,10 +2,15 @@
 //  Colors.swift
 //  Fishcus
 //
+
 //  Created by Dimas Aristyo Rahadian on 18/11/23.
+
+//  Created by Vicky Irwanto on 16/11/23.
+
 //
 
 import UIKit
+
 
 extension UIColor{
     struct MyColors{

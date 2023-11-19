@@ -9,9 +9,24 @@ import UIKit
 
 protocol DelegateProtocol: AnyObject{
     func changeShowInfo()
-    func takePodomoroAlert()
-    func continuePodomoroAlert()
-    func dismissBreakExhausted()
+    func breakBtn()
+    func continueBtn()
+    func finishBtn()
+}
+
+protocol DelegateButtonStart: AnyObject{
+    func changeScreen()
+    func ShowAlertMinFocusDuration()
+    func SendValueToggle()
+    func SendDataFocus(_ activity: String, _ focusDuration: Int, _ breakDuration: Int)
+}
+
+protocol DelegatePickerTime: AnyObject{
+    func sendFocusDuration(time: String)
+}
+
+protocol DelegateToggleSwitch: AnyObject{
+    func ToggleSwitchRun()
 }
 
 

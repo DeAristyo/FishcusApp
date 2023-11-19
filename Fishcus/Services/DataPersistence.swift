@@ -35,8 +35,8 @@ class DataPersistence{
             "date": dateString,
             "time": "\(timerStart)",
             "activity": text,
-            "fish": timerStart >= 1200 ? self.setFish : "nil",
-            "rarerity": timerStart >= 1200  ? self.rarerity : "nil"
+            "fish": self.setFish,
+            "rarerity": self.rarerity
         ]
         
         var existingData: [[String: String]]

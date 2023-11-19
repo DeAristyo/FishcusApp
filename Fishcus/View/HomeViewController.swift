@@ -20,7 +20,7 @@ class HomeViewController: UIViewController {
         
         title.text = "Hi, "
         title.layer.zPosition = 8
-        title.textColor = UIColor(named: "regular-text")
+        title.textColor = UIColor.MyColors.regularText
         title.layer.shadowColor = UIColor.black.cgColor
         title.layer.shadowRadius = 0.5
         title.layer.shadowOpacity = 0.1
@@ -221,7 +221,7 @@ class HomeViewController: UIViewController {
         view.addSubview(containerLabel)
         
         NSLayoutConstraint.activate([
-            containerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 103),
+            containerLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             containerLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             containerLabel.widthAnchor.constraint(equalToConstant: 321),
             containerLabel.heightAnchor.constraint(equalToConstant: 81)
@@ -259,7 +259,7 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             bgCircle.centerXAnchor.constraint(equalTo: bgFocus.centerXAnchor),
-            bgCircle.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -50),
+            bgCircle.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -10),
             bgCircle.widthAnchor.constraint(equalToConstant: 162),
             bgCircle.heightAnchor.constraint(equalToConstant: 162)
         ])
@@ -269,7 +269,7 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             innerCircle.centerXAnchor.constraint(equalTo: bgFocus.centerXAnchor),
-            innerCircle.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -50),
+            innerCircle.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -10),
             innerCircle.widthAnchor.constraint(equalToConstant: 128),
             innerCircle.heightAnchor.constraint(equalToConstant: 128)
         ])
@@ -278,7 +278,7 @@ class HomeViewController: UIViewController {
         
         NSLayoutConstraint.activate([
             btnFocus.centerXAnchor.constraint(equalTo: bgFocus.centerXAnchor),
-            btnFocus.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -50),
+            btnFocus.centerYAnchor.constraint(equalTo: bgFocus.centerYAnchor, constant: -10),
             btnFocus.widthAnchor.constraint(equalToConstant: 90),
             btnFocus.heightAnchor.constraint(equalToConstant: 90)
         ])
@@ -286,7 +286,7 @@ class HomeViewController: UIViewController {
         view.addSubview(btnHistory)
         
         NSLayoutConstraint.activate([
-            btnHistory.topAnchor.constraint(equalTo: containerLabel.bottomAnchor, constant: 12),
+            btnHistory.topAnchor.constraint(equalTo: containerLabel.bottomAnchor, constant: 10),
             btnHistory.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
@@ -316,7 +316,6 @@ class HomeViewController: UIViewController {
     
     @objc func ShowListFocus(){
         let vc = ResultListViewController()
-        
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -373,11 +372,7 @@ class HomeViewController: UIViewController {
     func nextScreen(){
         var vc: UIViewController
         
-        if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
-            vc = FocusViewController()
-        }else{
-            vc = randomizeGameController()
-        }
+        vc = SetupFocusViewController()
         
         vc.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(vc, animated: true)

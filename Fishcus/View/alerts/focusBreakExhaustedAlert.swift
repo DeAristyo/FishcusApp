@@ -130,11 +130,11 @@ class FocusBreakExhausted : UIView {
             
         ])
         
-        btnBack.addTarget(self, action: #selector(btnBackAction), for: .touchUpInside)
+//        btnBack.addTarget(self, action: #selector(btnBackAction), for: .touchUpInside)
     }
     
-    @objc func btnBackAction(){
-        delegate?.dismissBreakExhausted()
-    }
+//    @objc func btnBackAction(){
+//        delegate?.dismissBreakExhausted()
+//    }
    
 }

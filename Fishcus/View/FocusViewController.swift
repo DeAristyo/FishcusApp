@@ -11,6 +11,14 @@ import AVFoundation
 import UserNotifications
 
 class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelegate  {
+
+    // setup focus var
+    var activity: String? = UserDefaults.standard.string(forKey: "activity") ?? "empty"
+    var focusDuration: Int = UserDefaults.standard.integer(forKey: "focusDuration")
+    var breakDuration: Int = UserDefaults.standard.integer(forKey: "breakDuration")
+    var cycleSytem: Int = UserDefaults.standard.integer(forKey: "cycle")
+    var timeRecap: [Int] = []
+
     
     //Service Class
     let gachaSytem = GachaSystem()
@@ -28,7 +36,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     //Timer
     var timer: Timer?
-    var timerStart: Int = 1200
+    var timerStart: Int = 290
     
     //show info toggle to show more info in pause mode
     var showInfo = false
@@ -42,11 +50,9 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                     self.infoEndSession.alpha = 1.0
                     self.infoEndSessionLabel.alpha = 1.0
                     self.infoEndSessionIcon.alpha = 1.0
-                    self.infoPodomoro.alpha = 0.0
                     self.infoEndSession.layer.zPosition = 15
                     self.infoEndSessionIcon.layer.zPosition = 15
                     self.infoEndSessionLabel.layer.zPosition = 15
-                    self.infoPodomoro.layer.zPosition = 12
                 })
                 
                 self.view.addSubview(infoEndFocus)
@@ -59,13 +65,14 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                     infoEndFocus.trailingAnchor.constraint(equalTo: view.trailingAnchor),
                     infoEndFocus.bottomAnchor.constraint(equalTo: view.bottomAnchor)
                 ])
+                
+                startMotionUpdates()
             }
         }
     }
     
-    //Podomoro system
-    var podomoroTime = 0
-    var podomoroStep = 1
+    //CountDown label
+    var initialCountValue = 3
     
     
     var timerLabel: UILabel = {
@@ -77,6 +84,18 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         timerLabel.translatesAutoresizingMaskIntoConstraints = false
         
         return timerLabel
+    }()
+    
+    lazy var countDownLabel: UILabel = {
+        let label = UILabel()
+        label.text = "\(initialCountValue)"
+        label.textColor = UIColor(named: "primaryColor")
+        label.textAlignment = .center
+        label.font = .rounded(ofSize: 60, weight: .bold)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.layer.zPosition = 13
+        
+        return label
     }()
     
     
@@ -178,7 +197,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     private var infoLabel: UIView = {
         let view = UIView()
-        view.layer.backgroundColor = UIColor.white.cgColor
+        view.layer.backgroundColor = UIColor.MyColors.regularText.cgColor
         view.layer.cornerRadius = 25
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -193,7 +212,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         text.lineBreakMode = .byWordWrapping
         // Line height: 21.48 pt
         text.textAlignment = .center
-        text.text = "You are allowed to open other apps. When the timer reach its limit, you can’t pause anymore."
+        text.text = "In Break Time, feel free to relax and switch apps. If you'd like to end the session, simply pull out your phone to finish~"
         text.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(text)
@@ -201,11 +220,48 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         NSLayoutConstraint.activate([
             text.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             text.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            text.topAnchor.constraint(equalTo: view.topAnchor),
-            text.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            text.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            text.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            text.widthAnchor.constraint(equalToConstant: 274),
+            text.heightAnchor.constraint(equalToConstant: 67)
         ])
+        
+        
+        let image = UIImageView()
+        image.image = UIImage(named: "icon-pull-out-black")
+        image.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(image)
+        
+        NSLayoutConstraint.activate([
+            image.topAnchor.constraint(equalTo: text.bottomAnchor, constant: -20),
+            image.trailingAnchor.constraint(equalTo: text.trailingAnchor),
+        ])
+        
+        applyShakeAnimation2()
+        
+        func applyShakeAnimation2() {
+            UIView.animate(withDuration: 0.5, animations: {
+               image.transform = CGAffineTransform(translationX: 5, y: -8)
+            }, completion: { done in
+                
+                if done{
+                    LoopAnimate2()
+                }
+                
+            })
+        }
+        
+        func LoopAnimate2(){
+            UIView.animate(withDuration: 1.5, animations: {
+                image.transform = CGAffineTransform(translationX: 0, y: 0)
+            }, completion: { done in
+                
+                if done{
+                    applyShakeAnimation2()
+                }
+                
+            })
+        }
+        
         
         return view
     }()
@@ -260,30 +316,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     private var infoEndFocus = ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "\"Finished studying? End your focus mode by lifting your cellphone like you're pulling in a fishing rod.\"", position: false, labelTextStyle: .label10)
     private var infoInputTask = ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot2, labelText: "“Ready to spill the study tea? Time to input your study milestones. We're crafting your own study map to discover your progress.”", position: false, labelTextStyle: .label11)
-    
-    private var swipeUpIcon: UIImageView = {
-        let view = UIImageView()
-        view.image = UIImage(named: "icon-up")
-        view.contentMode = .scaleAspectFill
-        view.layer.zPosition = 12
-        view.alpha = 0.0
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
-    private var swipeUpLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Pause"
-        label.font = UIFont.rounded(ofSize: 17, weight: .semibold)
-        label.textColor = UIColor(named: "regular-text")
-        label.layer.zPosition = 12
-        label.alpha = 0.0
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
+   
     private var timerShownContainer: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(named: "primaryColor")
@@ -314,19 +347,9 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         return view
     }()
     
-    private var infoPodomoro: UILabel = {
-        let label = UILabel()
-        label.text = "You get a +5 minutes rest!"
-        label.font = UIFont.rounded(ofSize: 20, weight: .bold)
-        label.textColor = UIColor(named: "regular-text")
-        label.translatesAutoresizingMaskIntoConstraints = false
-        
-        return label
-    }()
-    
     private var infoEndSessionLabel: UILabel = {
         let label = UILabel()
-        label.text = "Pull out your phone to finish the task"
+        label.text = "Pull your phone when you're done with tasks~"
         label.textAlignment = .center
         label.font = UIFont.rounded(ofSize: 20, weight: .bold)
         label.textColor = UIColor(named: "regular-text")
@@ -341,7 +364,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     private var infoEndSessionIcon: UIImageView = {
         let view = UIImageView()
         view.contentMode = .scaleAspectFill
-        view.image = UIImage(named: "icon-shake")
+        view.image = UIImage(named: "icon-pull-out")
         view.layer.zPosition = 11
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -411,14 +434,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         return view
     }()
     
-    private var breakExhausted : FocusBreakExhausted = {
-        let view = FocusBreakExhausted()
-        view.layer.zPosition = 12
-        view.translatesAutoresizingMaskIntoConstraints = false
-        
-        return view
-    }()
-    
     private var alertOnFocus: OnFocusAlerts = {
         let view = OnFocusAlerts(icon: .icon1, labelInfo: "You are currently in Focus Mode.")
         view.layer.zPosition = 12
@@ -428,7 +443,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     }()
     
     private var alertOnPodomoro: OnFocusAlerts = {
-        let view = OnFocusAlerts(icon: .icon2, labelInfo: "You’ll get +5 mins break for every 20 minutes study.")
+        let view = OnFocusAlerts(icon: .icon2, labelInfo: "Unlock a well-deserved break after your session.")
         view.layer.zPosition = 12
         view.translatesAutoresizingMaskIntoConstraints = false
         
@@ -450,6 +465,68 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         return view
     }()
     
+    lazy private var labelPrepared: UILabel = {
+        let labelPrepared = UILabel()
+        labelPrepared.text = "Take a deep breath.."
+        labelPrepared.font = UIFont.rounded(ofSize: 30, weight: .bold)
+        labelPrepared.textColor = UIColor(named: "primaryColor")
+        labelPrepared.layer.zPosition = 12
+        labelPrepared.translatesAutoresizingMaskIntoConstraints = false
+        
+        return labelPrepared
+    }()
+    
+    private var breakAlert: BreakAlert = {
+        let view = BreakAlert(breakType: .breakType)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0.0
+        
+        return view
+    }()
+   
+    private var finishAlert: BreakAlert = {
+        let view = BreakAlert(breakType: .finishType)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.alpha = 0.0
+        
+        return view
+    }()
+    
+    private var infoPullOut: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(named: "primaryColor")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.layer.cornerRadius = 25
+        
+        return view
+    }()
+    
+    private var infoPullOutLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Pull your phone if you want to finish your break~"
+        label.textAlignment = .center
+        label.font = UIFont.rounded(ofSize: 20, weight: .bold)
+        label.textColor = UIColor(named: "regular-text")
+        label.numberOfLines = 0
+        label.lineBreakMode = .byWordWrapping
+        label.textAlignment = .center
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    private var infoPullOutIcon: UIImageView = {
+        let view = UIImageView()
+        view.contentMode = .scaleAspectFill
+        view.image = UIImage(named: "icon-pull-out")
+        view.layer.zPosition = 11
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
+        return view
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -462,21 +539,20 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         SetupView()
         SetupOnBoarding()
         SetupConstraint()
+        SetupCountDownRing()
         
         // Gesture config
         SetupGesture()
         
         // Start track motion
-        startMotionUpdates()
+//        stopMotionUpdate()
         
         // Check min condition to get fish
         checkMinimumBadge(timerStart)
+    
+        // Shake Animation
+        applyShakeAnimation()
         
-        // start animated to pause/resume swipe button
-        animatePause()
-        
-        // check phone raise or not
-        checkRaisePhone()
         
         // Setup background Video
         SetupBackgroundLayerVideo()
@@ -506,7 +582,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     /// func start with Setup is related to view coniguration to viewdidload
     func SetupAlpha(){
-        breakExhausted.alpha = 0.0
         podomoroAlerts.alpha = 0.0
         timerPauseContainer.alpha = 0.0
         endFocus.alpha = 0.0
@@ -524,8 +599,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         inputTaskTitle.alpha = 0.0
         inputTaskTextField.alpha = 0.0
         alertOnPodomoro.alpha = 0.0
-        swipeUpIcon.alpha = 0.0
-        swipeUpLabel.alpha = 0.0
         infoInputTask.alpha = 0.0
         videoBgReel.alpha = 0.0
         tempReel.alpha = 0.0
@@ -534,13 +607,72 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         alertOnFocus.alpha = 0.0
     }
     
+    
+    /// Delegate handler
     func SetupDelegate(){
         inputTaskTextField.delegate =  self
         timerPauseContainer.delegate = self
-        breakExhausted.delegate = self
         podomoroAlerts.delegate = self
+        breakAlert.breakAlertDelegate = self
+        finishAlert.breakAlertDelegate = self
     }
     
+    func breakBtn() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.breakAlert.alpha = 0.0
+        })
+        
+        
+    }
+    
+    func ResetFocusMode(){
+        RemoveInfoPullOut()
+        motionManager.stopAccelerometerUpdates()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.breakAlert.alpha = 0.0
+            self.finishAlert.alpha = 0.0
+            self.initialCountValue = 3
+            self.view.addSubview(self.countDownLabel)
+            self.countDownLabel.text = "\(self.initialCountValue)"
+            self.labelPrepared.alpha = 1.0
+            self.countDownLabel.layer.zPosition = 13
+            self.labelPrepared.layer.zPosition = 13
+        })
+        
+       
+        NSLayoutConstraint.activate([
+            countDownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        
+        self.timerStart = 290
+        self.timerPauseContainer.totalPauseTimer = breakDuration
+        self.countDownTimer.ringWidth = 10.0
+        self.countDownTimer.countdownDuration = 03.0
+        self.countDownTimer.startTime = Date()
+        self.countDownTimer.ringLayer.strokeStart = 0
+        self.countDownTimer.ringLayer.strokeEnd = 1.0
+        self.timerLabel.text = "00:00"
+    }
+    
+    func continueBtn() {
+        //Reset focus mode
+        ResetFocusMode()
+        
+        // Start timer countdown
+        self.StartCountDownRing()
+        self.countDownTimer.startCountdown()
+      
+        SwipeDownAction()
+    }
+    
+    func finishBtn() {
+        FinishResult()
+    }
+    
+    
+    /// rendering a view
     func SetupView(){
         view.addSubview(videoBgFocus)
         view.addSubview(tempFocus)
@@ -548,7 +680,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(tempReel)
         view.addSubview(videoBgPause)
         view.addSubview(tempPause)
-        view.addSubview(breakExhausted)
         view.addSubview(podomoroAlerts)
         view.addSubview(hideTimer)
         hideTimer.addSubview(hideIcon)
@@ -556,11 +687,10 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(endFocus)
         view.addSubview(btnContinue)
         view.addSubview(timerPauseContainer)
+        timerPauseContainer.totalPauseTimer = breakDuration
         view.addSubview(stopContainer)
         view.addSubview(iconStop)
         view.addSubview(iconCancel)
-        view.addSubview(swipeUpIcon)
-        view.addSubview(swipeUpLabel)
         view.addSubview(timerShownContainer)
         timerShownContainer.addSubview(hideTimerIcon)
         timerLabel.text = "00:00"
@@ -568,7 +698,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(infoEndSession)
         infoEndSession.addSubview(infoEndSessionIcon)
         infoEndSession.addSubview(infoEndSessionLabel)
-        infoEndSession.addSubview(infoPodomoro)
         view.addSubview(bgInputTask)
         view.addSubview(containerInputTask)
         containerInputTask.addSubview(inputTaskTitle)
@@ -578,16 +707,13 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(alertOnPodomoro)
         view.addSubview(infoInputTask)
         infoInputTask.layer.zPosition = 12
+        view.addSubview(countDownLabel)
+        view.addSubview(breakAlert)
+        view.addSubview(finishAlert)
     }
     
     func SetupConstraint(){
-        NSLayoutConstraint.activate([
-            breakExhausted.topAnchor.constraint(equalTo: view.topAnchor),
-            breakExhausted.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            breakExhausted.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            breakExhausted.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-        ])
-        
+
         NSLayoutConstraint.activate([
             podomoroAlerts.topAnchor.constraint(equalTo: view.topAnchor),
             podomoroAlerts.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -657,18 +783,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         ])
         
         NSLayoutConstraint.activate([
-            swipeUpIcon.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -108),
-            swipeUpIcon.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            swipeUpIcon.widthAnchor.constraint(equalToConstant: 20),
-            swipeUpIcon.heightAnchor.constraint(equalToConstant: 20)
-        ])
-        
-        NSLayoutConstraint.activate([
-            swipeUpLabel.topAnchor.constraint(equalTo: swipeUpIcon.bottomAnchor, constant: 4),
-            swipeUpLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        NSLayoutConstraint.activate([
             timerShownContainer.topAnchor.constraint(equalTo: view.topAnchor, constant: 80),
             timerShownContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             timerShownContainer.widthAnchor.constraint(equalToConstant: 136),
@@ -697,22 +811,15 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         NSLayoutConstraint.activate([
             infoEndSessionIcon.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor),
             infoEndSessionIcon.leadingAnchor.constraint(equalTo: infoEndSession.leadingAnchor, constant: 22),
-            infoEndSessionIcon.widthAnchor.constraint(equalToConstant: 28),
-            infoEndSessionIcon.heightAnchor.constraint(equalToConstant: 28)
+            infoEndSessionIcon.widthAnchor.constraint(equalToConstant: 37),
+            infoEndSessionIcon.heightAnchor.constraint(equalToConstant: 44)
         ])
-        
-        
         
         NSLayoutConstraint.activate([
             infoEndSessionLabel.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor),
             infoEndSessionLabel.leadingAnchor.constraint(equalTo: infoEndSessionIcon.trailingAnchor, constant: 17),
             infoEndSessionLabel.widthAnchor.constraint(equalToConstant: 231),
             infoEndSessionLabel.heightAnchor.constraint(equalToConstant: 50)
-        ])
-        
-        NSLayoutConstraint.activate([
-            infoPodomoro.centerXAnchor.constraint(equalTo: infoEndSession.centerXAnchor),
-            infoPodomoro.centerYAnchor.constraint(equalTo: infoEndSession.centerYAnchor)
         ])
         
         NSLayoutConstraint.activate([
@@ -768,10 +875,28 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             infoInputTask.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             infoInputTask.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
+        
+        NSLayoutConstraint.activate([
+            countDownLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            countDownLabel.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
+        
+        NSLayoutConstraint.activate([
+            breakAlert.topAnchor.constraint(equalTo: view.topAnchor),
+            breakAlert.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            breakAlert.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            breakAlert.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            finishAlert.topAnchor.constraint(equalTo: view.topAnchor),
+            finishAlert.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            finishAlert.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            finishAlert.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
     }
     
     func SetupOnBoarding(){
         if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
+            stopMotionUpdate()
             startTimer()
             alertOnFocus.alpha = 0.0
             
@@ -796,33 +921,9 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 myIndex.removeFromSuperview()
             }
             
-            let blurEffect = UIBlurEffect(style: .light)
-            let blurEffectView = UIVisualEffectView(effect: blurEffect)
             
-            view.addSubview(blurEffectView)
-            
-            view.addSubview(countDownTimer)
-            countDownTimer.translatesAutoresizingMaskIntoConstraints = false
-            countDownTimer.layer.zPosition = 12
-            countDownTimer.transform = CGAffineTransform(rotationAngle: -90 * .pi / 180.0)
-            
-            
-            NSLayoutConstraint.activate([
-                countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            ])
+            StartCountDownRing()
             countDownTimer.startCountdown()
-            DispatchQueue.main.asyncAfter(deadline: .now()+3.5){
-                // Create and start the timer
-                self.startTimer()
-                if((self.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
-                    UIView.animate(withDuration: 0.5, animations: {
-                        self.alertOnFocus.alpha = 1.0
-                    })
-                }
-                blurEffectView.removeFromSuperview()
-                self.countDownTimer.removeFromSuperview()
-            }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 9.0){
                 UIView.animate(withDuration: 0.5, animations: {
@@ -849,16 +950,84 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         }
     }
     
+    
+    /// setup countdown ring
+    @objc func countDownUpdate(){
+        if initialCountValue > 0 {
+            initialCountValue -= 1
+            UIView.transition(with: countDownLabel, duration: 0.5, options: .transitionCrossDissolve, animations: {
+                self.countDownLabel.text = "\(self.initialCountValue)"
+            })
+        }
+    }
+    
+    func SetupCountDownRing(){
+        
+        if((self.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
+            view.addSubview(labelPrepared)
+            
+            NSLayoutConstraint.activate([
+                labelPrepared.topAnchor.constraint(equalTo: view.topAnchor, constant: 180),
+                labelPrepared.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            ])
+            
+            view.addSubview(countDownTimer)
+            countDownTimer.translatesAutoresizingMaskIntoConstraints = false
+            countDownTimer.layer.zPosition = 12
+            countDownTimer.transform = CGAffineTransform(rotationAngle: -90 * .pi / 180.0)
+            
+            
+            NSLayoutConstraint.activate([
+                countDownTimer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+                countDownTimer.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            ])
+           
+        }
+       
+    }
+    
+    func StartCountDownLabel(){
+        timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(countDownUpdate), userInfo: nil, repeats: true)
+    }
+    
+    func StartCountDownRing(){
+        let blurEffect = UIBlurEffect(style: .light)
+        let blurEffectView = UIVisualEffectView(effect: blurEffect)
+        blurEffectView.layer.zPosition = 12
+        blurEffectView.frame = view.bounds
+        blurEffectView.alpha = 0.9
+        
+        view.addSubview(blurEffectView)
+        
+        SetupCountDownRing()
+        
+        StartCountDownLabel()
+        
+        DispatchQueue.main.asyncAfter(deadline: .now()+3.5){
+            // Create and start the timer
+            self.countDownLabel.removeFromSuperview()
+            
+            if self.timer != nil{
+                self.timer?.invalidate()
+                self.startTimer()
+            }
+            
+            if((self.myUserDefault.data(forKey: "focusData")?.isEmpty) != nil){
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.alertOnFocus.alpha = 1.0
+                })
+            }
+            blurEffectView.removeFromSuperview()
+            self.labelPrepared.removeFromSuperview()
+            self.countDownTimer.removeFromSuperview()
+        }
+    }
+    
+    
+    /// setup gesture
     func SetupGesture(){
-        // Create a swipe gesture recognizer
-        let swipeGesture = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipe(_:)))
-        swipeGesture.direction = .up
-        view.addGestureRecognizer(swipeGesture)
         
-        let swipeGestureDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeDown(_:)))
-        swipeGestureDown.direction = .down
-        view.addGestureRecognizer(swipeGestureDown)
-        
+        // Create gesture recognizer
         let tapGestureLastInfo = UITapGestureRecognizer(target: self, action: #selector(lastInfo))
         infoInputTask.isUserInteractionEnabled = true
         infoInputTask.addGestureRecognizer(tapGestureLastInfo)
@@ -874,51 +1043,79 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         hideTimer.addTarget(self, action: #selector(showTimer), for: .touchUpInside)
         hideTimerIcon.addTarget(self, action: #selector(timerHide), for: .touchUpInside)
         
-        inputTaskBtn.addTarget(self, action: #selector(continueResult), for: .touchUpInside)
     }
     
     
-    /// podomoro system
-    func dismissBreakExhausted() {
-        UIView.animate(withDuration: 0.5, animations: { [self] in
-            self.breakExhausted.alpha = 0.0
-            self.timer?.invalidate()
-            startTimer()
+    
+    ///Setup Animation Shake
+    func applyShakeAnimation() {
+        UIView.animate(withDuration: 0.5, animations: {
+            self.infoEndSessionIcon.transform = CGAffineTransform(translationX: 5, y: -8)
+            self.infoPullOutIcon.transform = CGAffineTransform(translationX: 5, y: -8)
+        }, completion: { done in
+            
+            if done{
+                self.LoopAnimate()
+            }
+            
         })
     }
     
-    func takePodomoroAlert() {
-        timerPauseContainer.totalPauseTimer += 300
-       
-        UIView.animate(withDuration: 0.5, animations: {
-            self.podomoroAlerts.alpha = 0.0
-        })
-        
-        SwipeUpAction()
-        
-    }
-    
-    func continuePodomoroAlert() {
-        timerPauseContainer.totalPauseTimer += 300
-        UIView.animate(withDuration: 0.5, animations: {
-            self.podomoroAlerts.alpha = 0.0
+    func LoopAnimate(){
+        UIView.animate(withDuration: 1.5, animations: {
+            self.infoEndSessionIcon.transform = CGAffineTransform(translationX: 0, y: 0)
+            self.infoPullOutIcon.transform = CGAffineTransform(translationX: 0, y: 0)
+        }, completion: { done in
+            
+            if done{
+                self.applyShakeAnimation()
+            }
+            
         })
     }
     
     
     /// Setup Video Layer as Background
     func SetupBackgroundLayerVideo(){
-        guard let pathFocus = Bundle.main.path(forResource: "FocusModeAnimation", ofType: "mov") else {
+        var urlVideo = ""
+        var reelingVideo = ""
+        var pauseVideo = ""
+        
+        switch cycleSytem{
+        case 1:
+            urlVideo = "FocusModeAnimation"
+            reelingVideo = "ReelingAnimation"
+            pauseVideo = "PauseModeAnimation"
+            break
+        case 2:
+            urlVideo = "focus-evening"
+            reelingVideo = "reeling-evening"
+            pauseVideo = "pause-evening"
+            break
+        case 3:
+            urlVideo = "focus-night"
+            reelingVideo = "reeling-night"
+            pauseVideo = "pause-night"
+            break
+        default:
+            urlVideo = "FocusModeAnimation"
+            reelingVideo = "ReelingAnimation"
+            pauseVideo = "PauseModeAnimation"
+            break
+        }
+        
+        
+        guard let pathFocus = Bundle.main.path(forResource: "\(urlVideo)", ofType: "mov") else {
             print("Video file not found")
             return
         }
         
-        guard let pathReel = Bundle.main.path(forResource: "ReelingAnimation", ofType: "mov") else {
+        guard let pathReel = Bundle.main.path(forResource: "\(reelingVideo)", ofType: "mov") else {
             print("Video file not found")
             return
         }
         
-        guard let pathPause = Bundle.main.path(forResource: "PauseModeAnimation", ofType: "mov") else {
+        guard let pathPause = Bundle.main.path(forResource: "\(pauseVideo)", ofType: "mov") else {
             print("Video file not found")
             return
         }
@@ -954,6 +1151,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     }
     
     func playVideoFocus() {
+        startMotionUpdates()
         fokus?.play()
         // Observe the AVPlayer's currentItem status and timeControlStatus
         fokus?.currentItem?.addObserver(self, forKeyPath: #keyPath(AVPlayerItem.status), options: [.new], context: nil)
@@ -1023,14 +1221,13 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             case 3:
                 timerPauseContainer.layer.zPosition = 15
                 
-                //Animated the pause/resume btn
-                animatePause()
-                
                 // Start pause action
                 SwipeUpAction()
                 
-                let gesture = UITapGestureRecognizer(target: self, action: #selector(guideTapGesture))
-                nextView.addGestureRecognizer(gesture)
+                DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
+                    let gesture = UITapGestureRecognizer(target: self, action: #selector(self.guideTapGesture))
+                    nextView.addGestureRecognizer(gesture)
+                }
                 break
                 
             case 4:
@@ -1041,14 +1238,11 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 nextView.addGestureRecognizer(gesture)
                 break
             case 5:
-                animatePause()
                 activeGestureView()
                 
                 UIView.animate(withDuration: 0.5, animations: {
                     self.infoEndSession.alpha = 1.0
-                    self.infoPodomoro.alpha = 1.0
                     self.infoEndSession.layer.zPosition = 15
-                    self.infoPodomoro.layer.zPosition = 15
                 })
                 
                 SwipeDownAction()
@@ -1095,7 +1289,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             self.view.addGestureRecognizer(tapGesture)
             UIView.animate(withDuration: 0.4, animations: {
                 self.infoEndSession.alpha = 0.0
-                self.infoPodomoro.alpha = 0.0
                 self.infoEndSessionIcon.alpha = 0.0
                 self.infoEndSessionLabel.alpha = 0.0
                 self.iconStop.alpha = 0.0
@@ -1109,12 +1302,49 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 self.infoEndSessionLabel.layer.zPosition = 12
                 
             })
-            didFinish()
         }
     }
     
     
     /// Motion Services
+    func ShowInfoPullOut(){
+        
+        infoPullOut.alpha = 0.0
+        infoPullOutIcon.alpha = 0.0
+        infoPullOutLabel.alpha = 0.0
+        
+        view.addSubview(infoPullOut)
+        infoPullOut.addSubview(infoPullOutLabel)
+        infoPullOut.addSubview(infoPullOutIcon)
+        
+        NSLayoutConstraint.activate([
+            infoPullOut.topAnchor.constraint(equalTo: view.topAnchor, constant: 240),
+            infoPullOut.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            infoPullOut.widthAnchor.constraint(equalToConstant: 335),
+            infoPullOut.heightAnchor.constraint(equalToConstant: 65)
+        ])
+        
+        NSLayoutConstraint.activate([
+            infoPullOutIcon.centerYAnchor.constraint(equalTo: infoPullOut.centerYAnchor),
+            infoPullOutIcon.leadingAnchor.constraint(equalTo: infoPullOut.leadingAnchor, constant: 22),
+            infoPullOutIcon.widthAnchor.constraint(equalToConstant: 37),
+            infoPullOutIcon.heightAnchor.constraint(equalToConstant: 44)
+        ])
+        
+        NSLayoutConstraint.activate([
+            infoPullOutLabel.centerYAnchor.constraint(equalTo: infoPullOut.centerYAnchor),
+            infoPullOutLabel.leadingAnchor.constraint(equalTo: infoPullOutIcon.trailingAnchor, constant: 17),
+            infoPullOutLabel.widthAnchor.constraint(equalToConstant: 231),
+            infoPullOutLabel.heightAnchor.constraint(equalToConstant: 50)
+        ])
+    }
+    
+    func RemoveInfoPullOut(){
+        infoPullOut.removeFromSuperview()
+        infoPullOutIcon.removeFromSuperview()
+        infoPullOutLabel.removeFromSuperview()
+    }
+    
     func checkRaisePhone(){
         if motionManager.isAccelerometerAvailable {
             motionManager.accelerometerUpdateInterval = 1.2 // Interval pengambilan data dalam detik
@@ -1126,12 +1356,19 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                     let threshold = 1.0 // Nilai ambang dapat disesuaikan sesuai kebutuhan
                     
                     if totalAcceleration > threshold {
-                        self.swipeUpLabel.alpha = 1.0
-                        self.swipeUpIcon.alpha = 1.0
+                    
+                        UIView.animate(withDuration: 0.5, animations: {
+                            self.infoPullOut.alpha = 1.0
+                            self.infoPullOutIcon.alpha = 1.0
+                            self.infoPullOutLabel.alpha = 1.0
+                        })
                         
                         DispatchQueue.main.asyncAfter(deadline: .now()+5.0){
-                            self.swipeUpLabel.alpha = 0.0
-                            self.swipeUpIcon.alpha = 0.0
+                            UIView.animate(withDuration: 0.5, animations: {
+                                self.infoPullOut.alpha = 0.0
+                                self.infoPullOutIcon.alpha = 0.0
+                                self.infoPullOutLabel.alpha = 0.0
+                            })
                         }
                     } else {
                         print("tidak di angkat")
@@ -1154,42 +1391,22 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         }
     }
     
-    
-    /// Animated button
-    func animatePause() {
-        UIView.animate(withDuration: 1, animations: {
-            self.swipeUpIcon.transform = CGAffineTransform(translationX: 0, y: -8)
-        }, completion: { done in
-            if done {
-                self.loopAnimate()
-            }
-        })
-    }
-    
-    func loopAnimate() {
-        UIView.animate(withDuration: 1, animations: {
-            self.swipeUpIcon.transform = CGAffineTransform(translationX: 0, y: 0)
-        }, completion: { done in
-            if done {
-                self.animatePause()
-            }
-        })
+    func stopMotionUpdate(){
+        motionManager.stopDeviceMotionUpdates()
     }
     
     
     /// Minimum bare to get fish
     func checkMinimumBadge(_ timer: Int){
         
-        if timerStart > 1200{
-            endFocus.contentLabel.text = "Finish to see what you've caught!"
-        }else{
-            let theBareMinimum = 1200 - timerStart
+        if timerStart < focusDuration{
+            let theBareMinimum = focusDuration - timerStart
             
             let finalBareTime = minuteToString(time: TimeInterval(theBareMinimum))
             
-            endFocus.contentLabel.text = "Continue for another \(finalBareTime) minutes to get fish or nothing at all"
+            endFocus.contentLabel.text = "Continue for another \(finalBareTime == "00" ? "few seconds" : finalBareTime+" minutes" ) to get fish"
         }
-        
+       
     }
     
     
@@ -1211,25 +1428,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     /// finished focus session and save data
     @objc func continueResult(){
-        
-        guard let text = inputTaskTextField.text, !text.isEmpty else {
-            let alert = UIAlertController(title: "Error", message: "Please fill in the text field", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return
-        }
-        
-        gachaSytem.gachaPull()
-        let setFish = gachaSytem.setFish
-        let setRarerity = gachaSytem.setRarerity
-        
-        // Save content
-        let dataPersistence = DataPersistence(timerStart: timerStart, text: text, setFish: setFish , rarerity: setRarerity)
-        dataPersistence.saveContent()
-        
-        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: timerStart >= 1200 ? setFish : "nil", rare: timerStart >= 1200 ? setRarerity : "nil")
-        gachaSytem.reset()
-        self.navigationController?.pushViewController(vc, animated: true)
+        FinishResult()
     }
     
     
@@ -1273,29 +1472,46 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     /// action if finish btn press
     @objc func btnFinish(){
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissKeyboard))
-        view.addGestureRecognizer(tapGesture)
-        didFinish()
+       FinishResult()
     }
     
-    func didFinish(){
-        UIView.animate(withDuration: 0.5, animations: {
-            self.bgInputTask.alpha = 0.5
-            self.containerInputTask.alpha = 1.0
-            self.inputTaskBtn.alpha = 1.0
-            self.inputTaskTitle.alpha = 1.0
-            self.inputTaskTextField.alpha = 1.0
-            self.btnContinue.alpha = 0.0
-            self.endFocus.alpha = 0.0
-            self.inputTaskTitle.text = "What task you have been working on for the last \(self.minuteToString(time: TimeInterval(self.timerStart))) minutes?"
-            self.hideIcon.alpha = 0.0
-            self.hideTimer.alpha = 0.0
-            self.timerLabel.alpha = 0.0
-            self.timerShownContainer.alpha = 0.0
-            self.hideTimerIcon.alpha = 0.0
-            self.iconCancel.alpha = 0.0
-            self.stopContainer.alpha = 0.0
-        })
+    func FinishResult(){
+        guard let text = activity, activity != "" else{return}
+        
+        var setFish = ""
+        var setRarerity = ""
+        
+        if timerStart >= focusDuration{
+            switch timerStart {
+            case 0...1499:
+                gachaSytem.gachaPullGroup1()
+                break
+            case 1500...2940:
+                gachaSytem.gachaPullGroup2()
+                break
+            case 3000...5340:
+                gachaSytem.gachaPullGroup3()
+                break
+            default:
+                gachaSytem.gachaPullGroup4()
+                break
+            }
+            
+            setFish = gachaSytem.setFish
+            setRarerity = gachaSytem.setRarerity
+        }else{
+            setFish = "nil"
+            setRarerity = "nil"
+        }
+    
+        
+        // Save content
+        let dataPersistence = DataPersistence(timerStart: timerStart, text: text, setFish: setFish , rarerity: setRarerity)
+        dataPersistence.saveContent()
+        
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity )
+        gachaSytem.reset()
+        self.navigationController?.pushViewController(vc, animated: true)
     }
     
     
@@ -1304,19 +1520,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.endEditing(true)
     }
     
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        let currentText = textField.text ?? ""
-        let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
-        
-        if newText.count > 20 {
-            let alert = UIAlertController(title: "Error", message: "Maximum input length is 20 characters", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
-            present(alert, animated: true, completion: nil)
-            return false
-        }
-        
-        return true
-    }
     
     /// stop and cancel button action
     @objc func stopBtnFocus(){
@@ -1324,7 +1527,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             self.infoEndSession.alpha = 1.0
             self.infoEndSessionIcon.alpha = 1.0
             self.infoEndSessionLabel.alpha = 1.0
-            self.infoPodomoro.alpha = 0.0
         })
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 3.5){
@@ -1356,7 +1558,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     /// handle swipe down action in app
     @objc func handleSwipeDown(_ gesture : UISwipeGestureRecognizer){
-        animatePause()
         activeGestureView()
         
         if gesture.state == .ended {
@@ -1373,8 +1574,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             self.infoLabel.alpha = 0.0
             self.stopContainer.alpha = 1.0
             self.mainBg.image = UIImage(named: "bg-latest")
-            self.swipeUpIcon.image = UIImage(named: "icon-up")
-            self.swipeUpLabel.text = "Pause"
             self.hideIcon.alpha = 0.0
             self.hideTimer.alpha = 0.0
             self.timerLabel.alpha = 1.0
@@ -1387,10 +1586,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             self.tempReel.alpha = 0.0
             self.tempPause.alpha = 0.0
         })
-        if timer != nil {
-            timer?.invalidate()
-            startTimer()
-        }
+     
         playVideoFocus()
         reel?.pause()
         pause?.pause()
@@ -1423,38 +1619,19 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     @objc func updateTimerLabel() {
         // Update the timer label with the current time
         timerStart += 1
-        podomoroTime += 1
         
-        if podomoroTime == 1200{
-            
-            if podomoroStep == 1{
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.podomoroAlerts.alpha = 1.0
-                })
-                
-                podomoroTime = 0
-                podomoroStep += 1
-            }else{
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.infoPodomoro.alpha = 1.0
-                    self.infoEndSession.alpha = 1.0
-                })
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0){
-                    UIView.animate(withDuration: 0.5, animations: {
-                        self.infoPodomoro.alpha = 0.0
-                        self.infoEndSession.alpha = 0.0
-                    })
-                }
-                timerPauseContainer.totalPauseTimer += 300
-                podomoroTime = 0
-                podomoroStep += 1
+        if timerStart >= focusDuration{
+            if timer != nil{
+                timer?.invalidate()
+                timeRecap.append(timerStart)
+                print(timeRecap)
+                checkRaisePhone()
+                ShowInfoPullOut()
+                SwipeUpAction()
             }
-            
         }
         
         let currentTime = timerToString(time: TimeInterval(timerStart))
-        print(currentTime)
         timerLabel.text = currentTime
         
     }
@@ -1462,17 +1639,12 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     @objc func updatePauseTimerLabel(){
         
         if timerPauseContainer.totalPauseTimer <= 0{
+            if timer != nil{
+                timer?.invalidate()
+            }
             UIView.animate(withDuration: 0.5, animations: {
-                self.breakExhausted.alpha = 1.0
-                self.timerPauseContainer.alpha = 0.0
-                self.iconStop.alpha = 1.0
-                self.infoLabel.alpha = 0.0
-                self.stopContainer.alpha = 1.0
-                self.mainBg.image = UIImage(named: "bg-latest")
-                self.swipeUpIcon.image = UIImage(named: "icon-up")
-                self.swipeUpLabel.text = "Pause"
-                self.hideIcon.alpha = 1.0
-                self.hideTimer.alpha = 1.0
+                self.finishAlert.layer.zPosition = 13
+                self.finishAlert.alpha = 1.0
             })
         }else{
             timerPauseContainer.updatePauseTimer()
@@ -1484,21 +1656,31 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
         if timer != nil {
-            timer?.invalidate()
-            timer = nil
+           
+            if timerStart >= focusDuration && timerPauseContainer.totalPauseTimer != 0{
+                UIView.animate(withDuration: 0.5, animations: {
+                    self.breakAlert.alpha = 1.0
+                })
+            }else{
+                timer?.invalidate()
+                timer = nil
+                
+                self.checkMinimumBadge(timerStart)
+                
+                inActiveGestureView()
+                
+                UIView.animate(withDuration: 0.4, animations: {
+                    self.endFocus.alpha = 1.0
+                    self.iconStop.alpha = 0.0
+                    self.iconCancel.alpha = 1.0
+                    self.timerPauseContainer.alpha = 0.0
+                    self.infoLabel.alpha = 0.0
+                    self.btnContinue.alpha = 1.0
+                })
+            }
             
-            self.checkMinimumBadge(timerStart)
             
-            inActiveGestureView()
             
-            UIView.animate(withDuration: 0.4, animations: {
-                self.endFocus.alpha = 1.0
-                self.iconStop.alpha = 0.0
-                self.iconCancel.alpha = 1.0
-                self.timerPauseContainer.alpha = 0.0
-                self.infoLabel.alpha = 0.0
-                self.btnContinue.alpha = 1.0
-            })
         }
     }
     
@@ -1506,8 +1688,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     /// handleSwipe Up in App
     @objc func handleSwipe(_ gesture: UISwipeGestureRecognizer) {
         if gesture.state == .ended {
-            // start animated swipe pause/resume swipe btn
-            animatePause()
             
             // run the Swipe Up action
             SwipeUpAction()
@@ -1522,49 +1702,42 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             }
         }
         
-        if timerPauseContainer.totalPauseTimer <= 0{
-            UIView.animate(withDuration: 0.5, animations: {
-                self.breakExhausted.alpha = 1.0
-            })
-        }else{
-            playReelingAnimation()
-            fokus?.pause()
-            UIView.animate(withDuration: 0.5, animations: {
-                self.videoBgFocus.alpha = 0.0
-                self.tempFocus.alpha = 0.0
-                self.videoBgReel.alpha = 1.0
-                self.tempReel.alpha = 1.0
-            })
-            UIView.animate(withDuration: 0.5, animations: {
-                self.hideIcon.alpha = 0.0
-                self.hideTimer.alpha = 0.0
-                self.timerLabel.alpha = 0.0
-                self.timerShownContainer.alpha = 0.0
-                self.hideTimerIcon.alpha = 0.0
-                self.iconStop.alpha = 0.0
-                self.stopContainer.alpha = 0.0
-            })
-            DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
-                let gestureswipeDownOnly = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(_:)))
-                gestureswipeDownOnly.direction = .down
-                self.view.addGestureRecognizer(gestureswipeDownOnly)
-                UIView.animate(withDuration: 0.5, animations: {
-                    self.videoBgPause.alpha = 1.0
-                    self.tempPause.alpha = 1.0
-                    self.playVideoPause()
-                    self.timerPauseContainer.alpha = 1.0
-                    self.mainBg.image = UIImage(named: "bg-pause")
-                    self.swipeUpIcon.image = UIImage(named: "icon-down")
-                    self.swipeUpLabel.text = "Resume"
-                })
-            }
+        playReelingAnimation()
+        fokus?.pause()
+        UIView.animate(withDuration: 0.5, animations: {
+            self.videoBgFocus.alpha = 0.0
+            self.tempFocus.alpha = 0.0
+            self.videoBgReel.alpha = 1.0
+            self.tempReel.alpha = 1.0
+        })
+        UIView.animate(withDuration: 0.5, animations: {
+            self.hideIcon.alpha = 0.0
+            self.hideTimer.alpha = 0.0
+            self.timerLabel.alpha = 0.0
+            self.timerShownContainer.alpha = 0.0
+            self.hideTimerIcon.alpha = 0.0
+            self.iconStop.alpha = 0.0
+            self.stopContainer.alpha = 0.0
+        })
+        DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
             
-            
-            if timer != nil {
-                timer?.invalidate()
-                timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
-            }
+            UIView.animate(withDuration: 0.5, animations: {
+                self.videoBgPause.alpha = 1.0
+                self.tempPause.alpha = 1.0
+                self.playVideoPause()
+                self.timerPauseContainer.alpha = 1.0
+                self.mainBg.image = UIImage(named: "bg-pause")
+                self.breakAlert.alpha = 1.0
+                self.breakAlert.layer.zPosition = 13
+            })
         }
+        
+        
+        if timer != nil {
+            timer?.invalidate()
+            timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(updatePauseTimerLabel), userInfo: nil, repeats: true)
+        }
+        
     }
     
     
@@ -1576,6 +1749,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+        
         // Invalidate the timer when the view disappears
         UIApplication.shared.isIdleTimerDisabled = false
         motionManager.stopAccelerometerUpdates()
