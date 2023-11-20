@@ -276,18 +276,6 @@ class DynamicHomeViewController: UIViewController{
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func randomizeGameController() -> UIViewController {
-        let randomIndex = Int(arc4random_uniform(2))
-        
-        if randomIndex == 0 {
-            return FishColorGameController(isStimulateGame: true)
-        } else if randomIndex == 1 {
-            return SwipeGameViewController(isStimulateGame: true)
-        } else {
-            return BubbleGameController(isStimulateGame: true)
-        }
-    }
-    
     func subviews(){
         view.addSubview(bgVideoPlayer)
         view.addSubview(tempBgVideo)
@@ -327,7 +315,7 @@ class DynamicHomeViewController: UIViewController{
         bgVideoLayer = AVPlayerLayer(player: bgVideo)
         bgVideoLayer?.frame = self.view.bounds
         bgVideoLayer?.videoGravity = .resizeAspectFill
-        self.view.layer.insertSublayer(bgVideoLayer!, at: 0) // Assuming you want it at the back of all views
+        self.view.layer.insertSublayer(bgVideoLayer!, at: 0) 
         bgVideo?.play()
         bgVideo?.actionAtItemEnd = .none
         
@@ -340,7 +328,6 @@ class DynamicHomeViewController: UIViewController{
     
     //Buttons sets background image function
     @objc func dynamicButtonTapped(_ sender: UIButton) {
-        print(scene!)
         if sender == dynamicButtonOne {
             updateButtonStates(scenes: "Day")
             dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
@@ -370,7 +357,6 @@ class DynamicHomeViewController: UIViewController{
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
-        print(hour)
         
         if (8...14).contains(hour) { // 8 AM to 3:30 PM
             updateButtonStates(scenes: "Day")

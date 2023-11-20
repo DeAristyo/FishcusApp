@@ -57,24 +57,6 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         ])
 
         tableView.register(CustomTableView.self, forCellReuseIdentifier: "cell")
-        
-//        if self.fishingData.count <= 1{
-//            let initialShowInfo = self.infoScreen
-//            initialShowInfo.layer.zPosition = 5
-//            
-//            self.view.addSubview(initialShowInfo)
-//            
-//            NSLayoutConstraint.activate([
-//                initialShowInfo.topAnchor.constraint(equalTo: self.view.topAnchor),
-//                initialShowInfo.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-//                initialShowInfo.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-//                initialShowInfo.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
-//            ])
-//            
-//            let guideInfoGestureRecog = UITapGestureRecognizer(target: self, action: #selector(self.guideTapGesture))
-//            initialShowInfo.isUserInteractionEnabled = true
-//            initialShowInfo.addGestureRecognizer(guideInfoGestureRecog)
-//        }
 
     }
     
@@ -85,7 +67,6 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     }
     
     func fetchDataAndSort() {
-        print("KePrint Kok")
         fishingData = GetDataFishing.getData().sorted { $0.id > $1.id }
     }
     
