@@ -16,7 +16,6 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchDataAndSort()
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.rounded(ofSize: 28, weight: .heavy),
@@ -68,6 +67,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     func fetchDataAndSort() {
         fishingData = GetDataFishing.getData().sorted { $0.id > $1.id }
+        tableView.reloadData()
     }
     
     func minuteToString(time: TimeInterval) -> String {
