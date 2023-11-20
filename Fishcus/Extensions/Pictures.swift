@@ -46,9 +46,9 @@ extension UIImage{
     }
     
     struct staticHomeBg{
-        static var day: UIImage = {return UIImage(named: "HomeScreen.001")!}()
-        static var evening: UIImage = {return UIImage(named: "HomeScreen.002")!}()
-        static var night: UIImage = {return UIImage(named: "HomeScreen.003")!}()
+        static var day: UIImage = {return UIImage(named: "HomeStatic_Day")!}()
+        static var evening: UIImage = {return UIImage(named: "HomeStatic_Evening")!}()
+        static var night: UIImage = {return UIImage(named: "HomeStatic_Night")!}()
     }
     
     struct viewBackgrounds{

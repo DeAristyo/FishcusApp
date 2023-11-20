@@ -1508,7 +1508,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         let dataPersistence = DataPersistence(timerStart: timerStart, text: text, setFish: setFish , rarerity: setRarerity)
         dataPersistence.saveContent()
         
-        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity )
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity, rootView: false )
         gachaSytem.reset()
         self.navigationController?.pushViewController(vc, animated: true)
     }

@@ -11,17 +11,19 @@ class ResultViewController: UIViewController {
     
     var loadingView: UIView?
     
+    private var rootView: Bool?
     var time: String?
     var activity: String?
     var fish: String?
     var rare: String?
     var focusData: [[String: String]] = []
     
-    init(time: String, activity: String, fish: String, rare: String) {
+    init(time: String, activity: String, fish: String, rare: String, rootView: Bool) {
         self.time = time
         self.activity = activity
         self.fish = fish
         self.rare = rare
+        self.rootView = rootView
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -442,10 +444,30 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        print(self.tabBarController!)
-        self.navigationController?.popToRootViewController(animated: true)
-        if let tabBarController = self.tabBarController {
-            tabBarController.selectedIndex = 1
+        switch rootView{
+        case true:
+            print("Root")
+            self.navigationController?.popViewController(animated: true)
+        case false:
+            print("Not Root")
+            if let tabBarController = self.tabBarController {
+                if let navigationController = self.navigationController {
+                    navigationController.popToRootViewController(animated: false)
+                }
+                
+                // Switch to the second tab (viewController[1])
+                tabBarController.selectedIndex = 1
+            }
+       default:
+            print("Not Root, but default")
+            if let tabBarController = self.tabBarController {
+                if let navigationController = self.navigationController {
+                    navigationController.popToRootViewController(animated: false)
+                }
+                
+                // Switch to the second tab (viewController[1])
+                tabBarController.selectedIndex = 1
+            }
         }
 
     }

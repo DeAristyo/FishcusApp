@@ -27,14 +27,14 @@
 		A5A16FB22B09024300387A0F /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A16FB12B09024300387A0F /* Colors.swift */; };
 		A5A16FB42B091C2E00387A0F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A16FB32B091C2E00387A0F /* TabBarController.swift */; };
 		A5A16FB62B091CC700387A0F /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A16FB52B091CC700387A0F /* GameViewController.swift */; };
+		A5DB552A2B0B690C007FFF7B /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5DB55292B0B690C007FFF7B /* HomeScreenNight.mov */; };
+		A5DB552E2B0B69A6007FFF7B /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5DB552D2B0B69A6007FFF7B /* HomeScreenDay.mov */; };
+		A5DB55302B0BB5A6007FFF7B /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5DB552F2B0BB5A6007FFF7B /* HomeScreenEvening.mov */; };
 		C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */; };
 		CC3CCA192AFB95EA00DC5AAA /* ShareResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */; };
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
 		CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC525FF02B08F91900FF29C6 /* BreakAlert.swift */; };
-		CC7AB1972B0A8A8400918F8B /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */; };
-		CC7AB1982B0A8A8400918F8B /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */; };
-		CC7AB1992B0A8A8400918F8B /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */; };
 		CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */; };
 		CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */; };
 		CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */; };
@@ -88,15 +88,15 @@
 		A5A16FB12B09024300387A0F /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A5A16FB32B091C2E00387A0F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		A5A16FB52B091CC700387A0F /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
+		A5DB55292B0B690C007FFF7B /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenNight.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenNight.mov"; sourceTree = "<group>"; };
+		A5DB552D2B0B69A6007FFF7B /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenDay.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenDay.mov"; sourceTree = "<group>"; };
+		A5DB552F2B0BB5A6007FFF7B /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenEvening.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenEvening.mov"; sourceTree = "<group>"; };
 		AC618A7144E499ACAAF11832 /* Fishcus-DEV.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = "Fishcus-DEV.xcconfig"; sourceTree = "<group>"; };
 		B020708D44C6706B46A2EA01 /* FocusViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusViewController.swift; sourceTree = "<group>"; };
 		CC3CCA182AFB95EA00DC5AAA /* ShareResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareResultViewController.swift; sourceTree = "<group>"; };
 		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
 		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
 		CC525FF02B08F91900FF29C6 /* BreakAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakAlert.swift; sourceTree = "<group>"; };
-		CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenEvening.mov; sourceTree = "<group>"; };
-		CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenDay.mov; sourceTree = "<group>"; };
-		CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenNight.mov; sourceTree = "<group>"; };
 		CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = FocusModeAnimation.mov; sourceTree = "<group>"; };
 		CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = PauseModeAnimation.mov; sourceTree = "<group>"; };
 		CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = ReelingAnimation.mov; sourceTree = "<group>"; };
@@ -305,9 +305,9 @@
 		DDADDA352AFCEB7C0012CC1C /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */,
-				CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */,
-				CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */,
+				A5DB552F2B0BB5A6007FFF7B /* HomeScreenEvening.mov */,
+				A5DB552D2B0B69A6007FFF7B /* HomeScreenDay.mov */,
+				A5DB55292B0B690C007FFF7B /* HomeScreenNight.mov */,
 				CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */,
 				CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */,
 				CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */,
@@ -401,18 +401,18 @@
 				86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */,
 				CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */,
 				CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */,
+				A5DB55302B0BB5A6007FFF7B /* HomeScreenEvening.mov in Resources */,
 				CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */,
 				CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */,
 				CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */,
-				CC7AB1972B0A8A8400918F8B /* HomeScreenEvening.mov in Resources */,
 				CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
-				CC7AB1982B0A8A8400918F8B /* HomeScreenDay.mov in Resources */,
 				CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */,
-				CC7AB1992B0A8A8400918F8B /* HomeScreenNight.mov in Resources */,
 				CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */,
 				CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
+				A5DB552E2B0B69A6007FFF7B /* HomeScreenDay.mov in Resources */,
+				A5DB552A2B0B690C007FFF7B /* HomeScreenNight.mov in Resources */,
 				CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -556,7 +556,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -567,7 +567,7 @@
 				);
 				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.dev.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.dev.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -645,7 +645,7 @@
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 4;
-				DEVELOPMENT_TEAM = MNPQBHRKTX;
+				DEVELOPMENT_TEAM = 75VHUVZJF4;
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -656,7 +656,7 @@
 				);
 				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
