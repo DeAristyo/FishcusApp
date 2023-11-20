@@ -88,6 +88,7 @@ class ResultViewController: UIViewController {
     private var doneBtn: UIButton = {
         let button =  UIButton(type: .custom)
         button.setImage(UIImage(named: "btn-result-done"), for: .normal)
+        button.contentMode = .center
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -171,13 +172,12 @@ class ResultViewController: UIViewController {
     }()
     
     private var userGuideInfo: [ReuseableInfoView] = [
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "“Cheers to your study milestone! The duration you study will determine the variety of fish you can catch. Keep studying to fill your aquarium!”", position: false, labelTextStyle: .label12),
-        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "\" Share your latest adventure – your friends are waiting to hear!\" ", position: false, labelTextStyle: .label13)
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot4, labelText: "Amazing catch! Here’s a pro tip: The more focus session you do, the more you collect!", position: false, labelTextStyle: .label7)
     ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationItem.hidesBackButton = true
+        self.navigationController?.isNavigationBarHidden = true
         
         let gradient = CAGradientLayer()
         gradient.frame = gradientContainer.bounds
@@ -192,18 +192,6 @@ class ResultViewController: UIViewController {
         gradientBackground.alpha = 0.0
         labelRarerity.alpha =  0.0
         rectangleRarerity.alpha = 0.0
-        
-        /// Create a custom view for the back button
-//        doneBtn.sizeToFit()
-        doneBtn.contentEdgeInsets = UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)
-
-        let screen = UIScreen.main.bounds.size
-        let customBackButton = UIBarButtonItem(customView: doneBtn)
-        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-        negativeSpacer.width = screen.width/12 // Adjust the value as needed
-
-        // Assign the custom back button to the left bar button item
-        navigationItem.rightBarButtonItems = [negativeSpacer, customBackButton]
         
         
         switch rare{
@@ -389,14 +377,14 @@ class ResultViewController: UIViewController {
             containerBtnDone.heightAnchor.constraint(equalToConstant: 100)
         ])
         
-//        view.addSubview(doneBtn)
-//   
-//        NSLayoutConstraint.activate([
-////            doneBtn.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-////            doneBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
-//            doneBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-//            doneBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-//        ])
+        containerBtnDone.addSubview(doneBtn)
+        
+        NSLayoutConstraint.activate([
+            doneBtn.centerXAnchor.constraint(equalTo: containerBtnDone.centerXAnchor),
+            doneBtn.centerYAnchor.constraint(equalTo: containerBtnDone.centerYAnchor),
+            doneBtn.widthAnchor.constraint(equalToConstant: 77),
+            doneBtn.heightAnchor.constraint(equalToConstant: 31)
+        ])
       
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)

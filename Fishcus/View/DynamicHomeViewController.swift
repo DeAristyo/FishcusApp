@@ -10,6 +10,7 @@ import AVFoundation
 
 class DynamicHomeViewController: UIViewController{
     
+    private var getSumFishingData = GetDataFishing.getData().count
     private var myUserDefault = UserDefaults.standard
     private var bgVideo: AVPlayer?
     private var bgVideoLayer: AVPlayerLayer?
@@ -221,6 +222,13 @@ class DynamicHomeViewController: UIViewController{
         return circleButton
     }()
     
+    lazy var guidedTutorials: [ReuseableInfoView] = [
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey! I’m your friend, Oceano! Let's explore this app together, shall we?", position: true, labelTextStyle: .label1),
+        ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Ready to start? Shrimply tap the ‘Focus’ button to begin your fishing session!", position: false, labelTextStyle: .label2)
+    ]
+    
+    lazy var finishGuidedTutorial =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot3, labelText: "Congrats! You are now ready to start your fishing journey and reel in those precious fish of knowledge!", position: true, labelTextStyle: .label1)
+    
     //MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -232,6 +240,10 @@ class DynamicHomeViewController: UIViewController{
         setupView()
         
         setBackgroundBasedOnTime()
+        
+        SetupGuidedTutorial()
+        
+        SetupFinishGuidedTutorial()
         
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -360,6 +372,79 @@ class DynamicHomeViewController: UIViewController{
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenNight")
             mainBg.image = UIImage.staticHomeBg.night
         }
+    }
+    
+    // Setup guided tutorial for first time user
+    func SetupGuidedTutorial(){
+        if(myUserDefault.data(forKey: "focusData")?.isEmpty == nil){
+            let initialGuidedTutorial = guidedTutorials[0]
+            initialGuidedTutorial.layer.zPosition = 99
+            
+            view.addSubview(initialGuidedTutorial)
+            
+            NSLayoutConstraint.activate([
+                initialGuidedTutorial.topAnchor.constraint(equalTo: view.topAnchor),
+                initialGuidedTutorial.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                initialGuidedTutorial.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                initialGuidedTutorial.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(changeGuidedTutorial(_:)))
+            initialGuidedTutorial.addGestureRecognizer(tapGesture)
+        }
+      
+    }
+    
+    func SetupFinishGuidedTutorial(){
+        if(getSumFishingData == 1){
+            let initialFinishTutorial = finishGuidedTutorial
+            initialFinishTutorial.layer.zPosition = 99
+            
+            view.addSubview(initialFinishTutorial)
+            
+            NSLayoutConstraint.activate([
+                initialFinishTutorial.topAnchor.constraint(equalTo: view.topAnchor),
+                initialFinishTutorial.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                initialFinishTutorial.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                initialFinishTutorial.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(removeLastGuided(_:)))
+            initialFinishTutorial.addGestureRecognizer(tapGesture)
+        }
+    }
+    
+    @objc func removeLastGuided(_ gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        currentView.removeFromSuperview()
+    }
+    
+    // change index
+    @objc func changeGuidedTutorial(_ gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else {return}
+        currentView.removeFromSuperview()
+        
+        let nextIndex = (guidedTutorials.firstIndex(of: currentView as! ReuseableInfoView) ?? 0 )+1
+        
+        if nextIndex < guidedTutorials.count{
+            let nextView = guidedTutorials[nextIndex]
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(changeGuidedTutorial(_:)))
+            nextView.addGestureRecognizer(gesture)
+            
+            nextView.layer.zPosition = 10
+            UIView.animate(withDuration: 0.5, animations: {
+                self.view.addSubview(nextView)
+            })
+            
+            NSLayoutConstraint.activate([
+                nextView.topAnchor.constraint(equalTo: view.topAnchor),
+                nextView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                nextView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                nextView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        }
+        
     }
     
     //Background image function
