@@ -444,32 +444,16 @@ class ResultViewController: UIViewController {
     }
     
     @objc func finish(){
-        switch rootView{
-        case true:
-            print("Root")
+        if rootView!{
             self.navigationController?.popViewController(animated: true)
-        case false:
-            print("Not Root")
+        }else{
             if let tabBarController = self.tabBarController {
                 if let navigationController = self.navigationController {
                     navigationController.popToRootViewController(animated: false)
                 }
-                
-                // Switch to the second tab (viewController[1])
-                tabBarController.selectedIndex = 1
-            }
-       default:
-            print("Not Root, but default")
-            if let tabBarController = self.tabBarController {
-                if let navigationController = self.navigationController {
-                    navigationController.popToRootViewController(animated: false)
-                }
-                
-                // Switch to the second tab (viewController[1])
                 tabBarController.selectedIndex = 1
             }
         }
-
     }
     
     

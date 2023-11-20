@@ -34,8 +34,11 @@ class CustomTableView: UITableViewCell {
                 case "2":
                     imageFish.image = UIImage(named: "\(rare.lowercased())-clown-list")
                     break
-                default:
+                case "3":
                     imageFish.image = UIImage(named: "\(rare.lowercased())-beta-list")
+                    break
+                default:
+                    imageFish.image = UIImage(named: "dead-fish")
                     break
                 }
             }
