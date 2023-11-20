@@ -13,7 +13,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     var focusDuration: Int = 0{
         didSet{
             if focusDuration < 300{
-                delegateChangeScreen?.ShowAlertMinFocusDuration()
+                delegateChangeScreen?.ShowAlertMinFocusDuration("Sorry, the minimum focus duration is 5 minutes!")
                 btnStart.isEnabled = false
             }else{
 
@@ -166,9 +166,16 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     }
     
     @objc func changeScreen(){
+        guard let text = inputTaskTextField.text, !text.isEmpty else{
+            delegateChangeScreen?.ShowAlertMinFocusDuration("Textfield must be fill")
+            return
+        }
+        
         if focusDuration >= 300{
             btnStart.isEnabled = true
             delegateChangeScreen?.changeScreen()
+        }else{
+            delegateChangeScreen?.ShowAlertMinFocusDuration("Sorry, the minimum focus duration is 5 minutes!")
         }
         
     }

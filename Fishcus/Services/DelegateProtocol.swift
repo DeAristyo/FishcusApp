@@ -16,7 +16,7 @@ protocol DelegateProtocol: AnyObject{
 
 protocol DelegateButtonStart: AnyObject{
     func changeScreen()
-    func ShowAlertMinFocusDuration()
+    func ShowAlertMinFocusDuration(_ msg: String)
     func SendValueToggle()
     func SendDataFocus(_ activity: String, _ focusDuration: Int, _ breakDuration: Int)
 }

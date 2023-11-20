@@ -8,7 +8,6 @@
 import UIKit
 
 class SetupFocusViewController: UIViewController, DelegateButtonStart {
-   
     
     // setup focus var
     let myUserDefault = UserDefaults.standard
@@ -75,6 +74,8 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         return view
     }()
     
+    private var guidedTutorial = ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot3, labelText: "This is where you set up your focus session! For this tutorial, click ‘Start’ to begin your session.", position: false, labelTextStyle: .label3)
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -102,10 +103,34 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         // Setup Delegate
         SetupDelegate()
         
+        //Setup Guided Tutorial
+        SetupGuidedTutorial()
+        
     }
     
     @objc func backButtonTapped(){
         self.navigationController?.popToRootViewController(animated: true)
+    }
+    
+    func SetupGuidedTutorial(){
+        if((myUserDefault.data(forKey: "focusData"))?.isEmpty == nil){
+            view.addSubview(guidedTutorial)
+            
+            NSLayoutConstraint.activate([
+                guidedTutorial.topAnchor.constraint(equalTo: view.topAnchor),
+                guidedTutorial.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                guidedTutorial.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                guidedTutorial.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+            
+            let gesture = UITapGestureRecognizer(target: self, action: #selector(removeGuidedTutorial(_:)))
+            guidedTutorial.addGestureRecognizer(gesture)
+        }
+    }
+    
+    @objc func removeGuidedTutorial(_ gesture: UITapGestureRecognizer){
+        guard let currentView = gesture.view else{return}
+        currentView.removeFromSuperview()
     }
     
     func SetupDelegate(){
@@ -154,8 +179,8 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         myUserDefault.set(self.cycleBackground, forKey: "cycle")
     }
     
-    func ShowAlertMinFocusDuration() {
-        let alert = UIAlertController(title: "Warning", message: "Sorry, the minimum focus duration is 5 minutes!", preferredStyle: .alert)
+    func ShowAlertMinFocusDuration(_ msg: String) {
+        let alert = UIAlertController(title: "Warning", message: "\(msg)", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true, completion: nil)
     }
