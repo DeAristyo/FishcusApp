@@ -78,6 +78,7 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+      
         view.backgroundColor = UIColor.MyColors.primaryColor
         
         /// Create a custom view for the back button
@@ -259,9 +260,9 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         let randomIndex = Int(arc4random_uniform(2))
     
         if randomIndex == 0 {
-            return FishColorGameController()
+            return FishColorGameController(isStimulateGame: true)
         } else {
-            return BubbleGameController()
+            return BubbleGameController(isStimulateGame: true)
         }
     }
 

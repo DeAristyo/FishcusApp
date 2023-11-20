@@ -19,7 +19,7 @@ class BubbleGameController: UIViewController{
     }
     
     //View variables declaration
-    private let bubblePopSound = BubbleSound()
+//    private let bubblePopSound = BubbleSound()
     private let progressBar = ProgressBarView()
     private var bubbleViews: [BubbleView] = []
     private var isBubblePositioned: Bool = false
@@ -626,7 +626,7 @@ class BubbleGameController: UIViewController{
             
             if tappedBubble.number == lowestNumber {
                 tappedBubble.removeFromSuperview()
-                bubblePopSound.playSound()
+//                bubblePopSound.playSound()
                 if let index = bubbleViews.firstIndex(of: tappedBubble) {
                     bubbleViews.remove(at: index)
                 }

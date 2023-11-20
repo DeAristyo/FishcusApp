@@ -270,13 +270,10 @@ class DynamicHomeViewController: UIViewController{
     @objc func nextScreen(){
         var vc: UIViewController
         
-        if ((myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
-            vc = FocusViewController()
-        }else{
-            vc = randomizeGameController()
-        }
+        vc = SetupFocusViewController()
         
         vc.hidesBottomBarWhenPushed = true
+       
         self.navigationController?.pushViewController(vc, animated: true)
     }
     

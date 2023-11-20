@@ -139,10 +139,6 @@ class HomeViewController: UIViewController {
     }()
     
     private var userInfoOverlay: ReuseableInfoView = {
-        let addLabel = UILabel()
-        addLabel.font =  .rounded(ofSize: 18, weight: .bold)
-        addLabel.text = "Player"
-        
         let view =  ReuseableInfoView(bgStyle: .type1, mascotIcon: .mascot1, labelText: "Hey! I’m your friend, Oceano!", position: false, labelTextStyle: .label1)
         view.layer.zPosition = 2
         return view

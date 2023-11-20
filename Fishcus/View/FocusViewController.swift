@@ -36,7 +36,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     //Timer
     var timer: Timer?
-    var timerStart: Int = 290
+    var timerStart: Int = 0
     
     //show info toggle to show more info in pause mode
     var showInfo = false
@@ -161,7 +161,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         let stop = UIButton(type: .custom)
         stop.setImage(UIImage(named: "icon-stop"), for: .normal)
         stop.contentMode = .scaleAspectFill
-        stop.layer.zPosition = 12
+        stop.layer.zPosition = 99
         stop.translatesAutoresizingMaskIntoConstraints = false
         
         return stop
@@ -531,6 +531,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         super.viewDidLoad()
         
         self.navigationItem.hidesBackButton = true
+        self.navigationController?.isNavigationBarHidden = true
         view.backgroundColor = .systemBackground
         
         // View Configuration
@@ -544,15 +545,11 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         // Gesture config
         SetupGesture()
         
-        // Start track motion
-//        stopMotionUpdate()
-        
         // Check min condition to get fish
         checkMinimumBadge(timerStart)
     
         // Shake Animation
         applyShakeAnimation()
-        
         
         // Setup background Video
         SetupBackgroundLayerVideo()
@@ -577,6 +574,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     /// from background and active again
     @objc func becomeActive(){
         playVideoFocus()
+        applyShakeAnimation()
+        self.navigationController?.isNavigationBarHidden = true
     }
     
     
@@ -689,8 +688,6 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(timerPauseContainer)
         timerPauseContainer.totalPauseTimer = breakDuration
         view.addSubview(stopContainer)
-        view.addSubview(iconStop)
-        view.addSubview(iconCancel)
         view.addSubview(timerShownContainer)
         timerShownContainer.addSubview(hideTimerIcon)
         timerLabel.text = "00:00"
@@ -710,6 +707,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         view.addSubview(countDownLabel)
         view.addSubview(breakAlert)
         view.addSubview(finishAlert)
+        view.addSubview(iconStop)
+        view.addSubview(iconCancel)
     }
     
     func SetupConstraint(){
@@ -771,8 +770,8 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         NSLayoutConstraint.activate([
             iconStop.centerXAnchor.constraint(equalTo: stopContainer.centerXAnchor),
             iconStop.centerYAnchor.constraint(equalTo: stopContainer.centerYAnchor),
-            iconStop.widthAnchor.constraint(equalToConstant: 20),
-            iconStop.heightAnchor.constraint(equalToConstant: 20)
+            iconStop.widthAnchor.constraint(equalToConstant: 22),
+            iconStop.heightAnchor.constraint(equalToConstant: 22)
         ])
         
         NSLayoutConstraint.activate([

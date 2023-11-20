@@ -19,10 +19,6 @@
 		A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789D2AFBF80700F264AB /* BubbleGameController.swift */; };
 		A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */; };
 		A5476D322B09E2C00055B300 /* DynamicHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5476D312B09E2C00055B300 /* DynamicHomeViewController.swift */; };
-		A5476D362B0A1C7B0055B300 /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5476D332B0A1C7B0055B300 /* HomeScreenNight.mov */; };
-		A5476D372B0A1C7B0055B300 /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5476D342B0A1C7B0055B300 /* HomeScreenDay.mov */; };
-		A5476D382B0A1C7B0055B300 /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5476D352B0A1C7B0055B300 /* HomeScreenEvening.mov */; };
-		A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */ = {isa = PBXBuildFile; fileRef = A57D87572B0373700064AD70 /* bubbleSound.wav */; };
 		A57D875A2B0373BF0064AD70 /* BubbleSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = A57D87592B0373BF0064AD70 /* BubbleSound.swift */; };
 		A58D67892AFF8C54001CBA37 /* FishColorGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */; };
 		A5A16F812B04B75600387A0F /* SwipeGameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5A16F802B04B75600387A0F /* SwipeGameViewController.swift */; };
@@ -36,6 +32,12 @@
 		CC3CCA1B2AFBD3BC00DC5AAA /* GachaSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */; };
 		CC3CCA1D2AFC11CE00DC5AAA /* MiniAlerts.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */; };
 		CC525FF12B08F91900FF29C6 /* BreakAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC525FF02B08F91900FF29C6 /* BreakAlert.swift */; };
+		CC7AB1972B0A8A8400918F8B /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */; };
+		CC7AB1982B0A8A8400918F8B /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */; };
+		CC7AB1992B0A8A8400918F8B /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */; };
+		CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */; };
+		CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */; };
+		CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */; };
 		CC9713142AFEBEE500A5D733 /* CustomTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713132AFEBEE500A5D733 /* CustomTableView.swift */; };
 		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
@@ -57,9 +59,6 @@
 		CCEC20A02B05FCEE003319A3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC209F2B05FCEE003319A3 /* Colors.swift */; };
 		CCEC20A22B060189003319A3 /* ToggleSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC20A12B060189003319A3 /* ToggleSwitch.swift */; };
 		CCEC20A42B06AAD6003319A3 /* SetupFocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC20A32B06AAD6003319A3 /* SetupFocusViewController.swift */; };
-		DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */; };
-		DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */; };
-		DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */ = {isa = PBXBuildFile; fileRef = DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */; };
 		EA7452A00A6EA53B133345B9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FDCD50641CAA176E210E10C4 /* ViewController.swift */; };
 		ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FC088CEAD3CFD228AC35590F /* ResultViewController.swift */; };
 		F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B020708D44C6706B46A2EA01 /* FocusViewController.swift */; };
@@ -81,10 +80,6 @@
 		A538789D2AFBF80700F264AB /* BubbleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameController.swift; sourceTree = "<group>"; };
 		A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
 		A5476D312B09E2C00055B300 /* DynamicHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicHomeViewController.swift; sourceTree = "<group>"; };
-		A5476D332B0A1C7B0055B300 /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenNight.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation/HomeScreenNight.mov"; sourceTree = "<group>"; };
-		A5476D342B0A1C7B0055B300 /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenDay.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation/HomeScreenDay.mov"; sourceTree = "<group>"; };
-		A5476D352B0A1C7B0055B300 /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenEvening.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation/HomeScreenEvening.mov"; sourceTree = "<group>"; };
-		A57D87572B0373700064AD70 /* bubbleSound.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; name = bubbleSound.wav; path = ../../../../../Downloads/bubbleSound.wav; sourceTree = "<group>"; };
 		A57D87592B0373BF0064AD70 /* BubbleSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleSound.swift; sourceTree = "<group>"; };
 		A58D67882AFF8C54001CBA37 /* FishColorGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FishColorGameController.swift; sourceTree = "<group>"; };
 		A5A16F802B04B75600387A0F /* SwipeGameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwipeGameViewController.swift; sourceTree = "<group>"; };
@@ -99,6 +94,12 @@
 		CC3CCA1A2AFBD3BC00DC5AAA /* GachaSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GachaSystem.swift; sourceTree = "<group>"; };
 		CC3CCA1C2AFC11CE00DC5AAA /* MiniAlerts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniAlerts.swift; sourceTree = "<group>"; };
 		CC525FF02B08F91900FF29C6 /* BreakAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BreakAlert.swift; sourceTree = "<group>"; };
+		CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenEvening.mov; sourceTree = "<group>"; };
+		CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenDay.mov; sourceTree = "<group>"; };
+		CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = HomeScreenNight.mov; sourceTree = "<group>"; };
+		CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = FocusModeAnimation.mov; sourceTree = "<group>"; };
+		CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = PauseModeAnimation.mov; sourceTree = "<group>"; };
+		CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = ReelingAnimation.mov; sourceTree = "<group>"; };
 		CC9713132AFEBEE500A5D733 /* CustomTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTableView.swift; sourceTree = "<group>"; };
 		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
@@ -124,9 +125,6 @@
 		D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = podomoroAlertsView.swift; sourceTree = "<group>"; };
 		D9AC3D3B7B94E83257023BDF /* Fishcus.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Fishcus.xcconfig; sourceTree = "<group>"; };
 		DB61A3A1EB9DE734C6B36D81 /* Fishcus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Fishcus.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = FocusModeAnimation.mov; sourceTree = "<group>"; };
-		DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = PauseModeAnimation.mov; sourceTree = "<group>"; };
-		DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = ReelingAnimation.mov; sourceTree = "<group>"; };
 		DE10A3330C10559522AD7B0E /* DelegateProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DelegateProtocol.swift; sourceTree = "<group>"; };
 		E119061096C4A36904EC0AD3 /* ReusableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReusableViewController.swift; sourceTree = "<group>"; };
 		EFB3509B3E0C943E71428632 /* CountDownRingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountDownRingView.swift; sourceTree = "<group>"; };
@@ -218,14 +216,6 @@
 			path = Config;
 			sourceTree = "<group>";
 		};
-		A57D87562B03734F0064AD70 /* Sound */ = {
-			isa = PBXGroup;
-			children = (
-				A57D87572B0373700064AD70 /* bubbleSound.wav */,
-			);
-			path = Sound;
-			sourceTree = "<group>";
-		};
 		A5A16F842B074DDC00387A0F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,7 +230,6 @@
 			children = (
 				A5A16F842B074DDC00387A0F /* Extensions */,
 				CCE17E652B0221E70036D455 /* Fishcus.entitlements */,
-				A57D87562B03734F0064AD70 /* Sound */,
 				CC9DAB742AF3E5230000B271 /* Extensions */,
 				CC9713152AFEC14B00A5D733 /* Model */,
 				DDADDA352AFCEB7C0012CC1C /* Video */,
@@ -278,9 +267,6 @@
 		CCBEDD352B089B06004D23A0 /* morning */ = {
 			isa = PBXGroup;
 			children = (
-				DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */,
-				DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */,
-				DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */,
 			);
 			path = morning;
 			sourceTree = "<group>";
@@ -319,18 +305,15 @@
 		DDADDA352AFCEB7C0012CC1C /* Video */ = {
 			isa = PBXGroup;
 			children = (
-
-				A5476D342B0A1C7B0055B300 /* HomeScreenDay.mov */,
-				A5476D352B0A1C7B0055B300 /* HomeScreenEvening.mov */,
-				A5476D332B0A1C7B0055B300 /* HomeScreenNight.mov */,
-				DDADDA362AFCEC110012CC1C /* FocusModeAnimation.mov */,
-				DDADDA372AFCEC110012CC1C /* PauseModeAnimation.mov */,
-				DDADDA382AFCEC120012CC1C /* ReelingAnimation.mov */,
-
+				CC7AB1952B0A8A8300918F8B /* HomeScreenDay.mov */,
+				CC7AB1942B0A8A8300918F8B /* HomeScreenEvening.mov */,
+				CC7AB1962B0A8A8400918F8B /* HomeScreenNight.mov */,
+				CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */,
+				CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */,
+				CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */,
 				CCBEDD372B089B16004D23A0 /* night */,
 				CCBEDD362B089B0E004D23A0 /* evening */,
 				CCBEDD352B089B06004D23A0 /* morning */,
-
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -414,30 +397,23 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-
-				A5476D372B0A1C7B0055B300 /* HomeScreenDay.mov in Resources */,
-
 				CCBEDD432B089C68004D23A0 /* reeling-night.mov in Resources */,
-
 				86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */,
 				CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */,
+				CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */,
 				CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */,
-				DDADDA3A2AFCEC120012CC1C /* PauseModeAnimation.mov in Resources */,
+				CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */,
 				CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */,
-				DDADDA392AFCEC120012CC1C /* FocusModeAnimation.mov in Resources */,
-
-				A5476D362B0A1C7B0055B300 /* HomeScreenNight.mov in Resources */,
+				CC7AB1972B0A8A8400918F8B /* HomeScreenEvening.mov in Resources */,
+				CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
-				A5476D382B0A1C7B0055B300 /* HomeScreenEvening.mov in Resources */,
-				A57D87582B0373700064AD70 /* bubbleSound.wav in Resources */,
-
+				CC7AB1982B0A8A8400918F8B /* HomeScreenDay.mov in Resources */,
 				CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */,
+				CC7AB1992B0A8A8400918F8B /* HomeScreenNight.mov in Resources */,
 				CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */,
 				CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
 				CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */,
-
-				DDADDA3B2AFCEC120012CC1C /* ReelingAnimation.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -449,11 +425,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */,
-
 				A5A16FB42B091C2E00387A0F /* TabBarController.swift in Sources */,
-
 				CCEC20A02B05FCEE003319A3 /* Colors.swift in Sources */,
-
 				CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */,
 				CCE17E6D2B0377410036D455 /* FilterNotifications.swift in Sources */,
 				C34783CFC8FDB7E0C188C307 /* AppDelegate.swift in Sources */,
@@ -582,7 +555,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -595,7 +567,7 @@
 				);
 				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.dev.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.dev.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -672,13 +644,8 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = Fishcus/Fishcus.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
-
-				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = 75VHUVZJF4;
-
 				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
-
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -689,7 +656,7 @@
 				);
 				MARKETING_VERSION = 1.3.4;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

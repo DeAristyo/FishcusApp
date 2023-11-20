@@ -1,26 +1,17 @@
 {
   "images" : [
     {
-
-      "filename" : "Asset-DragGame-Brief.pdf",
-
       "filename" : "Asset-DragGame-Brief.png",
-
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "Asset-DragGame-Brief@2x.pdf",
       "filename" : "Asset-DragGame-Brief@2x.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
     {
-
-      "filename" : "Asset-DragGame-Brief@3x.pdf",
-
       "filename" : "Asset-DragGame-Brief@3x.png",
-
       "idiom" : "universal",
       "scale" : "3x"
     }

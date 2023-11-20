@@ -11,7 +11,6 @@
 
 import UIKit
 
-
 extension UIColor{
     struct MyColors{
         static var primaryColor: UIColor = {return UIColor(named: "primaryColor")!}()

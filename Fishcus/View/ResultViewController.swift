@@ -87,10 +87,7 @@ class ResultViewController: UIViewController {
     
     private var doneBtn: UIButton = {
         let button =  UIButton(type: .custom)
-        button.setTitle("Done", for: .normal)
-        button.titleLabel?.font = UIFont.rounded(ofSize: 15, weight: .bold)
-        button.backgroundColor = UIColor(named: "primaryColor")
-        button.layer.cornerRadius = 13
+        button.setImage(UIImage(named: "btn-result-done"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         
         return button
@@ -195,6 +192,18 @@ class ResultViewController: UIViewController {
         gradientBackground.alpha = 0.0
         labelRarerity.alpha =  0.0
         rectangleRarerity.alpha = 0.0
+        
+        /// Create a custom view for the back button
+//        doneBtn.sizeToFit()
+        doneBtn.contentEdgeInsets = UIEdgeInsets(top: -10, left: 0, bottom: 0, right: 0)
+
+        let screen = UIScreen.main.bounds.size
+        let customBackButton = UIBarButtonItem(customView: doneBtn)
+        let negativeSpacer = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+        negativeSpacer.width = screen.width/12 // Adjust the value as needed
+
+        // Assign the custom back button to the left bar button item
+        navigationItem.rightBarButtonItems = [negativeSpacer, customBackButton]
         
         
         switch rare{
@@ -380,14 +389,14 @@ class ResultViewController: UIViewController {
             containerBtnDone.heightAnchor.constraint(equalToConstant: 100)
         ])
         
-        containerBtnDone.addSubview(doneBtn)
-   
-        NSLayoutConstraint.activate([
-            doneBtn.centerXAnchor.constraint(equalTo: containerBtnDone.centerXAnchor),
-            doneBtn.centerYAnchor.constraint(equalTo: containerBtnDone.centerYAnchor),
-            doneBtn.widthAnchor.constraint(equalToConstant: 77),
-            doneBtn.heightAnchor.constraint(equalToConstant: 31)
-        ])
+//        view.addSubview(doneBtn)
+//   
+//        NSLayoutConstraint.activate([
+////            doneBtn.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+////            doneBtn.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24)
+//            doneBtn.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//            doneBtn.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+//        ])
       
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)

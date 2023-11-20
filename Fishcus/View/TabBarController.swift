@@ -14,6 +14,8 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     private let indicatorWidth: CGFloat = 73
     
     override func viewDidLoad() {
+        navigationController?.isNavigationBarHidden = true
+        
         super.viewDidLoad()
         setupViewControllers()
         setupTabBarAppearance()
