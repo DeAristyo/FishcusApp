@@ -10,7 +10,7 @@ import UIKit
 class ResultListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView!
-    var fishingData = GetDataFishing.getData().sorted{$0.id > $1.id}
+    var fishingData: [ModelFishing]?
     
     private var infoScreen =  ReuseableInfoView(bgStyle: .type2, mascotIcon: .mascot1, labelText: "\"Take a look at your Focus History here and see how far you've come.\"", position: false, labelTextStyle: .label1)
 
@@ -31,7 +31,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         tableView.backgroundColor = UIColor.clear
         tableView.delegate = self
         tableView.dataSource = self
-
+        tableView.translatesAutoresizingMaskIntoConstraints = false
 
         let listBg = UIImageView()
         listBg.image = UIImage(named: "bg-list")
@@ -49,10 +49,10 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
         view.addSubview(tableView)
 
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: view.topAnchor),
+            tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            tableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 
         tableView.register(CustomTableView.self, forCellReuseIdentifier: "cell")
@@ -79,7 +79,13 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        fetchDataAndSort()
         self.tabBarController?.tabBar.isHidden = false
+    }
+    
+    func fetchDataAndSort() {
+        fishingData = GetDataFishing.getData().sorted { $0.id > $1.id }
+        tableView.reloadData()
     }
     
     func minuteToString(time: TimeInterval) -> String {
@@ -96,12 +102,12 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     // MARK: - UITableViewDataSource
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return fishingData.count
+        return fishingData!.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! CustomTableView
-        cell.listDataFishing = fishingData[indexPath.row]
+        cell.listDataFishing = fishingData![indexPath.row]
 
         return cell
     }
@@ -111,9 +117,9 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let data = fishingData[indexPath.row]
+        let data = fishingData![indexPath.row]
 
-        let resultScreenVC = ResultViewController(time: (minuteToString(time: TimeInterval(data.time ?? "") ?? 0.0)), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""))
+        let resultScreenVC = ResultViewController(time: (minuteToString(time: TimeInterval(data.time ?? "") ?? 0.0)), activity: (data.activity ?? ""), fish: (data.fish ?? ""), rare: (data.rare ?? ""), rootView: true)
         resultScreenVC.hidesBottomBarWhenPushed = true
         self.navigationController?.pushViewController(resultScreenVC, animated: true)
     }
@@ -131,3 +137,10 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
     }
 }
 
+extension ResultListViewController: UITabBarControllerDelegate {
+    func tabBarController(_ tabBarController: UITabBarController, didSelect viewController: UIViewController) {
+        if let index = tabBarController.viewControllers?.firstIndex(of: viewController), index == 1 {
+            fetchDataAndSort()
+        }
+    }
+}

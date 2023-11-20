@@ -14,6 +14,7 @@ class DynamicHomeViewController: UIViewController{
     private var myUserDefault = UserDefaults.standard
     private var bgVideo: AVPlayer?
     private var bgVideoLayer: AVPlayerLayer?
+    private var scene: String?
     private let quotes = [
         "In the sea of learning, every page is a catch.",
         "Cast your focus wide, reel in knowledge tide.",
@@ -22,6 +23,7 @@ class DynamicHomeViewController: UIViewController{
         "Bait curiosity, fish for facts, reel in understanding.",
         "Every chapter is a lure, every lesson, a catch to secure."
     ]
+    
     
     //MARK: - View Variable Declaration
     //Background video layer
@@ -182,7 +184,6 @@ class DynamicHomeViewController: UIViewController{
         circleButton.layer.shadowRadius = 4
         circleButton.layer.shadowOpacity = 0.5
         circleButton.layer.masksToBounds = false
-        circleButton.isUserInteractionEnabled = true
         circleButton.addTarget(self, action: #selector(dynamicButtonTapped(_:)), for: .touchUpInside)
         
         return circleButton
@@ -199,7 +200,6 @@ class DynamicHomeViewController: UIViewController{
         circleButton.layer.shadowRadius = 4
         circleButton.layer.shadowOpacity = 0.5
         circleButton.layer.masksToBounds = false
-        circleButton.isUserInteractionEnabled = true
         circleButton.addTarget(self, action: #selector(dynamicButtonTapped(_:)), for: .touchUpInside)
         
         return circleButton
@@ -216,7 +216,6 @@ class DynamicHomeViewController: UIViewController{
         circleButton.layer.shadowRadius = 4
         circleButton.layer.shadowOpacity = 0.5
         circleButton.layer.masksToBounds = false
-        circleButton.isUserInteractionEnabled = true
         circleButton.addTarget(self, action: #selector(dynamicButtonTapped(_:)), for: .touchUpInside)
         
         return circleButton
@@ -289,18 +288,6 @@ class DynamicHomeViewController: UIViewController{
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    func randomizeGameController() -> UIViewController {
-        let randomIndex = Int(arc4random_uniform(2))
-        
-        if randomIndex == 0 {
-            return FishColorGameController(isStimulateGame: true)
-        } else if randomIndex == 1 {
-            return SwipeGameViewController(isStimulateGame: true)
-        } else {
-            return BubbleGameController(isStimulateGame: true)
-        }
-    }
-    
     func subviews(){
         view.addSubview(bgVideoPlayer)
         view.addSubview(tempBgVideo)
@@ -340,7 +327,7 @@ class DynamicHomeViewController: UIViewController{
         bgVideoLayer = AVPlayerLayer(player: bgVideo)
         bgVideoLayer?.frame = self.view.bounds
         bgVideoLayer?.videoGravity = .resizeAspectFill
-        self.view.layer.insertSublayer(bgVideoLayer!, at: 0) // Assuming you want it at the back of all views
+        self.view.layer.insertSublayer(bgVideoLayer!, at: 0) 
         bgVideo?.play()
         bgVideo?.actionAtItemEnd = .none
         
@@ -354,21 +341,24 @@ class DynamicHomeViewController: UIViewController{
     //Buttons sets background image function
     @objc func dynamicButtonTapped(_ sender: UIButton) {
         if sender == dynamicButtonOne {
-            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
-            dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
-            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
+            updateButtonStates(scenes: "Day")
+            dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
+            dynamicButtonTwo.setImage(UIImage.dynamicButton.eveningActive, for: .normal)
+            dynamicButtonThree.setImage(UIImage.dynamicButton.nightActive, for: .normal)
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenDay")
             mainBg.image = UIImage.staticHomeBg.day
         } else if sender == dynamicButtonTwo {
-            dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
-            dynamicButtonTwo.setImage(UIImage.dynamicButton.eveningActive, for: .normal)
-            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
+            updateButtonStates(scenes: "Evening")
+            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
+            dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
+            dynamicButtonThree.setImage(UIImage.dynamicButton.nightActive, for: .normal)
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenEvening")
             mainBg.image = UIImage.staticHomeBg.evening
         } else if sender == dynamicButtonThree {
-            dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
-            dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
-            dynamicButtonThree.setImage(UIImage.dynamicButton.nightActive, for: .normal)
+            updateButtonStates(scenes: "Night")
+            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
+            dynamicButtonTwo.setImage(UIImage.dynamicButton.eveningActive, for: .normal)
+            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenNight")
             mainBg.image = UIImage.staticHomeBg.night
         }
@@ -452,27 +442,37 @@ class DynamicHomeViewController: UIViewController{
         let date = Date()
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: date)
-        print(hour)
         
         if (8...14).contains(hour) { // 8 AM to 3:30 PM
+            updateButtonStates(scenes: "Day")
             mainBg.image = UIImage.staticHomeBg.day
             setupBackgroundLayerVideo(withVideoNamed: "HomeScreenDay")
-            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
-            dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
-            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
-        } else if (15...18).contains(hour) { // 3:30 PM to 7 PM
-            mainBg.image = UIImage.staticHomeBg.evening
-            setupBackgroundLayerVideo(withVideoNamed: "HomeScreenEvening")
             dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
             dynamicButtonTwo.setImage(UIImage.dynamicButton.eveningActive, for: .normal)
-            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
-        } else { // 7 PM to 8 AM
-            mainBg.image = UIImage.staticHomeBg.night
-            setupBackgroundLayerVideo(withVideoNamed: "HomeScreenNight")
-            dynamicButtonOne.setImage(UIImage.dynamicButton.day, for: .normal)
+            dynamicButtonThree.setImage(UIImage.dynamicButton.nightActive, for: .normal)
+        } else if (15...18).contains(hour) { // 3:30 PM to 7 PM
+            updateButtonStates(scenes: "Evening")
+            mainBg.image = UIImage.staticHomeBg.evening
+            setupBackgroundLayerVideo(withVideoNamed: "HomeScreenEvening")
+            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
             dynamicButtonTwo.setImage(UIImage.dynamicButton.evening, for: .normal)
             dynamicButtonThree.setImage(UIImage.dynamicButton.nightActive, for: .normal)
+        } else { // 7 PM to 8 AM
+            updateButtonStates(scenes: "Night")
+            mainBg.image = UIImage.staticHomeBg.night
+            setupBackgroundLayerVideo(withVideoNamed: "HomeScreenNight")
+            dynamicButtonOne.setImage(UIImage.dynamicButton.dayActive, for: .normal)
+            dynamicButtonTwo.setImage(UIImage.dynamicButton.eveningActive, for: .normal)
+            dynamicButtonThree.setImage(UIImage.dynamicButton.night, for: .normal)
         }
+    }
+    
+    //Trigger disable button
+    func updateButtonStates(scenes: String) {
+        scene = scenes
+        dynamicButtonOne.isUserInteractionEnabled = scene != "Day"
+        dynamicButtonTwo.isUserInteractionEnabled = scene != "Evening"
+        dynamicButtonThree.isUserInteractionEnabled = scene != "Night"
     }
     
     //Fungsi update kata kata hari ini bosq

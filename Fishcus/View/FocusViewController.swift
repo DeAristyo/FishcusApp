@@ -545,15 +545,15 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         playVideoFocus()
         
         //App lifecycle
-        AppLifeCycle()
+//        AppLifeCycle()
         
     }
     
     /// Life Cycle Action
-    func AppLifeCycle(){
-        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(inBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-    }
+//    func AppLifeCycle(){
+//        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+//        NotificationCenter.default.addObserver(self, selector: #selector(inBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+//    }
     
     /// in background run
     @objc func inBackground(){
@@ -1519,7 +1519,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         let dataPersistence = DataPersistence(timerStart: timerStart, text: text, setFish: setFish , rarerity: setRarerity)
         dataPersistence.saveContent()
         
-        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity )
+        let vc = ResultViewController(time: minuteToString(time: TimeInterval(timerStart)), activity: text, fish: setFish, rare: setRarerity, rootView: false )
         gachaSytem.reset()
         self.navigationController?.pushViewController(vc, animated: true)
     }
@@ -1762,11 +1762,17 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.isIdleTimerDisabled = true
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(inBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIApplication.didEnterBackgroundNotification, object: nil)
+
         // Invalidate the timer when the view disappears
         UIApplication.shared.isIdleTimerDisabled = false
         motionManager.stopAccelerometerUpdates()

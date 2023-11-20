@@ -150,7 +150,7 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
             cycleBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             cycleBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             
-            horizontalStack.topAnchor.constraint(equalTo: cycleBg.bottomAnchor, constant: 15),
+            horizontalStack.topAnchor.constraint(equalTo: cycleBg.bottomAnchor, constant: view.bounds.height * 0.03),
             horizontalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             startFocusSetup.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 15),
@@ -283,9 +283,11 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
     
     func randomizeGameController() -> UIViewController {
         let randomIndex = Int(arc4random_uniform(2))
-    
+        
         if randomIndex == 0 {
             return FishColorGameController(isStimulateGame: true)
+        } else if randomIndex == 1 {
+            return SwipeGameViewController(isStimulateGame: true)
         } else {
             return BubbleGameController(isStimulateGame: true)
         }
