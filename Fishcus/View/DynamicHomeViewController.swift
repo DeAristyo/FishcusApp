@@ -242,9 +242,14 @@ class DynamicHomeViewController: UIViewController{
         //Calling the constraint
         setupView()
         
+        //Setup Background base on time of the day
         setBackgroundBasedOnTime()
         
+        //Setup guided
         SetupGuidedTutorial()
+        
+        //Update quotes
+        updateQuoteOfTheDay()
         
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
