@@ -162,7 +162,10 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         self.addGestureRecognizer(gesture)
         
         btnStart.addTarget(self, action: #selector(changeScreen), for: .touchUpInside)
+        
         btnStart.isEnabled = false
+        
+        SetupForGuidedTutorial()
     }
     
     @objc func changeScreen(){
@@ -196,6 +199,16 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         buttonPicker.isEnabled = false
         btnStart.isEnabled = false
         toggleSwitcher.isEnabled = false
+    }
+    
+    func SetupForGuidedTutorial(){
+        if(UserDefaults.standard.data(forKey: "focusData")?.isEmpty == nil){
+            inputTaskTextField.text = "Study Math"
+            focusDuration = 1800
+            let finalTime = ConvertSecondToMinutesString(time: TimeInterval(focusDuration))
+            btnStart.isEnabled = true
+            buttonPicker.setTitle("\(finalTime) min", for: .normal)
+        }
     }
     
     func sendFocusDuration(time: String) {

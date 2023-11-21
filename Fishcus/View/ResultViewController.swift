@@ -434,6 +434,7 @@ class ResultViewController: UIViewController {
     @objc func finish(){
         if rootView!{
             self.navigationController?.popViewController(animated: true)
+            self.navigationController?.isNavigationBarHidden = false
         }else{
             if let tabBarController = self.tabBarController {
                 if let navigationController = self.navigationController {

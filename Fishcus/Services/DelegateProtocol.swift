@@ -29,6 +29,10 @@ protocol DelegateToggleSwitch: AnyObject{
     func ToggleSwitchRun()
 }
 
+protocol DelegateSetupFocus: AnyObject{
+    func setupFocus()
+}
+
 
 
 

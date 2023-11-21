@@ -10,6 +10,7 @@ import UIKit
 class SetupFocusViewController: UIViewController, DelegateButtonStart {
     
     // setup focus var
+    weak var delegateProtocol: DelegateSetupFocus?
     let myUserDefault = UserDefaults.standard
     var cycleBackground: Int = 0
     
@@ -131,6 +132,7 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
     @objc func removeGuidedTutorial(_ gesture: UITapGestureRecognizer){
         guard let currentView = gesture.view else{return}
         currentView.removeFromSuperview()
+        
     }
     
     func SetupDelegate(){

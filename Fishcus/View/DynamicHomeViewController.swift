@@ -10,7 +10,11 @@ import AVFoundation
 
 class DynamicHomeViewController: UIViewController{
     
-    private var getSumFishingData = GetDataFishing.getData().count
+    private var getSumFishingData = 0 {
+        didSet{
+            SetupFinishGuidedTutorial()
+        }
+    }
     private var myUserDefault = UserDefaults.standard
     private var bgVideo: AVPlayer?
     private var bgVideoLayer: AVPlayerLayer?
@@ -242,8 +246,6 @@ class DynamicHomeViewController: UIViewController{
         
         SetupGuidedTutorial()
         
-        SetupFinishGuidedTutorial()
-        
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
     }
@@ -251,7 +253,12 @@ class DynamicHomeViewController: UIViewController{
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         self.tabBarController?.tabBar.isHidden = false
+        countSumFishingData()
         bgVideo?.play()
+    }
+    
+    func countSumFishingData() {
+        getSumFishingData = GetDataFishing.getData().count
     }
     
     override func viewWillDisappear(_ animated: Bool) {

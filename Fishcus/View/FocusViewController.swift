@@ -545,15 +545,15 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         playVideoFocus()
         
         //App lifecycle
-//        AppLifeCycle()
+        AppLifeCycle()
         
     }
     
-    /// Life Cycle Action
-//    func AppLifeCycle(){
-//        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-//        NotificationCenter.default.addObserver(self, selector: #selector(inBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
-//    }
+    // Life Cycle Action
+    func AppLifeCycle(){
+        NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(inBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
+    }
     
     /// in background run
     @objc func inBackground(){
@@ -1044,7 +1044,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         UIView.animate(withDuration: 0.5, animations: {
             self.infoEndSessionIcon.transform = CGAffineTransform(translationX: 5, y: -8)
             self.infoPullOutIcon.transform = CGAffineTransform(translationX: 5, y: -8)
-            self.pullOutIconAnimate.transform = CGAffineTransform(translationX: 5, y: -8)
+            self.pullOutIconAnimate.transform = CGAffineTransform(translationX: 25, y: -40)
         }, completion: { done in
             
             if done{
