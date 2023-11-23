@@ -12,6 +12,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     private var selectionIndicatorImageView: UIImageView?
     private let indicatorHeight: CGFloat = 52
     private let indicatorWidth: CGFloat = 73
+    private let isiPhoneSE = UIScreen.main.bounds.height <= 667
     
     override func viewDidLoad() {
         navigationController?.isNavigationBarHidden = true
@@ -29,13 +30,20 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     private func setupViewControllers() {
         let focusViewController = UINavigationController(rootViewController: DynamicHomeViewController())
-        focusViewController.tabBarItem = UITabBarItem(title: "Focus", image: UIImage(systemName: "target"), selectedImage: UIImage(systemName: "target.fill"))
+        focusViewController.tabBarItem = UITabBarItem(title: "Focus", image: UIImage.tabs.target, selectedImage: UIImage.tabs.targetActive)
         
         let historyViewController = UINavigationController(rootViewController: ResultListViewController())
-        historyViewController.tabBarItem = UITabBarItem(title: "History", image: UIImage(systemName: "clock.arrow.circlepath"), selectedImage: UIImage(systemName: "clock.arrow.circlepath.fill"))
+        historyViewController.tabBarItem = UITabBarItem(title: "History", image: UIImage.tabs.clock, selectedImage: UIImage.tabs.clockActive)
         
         let trainingViewController = UINavigationController(rootViewController: GameViewController())
-        trainingViewController.tabBarItem = UITabBarItem(title: "Training", image: UIImage(systemName: "gamecontroller.fill"), selectedImage: UIImage(systemName: "gamecontroller.fill"))
+        trainingViewController.tabBarItem = UITabBarItem(title: "Training", image: UIImage.tabs.game, selectedImage: UIImage.tabs.gameActive)
+        
+        // Set image insets for tab bar items
+            let yOffset: CGFloat = isiPhoneSE ? 40.0 : 0.0 // Adjust this value as needed
+            
+            focusViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
+            historyViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
+            trainingViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
         
         self.viewControllers = [focusViewController, historyViewController, trainingViewController]
     }
@@ -60,8 +68,14 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         // Create a rounded rect layer that will serve as a background for the tab bar
         let layerHeight = max(minimumHeight, tabBar.bounds.height + bottomPadding)
         let layer = CAShapeLayer()
+        var yPosition = tabBar.bounds.minY - (layerHeight - tabBar.bounds.height) / 2
+        
+        if isiPhoneSE {
+            yPosition -= 40 // Add 40 points for iPhone SE
+        }
+        
         let layerPath = UIBezierPath(roundedRect: CGRect(x: sidePadding,
-                                                         y: tabBar.bounds.minY - (layerHeight - tabBar.bounds.height) / 2,
+                                                         y: yPosition,
                                                          width: tabBar.bounds.width - (sidePadding * 2),
                                                          height: layerHeight),
                                      cornerRadius: layerHeight / 2).cgPath
@@ -71,17 +85,17 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         layer.zPosition = -2
         tabBar.layer.insertSublayer(layer, at: 0)
         
+        let yOffset: CGFloat = isiPhoneSE ? 40.0 : 0.0 // You may need to adjust this value
+        
         // Adjust the item insets to center the icons vertically
         let tabBarItemInset: CGFloat = bottomPadding > 0 ? (layerHeight - tabBar.bounds.height) / 6 : 0
-        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -tabBarItemInset)
+        
+        UITabBarItem.appearance().titlePositionAdjustment = isiPhoneSE ? UIOffset(horizontal: 0, vertical: -yOffset) : UIOffset(horizontal: 0, vertical: -tabBarItemInset)
+//        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -tabBarItemInset)
         
         // Set unselected and selected item colors
         UITabBar.appearance().unselectedItemTintColor = unselectedColor
         UITabBar.appearance().tintColor = selectedColor
-        
-        // Adjust tab bar item positioning to take into account the side padding
-        tabBar.itemPositioning = .automatic
-        tabBar.itemSpacing = (tabBar.bounds.width - (sidePadding * 4)) / CGFloat(tabBar.items?.count ?? 1)
         
         if let numberOfItems = tabBar.items?.count, numberOfItems > 0 {
             _ = CGSize(width: tabBar.frame.width / CGFloat(numberOfItems), height: tabBar.frame.height)
@@ -100,15 +114,22 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             if let indicator = selectionIndicatorImageView {
                 tabBar.addSubview(indicator)
             }
+            updateSelectionIndicatorPosition()
         }
-        updateSelectionIndicatorPosition()
     }
     
     private func updateSelectionIndicatorPosition() {
         let count = tabBar.items?.count ?? 0
         let tabBarItemWidth = tabBar.bounds.width / CGFloat(count)
         let xPosition = tabBarItemWidth * CGFloat(selectedIndex) + (tabBarItemWidth - indicatorWidth) / 2
-        let yPosition = tabBar.bounds.height - indicatorHeight - (view.safeAreaInsets.bottom - 2)
+        
+        // Calculate the yPosition to float 40 points above the bottom of the screen
+        let screenHeight = UIScreen.main.bounds.height
+        var yPosition = tabBar.bounds.height - indicatorHeight - (view.safeAreaInsets.bottom - 2)
+        
+        if isiPhoneSE {
+            yPosition -= 40 // Add 40 points for iPhone SE
+        }
         
         if let indicator = selectionIndicatorImageView {
             let animationDuration = indicator.frame == .zero ? 0 : 0.25
@@ -119,31 +140,12 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
     }
     
+    
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
-        // No need to call super since tabBar(_:didSelect:) is not a method on UITabBarController
         if let index = tabBar.items?.firstIndex(of: item), index != selectedIndex {
-            // The selectedIndex is automatically updated by the system.
-            // Perform the animation after a small delay to allow the tabBar to update
             DispatchQueue.main.async {
                 self.updateSelectionIndicatorPosition()
             }
         }
-    }
-}
-
-// Extension to create a selection indicator image
-extension UIImage {
-    static func createSelectionIndicator(color: UIColor, size: CGSize, lineWidth: CGFloat) -> UIImage? {
-        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        color.setFill()
-        let path = UIBezierPath(roundedRect: CGRect(x: 0,
-                                                    y: 0,
-                                                    width: size.width,
-                                                    height: size.height),
-                                cornerRadius: size.height / 2)
-        path.fill()
-        let image = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        return image
     }
 }

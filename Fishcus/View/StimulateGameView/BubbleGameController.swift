@@ -19,7 +19,7 @@ class BubbleGameController: UIViewController{
     }
     
     //View variables declaration
-//    private let bubblePopSound = BubbleSound()
+    private let isiPhoneSE = UIScreen.main.bounds.height <= 667
     private let progressBar = ProgressBarView()
     private var bubbleViews: [BubbleView] = []
     private var isBubblePositioned: Bool = false
@@ -30,6 +30,7 @@ class BubbleGameController: UIViewController{
     private let countDownTimer = CountdownRingView()
     private var initialCountValue = 3
     private var initialCountTimer: Timer!
+    private var isLevelOne: Bool = true
     private var isGameStarting: Bool = false
     private var isStimulateGame: Bool = true
     
@@ -528,6 +529,9 @@ class BubbleGameController: UIViewController{
         print(gameLevel)
         guard bubbleViews.isEmpty else { return }
         
+        numberOfBubbles = isiPhoneSE && isLevelOne ? 3 : numberOfBubbles
+        isLevelOne = false
+        
         // Generate unique numbers from 1 to 9
         var uniqueNumbers = Set<Int>()
         for number in 1...9 {
@@ -660,6 +664,7 @@ class BubbleGameController: UIViewController{
             fadeOutElements()
             numberOfBubbles = 5
             gameLevel = 1
+            isLevelOne = true
             isGameStarting = false
         }
     }
@@ -678,7 +683,7 @@ class BubbleGameController: UIViewController{
     func setupLayout(){
         NSLayoutConstraint.activate([
             //Label Constraint
-            label.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: 40),
+            label.topAnchor.constraint(equalTo: progressBar.bottomAnchor, constant: isiPhoneSE ? 10 : 40),
             label.heightAnchor.constraint(equalToConstant: 80),
             label.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             label.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
@@ -730,22 +735,20 @@ class BubbleGameController: UIViewController{
             //Info Rectangle Constraint
             infoView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             infoView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            infoView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: 0.46),
+            infoView.heightAnchor.constraint(greaterThanOrEqualTo: view.heightAnchor, multiplier: isiPhoneSE ? 0.54 : 0.46),
             infoView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             
             //info image constraint
-
             infoImage.topAnchor.constraint(equalTo: infoView.topAnchor, constant: 15),
-            infoImage.leadingAnchor.constraint(lessThanOrEqualTo: infoView.leadingAnchor, constant: 15),
-            infoImage.trailingAnchor.constraint(greaterThanOrEqualTo: infoView.trailingAnchor, constant: -15),
-            infoImage.bottomAnchor.constraint(lessThanOrEqualTo: infoMessage.topAnchor, constant: 30),
-            infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: 300),
+            infoImage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 15),
+            infoImage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -15),
+            infoImage.heightAnchor.constraint(lessThanOrEqualToConstant: isiPhoneSE ? 250 : 300),
             
             //Info Message constraint
-            infoMessage.topAnchor.constraint(lessThanOrEqualTo: infoImage.bottomAnchor, constant: 30),
+            infoMessage.topAnchor.constraint(equalTo: infoImage.bottomAnchor, constant: 30),
             infoMessage.leadingAnchor.constraint(equalTo: infoView.leadingAnchor, constant: 25),
             infoMessage.trailingAnchor.constraint(equalTo: infoView.trailingAnchor, constant: -25),
-            infoMessage.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: -24),
+            infoMessage.bottomAnchor.constraint(equalTo: infoView.bottomAnchor, constant: isiPhoneSE ? -18 : -24),
             
             //Info Label Constraint
             infoLabel.bottomAnchor.constraint(equalTo: infoView.topAnchor, constant: -20),
@@ -789,16 +792,16 @@ class BubbleGameController: UIViewController{
             countDownTopLabel.bottomAnchor.constraint(equalTo: countDownLabel.topAnchor, constant: -130),
             
             //Progress bar Constraint
-            progressBar.topAnchor.constraint(equalTo: view.topAnchor, constant: 65),
+            progressBar.topAnchor.constraint(equalTo: view.topAnchor, constant: isiPhoneSE ? 40 : 65),
             progressBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 25),
             progressBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -25),
             progressBar.heightAnchor.constraint(equalToConstant: 25),
             
             //Game position constraint
-            gameBg.topAnchor.constraint(equalTo: label.bottomAnchor, constant: 30),
-            gameBg.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 40),
-            gameBg.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -40),
-            gameBg.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -150),
+            gameBg.topAnchor.constraint(equalTo: label.bottomAnchor, constant: isiPhoneSE ? 15 : 30),
+            gameBg.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: isiPhoneSE ? 20 : 40),
+            gameBg.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: isiPhoneSE ? -20 : -40),
+            gameBg.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: isiPhoneSE ? -80 : -150),
         ])
     }
     

@@ -72,4 +72,28 @@ extension UIImage{
     struct icons{
         static var quotesIcon: UIImage = {return UIImage(named: "quotesIcon")!}()
     }
+    
+    struct tabs{
+        static var target: UIImage = {return UIImage(named: "target")!}()
+        static var targetActive: UIImage = {return UIImage(named: "targetActive")!}()
+        static var gameActive: UIImage = {return UIImage(named: "gameActive")!}()
+        static var game: UIImage = {return UIImage(named: "game")!}()
+        static var clockActive: UIImage = {return UIImage(named: "clockActive")!}()
+        static var clock: UIImage = {return UIImage(named: "clock")!}()
+    }
+    
+    //Tab bar selection indicator
+    static func createSelectionIndicator(color: UIColor, size: CGSize, lineWidth: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        color.setFill()
+        let path = UIBezierPath(roundedRect: CGRect(x: 0,
+                                                    y: 0,
+                                                    width: size.width,
+                                                    height: size.height),
+                                cornerRadius: size.height / 2)
+        path.fill()
+        let image = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return image
+    }
 }

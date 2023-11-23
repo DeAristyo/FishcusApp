@@ -15,6 +15,7 @@ class DynamicHomeViewController: UIViewController{
             SetupFinishGuidedTutorial()
         }
     }
+    private let isiPhoneSE = UIScreen.main.bounds.height <= 667
     private var myUserDefault = UserDefaults.standard
     private var bgVideo: AVPlayer?
     private var bgVideoLayer: AVPlayerLayer?
@@ -531,24 +532,24 @@ class DynamicHomeViewController: UIViewController{
             mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             //Label one contraint
-            labelOne.topAnchor.constraint(equalTo: view.topAnchor, constant: 97),
-            labelOne.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
+            labelOne.topAnchor.constraint(equalTo: view.topAnchor, constant: isiPhoneSE ? 47 : 97),
+            labelOne.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: isiPhoneSE ? 15 : 35),
             
             //Label two contraint
             labelTwo.topAnchor.constraint(equalTo: labelOne.bottomAnchor, constant: 2),
-            labelTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 35),
+            labelTwo.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: isiPhoneSE ? 15 : 35),
             
             //Quotes rectangle constraint
-            quotesRectangle.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: 195),
+            quotesRectangle.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: isiPhoneSE ? 135 : 195),
             quotesRectangle.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             quotesRectangle.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.8),
-            quotesRectangle.heightAnchor.constraint(greaterThanOrEqualToConstant: 85),
+            quotesRectangle.heightAnchor.constraint(greaterThanOrEqualToConstant: isiPhoneSE ? 65 : 85),
             
             //Quotes text constraint
             quotesText.topAnchor.constraint(lessThanOrEqualTo: quotesRectangle.topAnchor, constant: 19),
-            quotesText.trailingAnchor.constraint(equalTo: quotesRectangle.trailingAnchor, constant: -50),
-            quotesText.leadingAnchor.constraint(equalTo: quotesRectangle.leadingAnchor, constant: 50),
-            quotesText.bottomAnchor.constraint(equalTo: quotesRectangle.bottomAnchor, constant: -9),
+            quotesText.trailingAnchor.constraint(equalTo: quotesRectangle.trailingAnchor, constant: isiPhoneSE ? -25 : -50),
+            quotesText.leadingAnchor.constraint(equalTo: quotesRectangle.leadingAnchor, constant: isiPhoneSE ? 25 : 50),
+            quotesText.bottomAnchor.constraint(equalTo: quotesRectangle.bottomAnchor, constant: isiPhoneSE ? -12 : -9),
             
             //Quotes rectangle tittle constraint
             quotesTitleRectangle.topAnchor.constraint(equalTo: quotesRectangle.topAnchor, constant: -15),
@@ -569,15 +570,15 @@ class DynamicHomeViewController: UIViewController{
             
             //Eclipse constraint
             focusEclipse.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            focusEclipse.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.3),
+            focusEclipse.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.28),
             focusEclipse.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            focusEclipse.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: -250),
+            focusEclipse.bottomAnchor.constraint(lessThanOrEqualTo: view.bottomAnchor, constant: isiPhoneSE ? -200 : -250),
             
             //Focus Button constraint
             focusButton.centerXAnchor.constraint(equalTo: focusEclipse.centerXAnchor),
             focusButton.centerYAnchor.constraint(equalTo: focusEclipse.centerYAnchor),
-            focusButton.heightAnchor.constraint(lessThanOrEqualTo: focusEclipse.heightAnchor, multiplier: 0.95),
-            focusButton.widthAnchor.constraint(lessThanOrEqualTo: focusEclipse.widthAnchor),
+            focusButton.heightAnchor.constraint(lessThanOrEqualTo: focusEclipse.heightAnchor, multiplier: isiPhoneSE ? 0.7 : 0.7),
+            focusButton.widthAnchor.constraint(lessThanOrEqualTo: focusEclipse.widthAnchor, multiplier: isiPhoneSE ? 0.7 : 0.85),
             
             //Change background 1 constrain
             dynamicButtonOne.trailingAnchor.constraint(greaterThanOrEqualTo: dynamicButtonTwo.leadingAnchor, constant: -32),

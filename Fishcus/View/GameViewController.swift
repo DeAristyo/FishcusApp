@@ -9,6 +9,8 @@ import UIKit
 
 class GameViewController: UIViewController {
     
+    private let isiPhoneSE = UIScreen.main.bounds.height <= 667
+    
     //MARK: - View Variable Declaration
     //View background
     lazy var mainBg: UIImageView = {
@@ -124,22 +126,22 @@ class GameViewController: UIViewController {
             mainBg.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             //Fish color Constraint
-            colorButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
-            colorButton.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: 160),
-//            colorButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4),
-            colorButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
+            colorButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: isiPhoneSE ? 45 : 20),
+            colorButton.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: isiPhoneSE ? 120 : 160),
+            colorButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: isiPhoneSE ? 0.35 : 0.42),
+            colorButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.24),
             
             //Swipe color Constraint
-            bubbleButton.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: -20),
-            bubbleButton.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: 160),
-//            bubbleButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.4),
-            bubbleButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
+            bubbleButton.trailingAnchor.constraint(greaterThanOrEqualTo: view.trailingAnchor, constant: isiPhoneSE ? -45 : -20),
+            bubbleButton.topAnchor.constraint(lessThanOrEqualTo: view.topAnchor, constant: isiPhoneSE ? 120 : 160),
+            bubbleButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: isiPhoneSE ? 0.35 : 0.42),
+            bubbleButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.24),
             
             //Swipe color Constraint
-            swipeButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: 20),
+            swipeButton.leadingAnchor.constraint(greaterThanOrEqualTo: view.leadingAnchor, constant: isiPhoneSE ? 45 : 20),
             swipeButton.topAnchor.constraint(lessThanOrEqualTo: colorButton.bottomAnchor, constant: 25),
-//            swipeButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.2),
-            swipeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.42),
+            swipeButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: isiPhoneSE ? 0.35 : 0.42),
+            swipeButton.heightAnchor.constraint(equalTo: view.heightAnchor, multiplier: 0.24),
             
             bottomLabel.topAnchor.constraint(equalTo: swipeButton.bottomAnchor, constant: 35),
             bottomLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
