@@ -10,6 +10,9 @@ import UIKit
 
 class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
 
+    
+    let smallScreen = UIScreen.main.bounds.size.height <= 667
+   
     var focusDuration: Int = 0{
         didSet{
             if focusDuration < 300{
@@ -76,9 +79,9 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         return button
     }()
     
-    private var inputTimeTextField: CustomPickerTime = {
+    private var inputTimePicker: CustomPickerTime = {
         let textField = CustomPickerTime()
-        textField.layer.zPosition = 2
+        textField.layer.zPosition = 12
         textField.translatesAutoresizingMaskIntoConstraints = false
         
         return textField
@@ -142,7 +145,6 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         addSubview(titleLabel)
         addSubview(inputTaskTextField)
         addSubview(focusDurationLabel)
-        addSubview(inputTimeTextField)
         addSubview(breakDurationTitleLabel)
         addSubview(breakDurationLabel)
         addSubview(miniGamesLabel)
@@ -153,8 +155,6 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         SetupLayout()
         
         SetupDelegate()
-        
-        inputTimeTextField.isHidden = true
         
         buttonPicker.addTarget(self, action: #selector(showPicker), for: .touchUpInside)
         
@@ -176,6 +176,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
         
         if focusDuration >= 300{
             btnStart.isEnabled = true
+            delegateChangeScreen?.SendDataFocus(inputTaskTextField.text ?? "Empty", focusDuration, breakDuration)
             delegateChangeScreen?.changeScreen()
         }else{
             delegateChangeScreen?.ShowAlertMinFocusDuration("Sorry, the minimum focus duration is 5 minutes!")
@@ -186,7 +187,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     @objc func gestureTap(){
         self.endEditing(true)
         delegateChangeScreen?.SendDataFocus(inputTaskTextField.text ?? "Empty", focusDuration, breakDuration)
-        inputTimeTextField.isHidden = true
+        removePicker()
         buttonPicker.isEnabled = true
         toggleSwitcher.isEnabled = true
         btnStart.isEnabled = true
@@ -195,10 +196,25 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     }
     
     @objc func showPicker(){
-        inputTimeTextField.isHidden = false
+        renderPicker()
         buttonPicker.isEnabled = false
         btnStart.isEnabled = false
         toggleSwitcher.isEnabled = false
+    }
+    
+    func renderPicker(){
+        addSubview(inputTimePicker)
+        
+        NSLayoutConstraint.activate([
+            inputTimePicker.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor),
+            inputTimePicker.leadingAnchor.constraint(equalTo: leadingAnchor),
+            inputTimePicker.trailingAnchor.constraint(equalTo: trailingAnchor),
+            inputTimePicker.heightAnchor.constraint(equalToConstant: 200)
+        ])
+    }
+    
+    func removePicker(){
+        inputTimePicker.removeFromSuperview()
     }
     
     func SetupForGuidedTutorial(){
@@ -222,47 +238,49 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     }
     
     func SetupDelegate(){
-        inputTimeTextField.timerDelegate = self
+        inputTimePicker.timerDelegate = self
         toggleSwitcher.toggleSwitch = self
     }
     
     func SetupLayout(){
+        if smallScreen {
+            print("Iphone se")
+        }else{
+            print("iphone biasa")
+           
+        }
+        
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-        
+            
             inputTaskTextField.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 15),
             inputTaskTextField.centerXAnchor.constraint(equalTo: centerXAnchor),
             inputTaskTextField.widthAnchor.constraint(equalToConstant: 321),
             inputTaskTextField.heightAnchor.constraint(equalToConstant: 43),
             
-            focusDurationLabel.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: 35),
+            focusDurationLabel.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: smallScreen ? 25 : 35),
             focusDurationLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
             
-            buttonPicker.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: 36.5),
+            buttonPicker.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: smallScreen ? 22 : 32),
             buttonPicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
-            buttonPicker.widthAnchor.constraint(equalToConstant: 183),
+            buttonPicker.widthAnchor.constraint(equalToConstant: smallScreen ? 150  : 183 ),
             buttonPicker.heightAnchor.constraint(equalToConstant: 30),
             
-            breakDurationTitleLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: 25),
+            breakDurationTitleLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: smallScreen ? 22 : 35),
             breakDurationTitleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
             
-            breakDurationLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: 25),
+            breakDurationLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: smallScreen ? 22 : 35),
             breakDurationLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
             
-            miniGamesLabel.topAnchor.constraint(equalTo: breakDurationTitleLabel.bottomAnchor, constant: 35),
+            miniGamesLabel.topAnchor.constraint(equalTo: breakDurationTitleLabel.bottomAnchor, constant: smallScreen ? 22 : 35),
             miniGamesLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 35),
             
-            toggleSwitcher.topAnchor.constraint(equalTo: breakDurationTitleLabel.bottomAnchor, constant: 32),
+            toggleSwitcher.topAnchor.constraint(equalTo: breakDurationTitleLabel.bottomAnchor, constant: smallScreen ? 22 : 32),
             toggleSwitcher.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
             
-            btnStart.topAnchor.constraint(equalTo: miniGamesLabel.bottomAnchor, constant: 50),
+            btnStart.topAnchor.constraint(equalTo: miniGamesLabel.bottomAnchor, constant: smallScreen ? 25 : 50),
             btnStart.centerXAnchor.constraint(equalTo: centerXAnchor),
-            
-            inputTimeTextField.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor),
-            inputTimeTextField.leadingAnchor.constraint(equalTo: leadingAnchor),
-            inputTimeTextField.trailingAnchor.constraint(equalTo: trailingAnchor),
-            inputTimeTextField.bottomAnchor.constraint(equalTo: btnStart.topAnchor)
             
         ])
     }

@@ -10,6 +10,7 @@ import UIKit
 class ResultViewController: UIViewController {
     
     var loadingView: UIView?
+    let smallScreen = UIScreen.main.bounds.size.height <= 667
     
     private var rootView: Bool?
     var time: String?
@@ -181,11 +182,6 @@ class ResultViewController: UIViewController {
         super.viewDidLoad()
         self.navigationController?.isNavigationBarHidden = true
         
-        let gradient = CAGradientLayer()
-        gradient.frame = gradientContainer.bounds
-        gradientContainer.layer.insertSublayer(gradient, at: 0)
-        
-        
         labelSmall.alpha = 0.0
         labelBig.alpha = 0.0
         doneBtn.alpha = 0.0
@@ -195,91 +191,6 @@ class ResultViewController: UIViewController {
         labelRarerity.alpha =  0.0
         rectangleRarerity.alpha = 0.0
         
-        
-        switch rare{
-        case "C" :
-            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
-            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
-            self.labelRarerity.text = "COMMON"
-            self.labelRarerity.textColor = UIColor(named: "pale-green")
-            self.rectangleRarerity.layer.borderColor = UIColor(named: "pale-green")?.cgColor
-            self.myBgImage.image = UIImage(named: "bg-result")
-            view.backgroundColor = UIColor(named: "result-color")
-            switch fish{
-            case "1":
-                self.labelBig.text = "Swordfish, the Warrior!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-sword")
-                break
-            case "2":
-                self.labelBig.text = "Clownfish, the Trickster!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-clown")
-            default:
-                self.labelBig.text = "Betta, the Duelist!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-beta")
-                break
-            }
-            
-            break
-        case "R":
-            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                               UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1).cgColor]
-            self.gradientBackground.backgroundColor = UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1)
-            self.labelRarerity.text = "RARE"
-            self.labelRarerity.textColor = UIColor(named: "secondaryColor")
-            self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
-            self.myBgImage.image = UIImage(named: "afternoon-bg")
-            view.backgroundColor = UIColor(named: "afternoon-theme")
-            switch fish{
-            case "1":
-                self.labelBig.text = "Swordfish, the Warrior!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-sword")
-                break
-            case "2":
-                self.labelBig.text = "Clownfish, the Trickster!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-clown")
-            default:
-                self.labelBig.text = "Betta, the Duelist!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-beta")
-                break
-            }
-            
-            break
-        case "N":
-            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                               UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1).cgColor]
-            self.gradientBackground.backgroundColor = UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1)
-            self.labelRarerity.text = "NEPTUNIAN"
-            self.labelRarerity.textColor = UIColor(named: "rare-color")
-            self.labelBig.textColor = UIColor(named: "rare-color")
-            self.rectangleRarerity.layer.borderColor = UIColor(named: "rare-color")?.cgColor
-            self.myBgImage.image = UIImage(named: "night-bg")
-            view.backgroundColor = UIColor(named: "night-theme")
-            switch fish{
-            case "1":
-                self.labelBig.text = "Swordfish, the Warrior!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-sword")
-                break
-            case "2":
-                self.labelBig.text = "Clownfish, the Trickster!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-clown")
-            default:
-                self.labelBig.text = "Betta, the Duelist!"
-                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-beta")
-                break
-            }
-            break
-        default :
-            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
-                               UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1).cgColor]
-            self.gradientBackground.backgroundColor = UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1)
-            self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
-            self.labelBig.text = "I failed to focus.."
-            self.fishImage.image = UIImage(named: "death-fish")
-            view.backgroundColor = UIColor(named: "result-color")
-            break
-            
-        }
         
         view.addSubview(myBgImage)
         
@@ -333,10 +244,9 @@ class ResultViewController: UIViewController {
         ])
         
         view.addSubview(labelSmall)
-        labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
         
         NSLayoutConstraint.activate([
-            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: 100),
+            labelSmall.topAnchor.constraint(equalTo: fishImage.bottomAnchor, constant: smallScreen ? 50 : 100),
             labelSmall.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
         
@@ -373,7 +283,7 @@ class ResultViewController: UIViewController {
         view.addSubview(containerBtnDone)
         
         NSLayoutConstraint.activate([
-            containerBtnDone.topAnchor.constraint(equalTo: view.topAnchor, constant: 44),
+            containerBtnDone.topAnchor.constraint(equalTo: view.topAnchor, constant: smallScreen ? 22 : 44),
             containerBtnDone.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -24),
             containerBtnDone.widthAnchor.constraint(equalToConstant: 100),
             containerBtnDone.heightAnchor.constraint(equalToConstant: 100)
@@ -387,12 +297,16 @@ class ResultViewController: UIViewController {
             doneBtn.widthAnchor.constraint(equalToConstant: 77),
             doneBtn.heightAnchor.constraint(equalToConstant: 31)
         ])
+        
+        SetupScreenBasedOnRare()
       
         resultBtn.addTarget(self, action: #selector(shareResult), for: .touchUpInside)
         doneBtn.addTarget(self, action: #selector(finish), for: .touchUpInside)
         containerBtnDone.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(finish)))
         animate()
         loadData()
+        
+        print(smallScreen)
         
     }
     
@@ -491,6 +405,103 @@ class ResultViewController: UIViewController {
             }
             
         })
+    }
+    
+    func SetupScreenBasedOnRare(){
+        let gradient = CAGradientLayer()
+        gradient.frame = gradientContainer.bounds
+        gradientContainer.layer.insertSublayer(gradient, at: 0)
+        
+        switch rare{
+        case "C" :
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.286, green: 0.361, blue: 0.29, alpha: 1)
+            self.labelRarerity.text = "COMMON"
+            self.labelRarerity.textColor = UIColor(named: "pale-green")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "pale-green")?.cgColor
+            self.myBgImage.image = UIImage(named: "bg-result")
+            labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
+            view.backgroundColor = UIColor(named: "result-color")
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "c")-beta")
+                break
+            }
+            
+            break
+        case "R":
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.265, green: 0.471, blue: 0.617, alpha: 1)
+            self.labelRarerity.text = "RARE"
+            self.labelRarerity.textColor = UIColor(named: "secondaryColor")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "secondaryColor")?.cgColor
+            self.myBgImage.image = UIImage(named: "afternoon-bg")
+            labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
+            view.backgroundColor = UIColor(named: "afternoon-theme")
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "r")-beta")
+                break
+            }
+            
+            break
+        case "N":
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.596, green: 0.137, blue: 0.251, alpha: 1)
+            self.labelRarerity.text = "NEPTUNIAN"
+            self.labelRarerity.textColor = UIColor(named: "rare-color")
+            self.labelBig.textColor = UIColor(named: "rare-color")
+            self.rectangleRarerity.layer.borderColor = UIColor(named: "rare-color")?.cgColor
+            self.myBgImage.image = UIImage(named: "night-bg")
+            labelSmall.text = "For \(self.time ?? "") minutes of \(self.activity ?? ""), I caught"
+            view.backgroundColor = UIColor(named: "night-theme")
+            switch fish{
+            case "1":
+                self.labelBig.text = "Swordfish, the Warrior!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-sword")
+                break
+            case "2":
+                self.labelBig.text = "Clownfish, the Trickster!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-clown")
+            default:
+                self.labelBig.text = "Betta, the Duelist!"
+                self.fishImage.image = UIImage(named: "\(rare?.lowercased() ?? "n")-beta")
+                break
+            }
+            break
+        default :
+            gradient.colors = [UIColor(red: 0.851, green: 0.851, blue: 0.851, alpha: 0).cgColor,
+                               UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1).cgColor]
+            self.gradientBackground.backgroundColor = UIColor(red: 0.246, green: 0.323, blue: 0.349, alpha: 1)
+            self.rectangleRarerity.layer.borderColor = UIColor.clear.cgColor
+            self.labelSmall.text = "I failed to focus.."
+            self.labelSmall.font = UIFont.rounded(ofSize: 32, weight: .bold)
+            self.labelBig.text = "For \(self.time ?? "") minutes of \(self.activity ?? "")"
+            self.labelBig.font = UIFont.rounded(ofSize: 16, weight: .regular)
+            self.fishImage.image = UIImage(named: "death-fish")
+            view.backgroundColor = UIColor(named: "result-color")
+            break
+            
+        }
     }
     
     func captureScreen(of viewController: UIViewController) -> UIImage? {
