@@ -15,6 +15,9 @@
 		5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */; };
 		7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */; };
 		86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 31196A59B6EED78958140F92 /* Assets.xcassets */; };
+		A5300BCB2B0F5205006CDB39 /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5300BC82B0F5205006CDB39 /* HomeScreenNight.mov */; };
+		A5300BCC2B0F5205006CDB39 /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5300BC92B0F5205006CDB39 /* HomeScreenDay.mov */; };
+		A5300BCD2B0F5205006CDB39 /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = A5300BCA2B0F5205006CDB39 /* HomeScreenEvening.mov */; };
 		A538789B2AFBD6F800F264AB /* BubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789A2AFBD6F800F264AB /* BubbleView.swift */; };
 		A538789E2AFBF80700F264AB /* BubbleGameController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A538789D2AFBF80700F264AB /* BubbleGameController.swift */; };
 		A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */; };
@@ -52,9 +55,6 @@
 		CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E682B02A02C0036D455 /* MotionServices.swift */; };
 		CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6A2B02AC270036D455 /* DataPersistence.swift */; };
 		CCE17E6D2B0377410036D455 /* FilterNotifications.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6C2B0377410036D455 /* FilterNotifications.swift */; };
-		CCE95A3B2B0C8B670014BF19 /* HomeScreenEvening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCE95A382B0C8B670014BF19 /* HomeScreenEvening.mov */; };
-		CCE95A3C2B0C8B670014BF19 /* HomeScreenDay.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCE95A392B0C8B670014BF19 /* HomeScreenDay.mov */; };
-		CCE95A3D2B0C8B670014BF19 /* HomeScreenNight.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCE95A3A2B0C8B670014BF19 /* HomeScreenNight.mov */; };
 		CCEC209D2B05CC1D003319A3 /* SetupFocusModeAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC209C2B05CC1D003319A3 /* SetupFocusModeAlert.swift */; };
 		CCEC20A02B05FCEE003319A3 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC209F2B05FCEE003319A3 /* Colors.swift */; };
 		CCEC20A22B060189003319A3 /* ToggleSwitch.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCEC20A12B060189003319A3 /* ToggleSwitch.swift */; };
@@ -76,6 +76,9 @@
 		60591540336BD1286C10617C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8D33A05DB6C464BA8293F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A5300BC82B0F5205006CDB39 /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenNight.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenNight.mov"; sourceTree = "<group>"; };
+		A5300BC92B0F5205006CDB39 /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenDay.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenDay.mov"; sourceTree = "<group>"; };
+		A5300BCA2B0F5205006CDB39 /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenEvening.mov; path = "../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenEvening.mov"; sourceTree = "<group>"; };
 		A538789A2AFBD6F800F264AB /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		A538789D2AFBF80700F264AB /* BubbleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameController.swift; sourceTree = "<group>"; };
 		A53878A02AFC0E5E00F264AB /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
@@ -115,9 +118,6 @@
 		CCE17E682B02A02C0036D455 /* MotionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionServices.swift; sourceTree = "<group>"; };
 		CCE17E6A2B02AC270036D455 /* DataPersistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataPersistence.swift; sourceTree = "<group>"; };
 		CCE17E6C2B0377410036D455 /* FilterNotifications.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterNotifications.swift; sourceTree = "<group>"; };
-		CCE95A382B0C8B670014BF19 /* HomeScreenEvening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenEvening.mov; path = "../../../../../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenEvening.mov"; sourceTree = "<group>"; };
-		CCE95A392B0C8B670014BF19 /* HomeScreenDay.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenDay.mov; path = "../../../../../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenDay.mov"; sourceTree = "<group>"; };
-		CCE95A3A2B0C8B670014BF19 /* HomeScreenNight.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; name = HomeScreenNight.mov; path = "../../../../../../../../../Dropbox (Developer Academy)/TK Mesra/Animation-dev/Home Screen/HomeScreenNight.mov"; sourceTree = "<group>"; };
 		CCEC209C2B05CC1D003319A3 /* SetupFocusModeAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupFocusModeAlert.swift; sourceTree = "<group>"; };
 		CCEC209F2B05FCEE003319A3 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		CCEC20A12B060189003319A3 /* ToggleSwitch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToggleSwitch.swift; sourceTree = "<group>"; };
@@ -305,9 +305,9 @@
 		DDADDA352AFCEB7C0012CC1C /* Video */ = {
 			isa = PBXGroup;
 			children = (
-				CCE95A392B0C8B670014BF19 /* HomeScreenDay.mov */,
-				CCE95A382B0C8B670014BF19 /* HomeScreenEvening.mov */,
-				CCE95A3A2B0C8B670014BF19 /* HomeScreenNight.mov */,
+				A5300BC92B0F5205006CDB39 /* HomeScreenDay.mov */,
+				A5300BCA2B0F5205006CDB39 /* HomeScreenEvening.mov */,
+				A5300BC82B0F5205006CDB39 /* HomeScreenNight.mov */,
 				CC7AB19C2B0A8BB400918F8B /* FocusModeAnimation.mov */,
 				CC7AB1A02B0A8BE900918F8B /* PauseModeAnimation.mov */,
 				CC7AB1A42B0A8C1600918F8B /* ReelingAnimation.mov */,
@@ -397,16 +397,16 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A5300BCB2B0F5205006CDB39 /* HomeScreenNight.mov in Resources */,
 				CCBEDD432B089C68004D23A0 /* reeling-night.mov in Resources */,
 				86D581A56FC8A4835A920725 /* Assets.xcassets in Resources */,
-				CCE95A3C2B0C8B670014BF19 /* HomeScreenDay.mov in Resources */,
+				A5300BCD2B0F5205006CDB39 /* HomeScreenEvening.mov in Resources */,
 				CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */,
 				CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */,
 				CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */,
 				CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */,
 				CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */,
-				CCE95A3D2B0C8B670014BF19 /* HomeScreenNight.mov in Resources */,
-				CCE95A3B2B0C8B670014BF19 /* HomeScreenEvening.mov in Resources */,
+				A5300BCC2B0F5205006CDB39 /* HomeScreenDay.mov in Resources */,
 				CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
 				CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */,
