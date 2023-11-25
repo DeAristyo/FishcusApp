@@ -10,7 +10,6 @@
 		0E6D09DF74DFD7BFFCC5705A /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 0A44CD5A64002DF9CD47B888 /* SDWebImageSwiftUI */; };
 		1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2DEEDA37D3F7A229D3E4E87E /* LaunchScreen.storyboard */; };
 		39AADC20B08DE9F1B7B1C2B5 /* ReusableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E119061096C4A36904EC0AD3 /* ReusableViewController.swift */; };
-		3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */; };
 		50CB79202A69910F8C10A35F /* CountDownRingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFB3509B3E0C943E71428632 /* CountDownRingView.swift */; };
 		5FEDCA896EE00CC29DDE9A98 /* CoreHapticViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2622DB668B6668D1BE2FC62E /* CoreHapticViewController.swift */; };
 		7724FD914C442B973BEDD9D2 /* podomoroAlertsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2C1FB960CC8D192E9CB547A /* podomoroAlertsView.swift */; };
@@ -74,7 +73,6 @@
 		46B38AE6D5EAAE81FC807FEA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		51E971755197E04B9AC46CCB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		60591540336BD1286C10617C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		8D33A05DB6C464BA8293F360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A538789A2AFBD6F800F264AB /* BubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleView.swift; sourceTree = "<group>"; };
 		A538789D2AFBF80700F264AB /* BubbleGameController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BubbleGameController.swift; sourceTree = "<group>"; };
@@ -324,7 +322,6 @@
 				A5A16FB32B091C2E00387A0F /* TabBarController.swift */,
 				A5A16FB52B091CC700387A0F /* GameViewController.swift */,
 				B020708D44C6706B46A2EA01 /* FocusViewController.swift */,
-				8BA533E0233B5E4EFCC4605E /* HomeViewController.swift */,
 				CCEC20A32B06AAD6003319A3 /* SetupFocusViewController.swift */,
 				FC088CEAD3CFD228AC35590F /* ResultViewController.swift */,
 				E119061096C4A36904EC0AD3 /* ReusableViewController.swift */,
@@ -449,7 +446,6 @@
 				F0067A25FE0C50944C94E762 /* FocusViewController.swift in Sources */,
 				A58D67892AFF8C54001CBA37 /* FishColorGameController.swift in Sources */,
 				CCEC20A22B060189003319A3 /* ToggleSwitch.swift in Sources */,
-				3F3E5B64CFC197350D5C55D1 /* HomeViewController.swift in Sources */,
 				CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */,
 				A53878A12AFC0E5E00F264AB /* ProgressBarView.swift in Sources */,
 				ED8858FEBB3A679A08BDD549 /* ResultViewController.swift in Sources */,
@@ -557,7 +553,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
-
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
@@ -647,7 +642,6 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_TEAM = MNPQBHRKTX;
-
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Fishcus/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";

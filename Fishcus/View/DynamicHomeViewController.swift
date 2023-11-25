@@ -250,7 +250,7 @@ class DynamicHomeViewController: UIViewController{
         SetupGuidedTutorial()
         
         //Update quotes
-        updateQuoteOfTheDay()
+        setupDailyQuoteUpdateTimer()
         
         NotificationCenter.default.addObserver(self, selector: #selector(appDidEnterBackground), name: UIApplication.didEnterBackgroundNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(appWillEnterForeground), name: UIApplication.willEnterForegroundNotification, object: nil)
@@ -489,25 +489,35 @@ class DynamicHomeViewController: UIViewController{
     }
     
     //Fungsi update kata kata hari ini bosq
-    func updateQuoteOfTheDay() {
-        let currentDate = Date()
+    // Set up a timer to trigger the quote update at midnight
+    func setupDailyQuoteUpdateTimer() {
         let calendar = Calendar.current
-        let lastUpdate = myUserDefault.object(forKey: "lastUpdate") as? Date ?? currentDate
+        let now = Date()
+        var nextMidnight = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: now)!)
         
-        if !calendar.isDate(currentDate, inSameDayAs: lastUpdate) {
-            var newQuoteIndex: Int
-            repeat {
-                newQuoteIndex = Int.random(in: 0..<quotes.count)
-            } while newQuoteIndex == myUserDefault.integer(forKey: "lastQuoteIndex")
-            
-            quotesText.text = quotes[newQuoteIndex]
-            
-            myUserDefault.set(newQuoteIndex, forKey: "lastQuoteIndex")
-            myUserDefault.set(currentDate, forKey: "lastUpdate")
-        } else {
-            let lastQuoteIndex = myUserDefault.integer(forKey: "lastQuoteIndex")
-            quotesText.text = quotes[lastQuoteIndex]
+        // If the app is launched after midnight but before the first user interaction of the day, update immediately
+        if myUserDefault.object(forKey: "lastUpdate") == nil || !calendar.isDateInToday(myUserDefault.object(forKey: "lastUpdate") as! Date) {
+            updateQuoteOfTheDay()
+            nextMidnight = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: nextMidnight)!)
         }
+
+        let timer = Timer(fireAt: nextMidnight, interval: 0, target: self, selector: #selector(updateQuoteOfTheDay), userInfo: nil, repeats: true)
+        RunLoop.main.add(timer, forMode: .common)
+    }
+
+    // Update the quote
+    @objc func updateQuoteOfTheDay() {
+        var newQuoteIndex: Int
+        repeat {
+            newQuoteIndex = Int.random(in: 0..<quotes.count)
+        } while newQuoteIndex == myUserDefault.integer(forKey: "lastQuoteIndex")
+
+        DispatchQueue.main.async {
+            self.quotesText.text = self.quotes[newQuoteIndex]
+        }
+
+        myUserDefault.set(newQuoteIndex, forKey: "lastQuoteIndex")
+        myUserDefault.set(Date(), forKey: "lastUpdate")
     }
     
     //MARK: - Constraints

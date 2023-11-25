@@ -264,7 +264,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
             
             buttonPicker.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: smallScreen ? 22 : 32),
             buttonPicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
-            buttonPicker.widthAnchor.constraint(equalToConstant: smallScreen ? 150  : 183 ),
+            buttonPicker.widthAnchor.constraint(equalToConstant: smallScreen ? 150  : UIScreen.main.bounds.size.width/3),
             buttonPicker.heightAnchor.constraint(equalToConstant: 30),
             
             breakDurationTitleLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: smallScreen ? 22 : 35),
