@@ -30,7 +30,6 @@ class BubbleGameController: UIViewController{
     private let countDownTimer = CountdownRingView()
     private var initialCountValue = 3
     private var initialCountTimer: Timer!
-    private var isLevelOne: Bool = true
     private var isGameStarting: Bool = false
     private var isStimulateGame: Bool = true
     
@@ -529,9 +528,6 @@ class BubbleGameController: UIViewController{
         print(gameLevel)
         guard bubbleViews.isEmpty else { return }
         
-        numberOfBubbles = isiPhoneSE && isLevelOne ? 3 : numberOfBubbles
-        isLevelOne = false
-        
         // Generate unique numbers from 1 to 9
         var uniqueNumbers = Set<Int>()
         for number in 1...9 {
@@ -595,7 +591,7 @@ class BubbleGameController: UIViewController{
                     NSLayoutConstraint.activate([
                         bubble.leadingAnchor.constraint(equalTo: gameBg.leadingAnchor, constant: newPosition.x),
                         bubble.topAnchor.constraint(equalTo: gameBg.topAnchor, constant: newPosition.y),
-                        bubble.widthAnchor.constraint(equalToConstant: bubble.frame.width),
+                        bubble.widthAnchor.constraint(equalToConstant: isiPhoneSE ?  bubble.frame.width * 0.85 : bubble.frame.width),
                         bubble.heightAnchor.constraint(equalToConstant: bubble.frame.height)
                     ])
                     gameBg.layoutIfNeeded()
@@ -664,7 +660,6 @@ class BubbleGameController: UIViewController{
             fadeOutElements()
             numberOfBubbles = 5
             gameLevel = 1
-            isLevelOne = true
             isGameStarting = false
         }
     }

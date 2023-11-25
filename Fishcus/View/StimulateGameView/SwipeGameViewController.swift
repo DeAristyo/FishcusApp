@@ -726,7 +726,7 @@ class SwipeGameViewController: UIViewController{
             gameBg.topAnchor.constraint(equalTo: label.bottomAnchor, constant: isiPhoneSE ? 15 : 30),
             gameBg.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: isiPhoneSE ? 20 : 40),
             gameBg.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: isiPhoneSE ? -20 : -40),
-            gameBg.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: isiPhoneSE ? -80 : -150),
+            gameBg.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: isiPhoneSE ? -65 : -150),
             
             //Arrow Image constraint
             arrowImage.centerXAnchor.constraint(equalTo: gameBg.centerXAnchor),

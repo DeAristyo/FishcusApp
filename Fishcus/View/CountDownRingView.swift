@@ -79,7 +79,7 @@ class CountdownRingView: UIView {
         backgroundLayer.lineWidth = 45
         
         // Create a circular path for the ring layer
-        let ringRadius = (min(bounds.width, bounds.height) - ringWidth) / 2
+    
         let ringPath = UIBezierPath(arcCenter: .zero, radius: 100, startAngle: 0, endAngle: 2 * CGFloat.pi, clockwise: true)
         ringLayer.path = ringPath.cgPath
         ringLayer.lineWidth = 35

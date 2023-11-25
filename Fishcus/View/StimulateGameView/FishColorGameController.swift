@@ -710,7 +710,7 @@ class FishColorGameController: UIViewController{
         placedPositions.append(fishPosition)
         
         NSLayoutConstraint.activate([
-            fishImageView.widthAnchor.constraint(equalTo: fishBg.widthAnchor, multiplier: 0.3),
+            fishImageView.widthAnchor.constraint(equalTo: fishBg.widthAnchor, multiplier: isiPhoneSE ? 0.2 : 0.3),
             fishImageView.heightAnchor.constraint(equalTo: fishImageView.widthAnchor),
             fishImageView.leadingAnchor.constraint(equalTo: fishBg.leadingAnchor, constant: fishPosition.x),
             fishImageView.topAnchor.constraint(equalTo: fishBg.topAnchor, constant: fishPosition.y)
