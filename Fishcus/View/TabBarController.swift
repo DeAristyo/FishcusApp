@@ -25,6 +25,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        if isiPhoneSE{
+            let tabBarFrame = tabBar.frame
+            let newTabBarFrame = CGRect(x: tabBarFrame.origin.x, y: tabBarFrame.origin.y - 40, width: tabBarFrame.width, height: tabBarFrame.height + 40)
+            tabBar.frame = newTabBarFrame
+        }
         updateSelectionIndicatorPosition()
     }
     
@@ -39,11 +44,11 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         trainingViewController.tabBarItem = UITabBarItem(title: "Training", image: UIImage.tabs.game, selectedImage: UIImage.tabs.gameActive)
         
         // Set image insets for tab bar items
-            let yOffset: CGFloat = isiPhoneSE ? 40.0 : 0.0 // Adjust this value as needed
-            
-            focusViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
-            historyViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
-            trainingViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
+        let yOffset: CGFloat = isiPhoneSE ? 20.0 : 0.0 // Adjust this value as needed
+        
+        focusViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
+        historyViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
+        trainingViewController.tabBarItem.imageInsets = UIEdgeInsets(top: -yOffset, left: 0, bottom: yOffset, right: 0)
         
         self.viewControllers = [focusViewController, historyViewController, trainingViewController]
     }
@@ -75,7 +80,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         }
         
         let layerPath = UIBezierPath(roundedRect: CGRect(x: sidePadding,
-                                                         y: yPosition,
+                                                         y: isiPhoneSE ? -10 : yPosition,
                                                          width: tabBar.bounds.width - (sidePadding * 2),
                                                          height: layerHeight),
                                      cornerRadius: layerHeight / 2).cgPath
@@ -91,7 +96,7 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
         let tabBarItemInset: CGFloat = bottomPadding > 0 ? (layerHeight - tabBar.bounds.height) / 6 : 0
         
         UITabBarItem.appearance().titlePositionAdjustment = isiPhoneSE ? UIOffset(horizontal: 0, vertical: -yOffset) : UIOffset(horizontal: 0, vertical: -tabBarItemInset)
-//        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -tabBarItemInset)
+        //        UITabBarItem.appearance().titlePositionAdjustment = UIOffset(horizontal: 0, vertical: -tabBarItemInset)
         
         // Set unselected and selected item colors
         UITabBar.appearance().unselectedItemTintColor = unselectedColor
@@ -139,7 +144,6 @@ class TabBarController: UITabBarController, UITabBarControllerDelegate {
             }
         }
     }
-    
     
     override func tabBar(_ tabBar: UITabBar, didSelect item: UITabBarItem) {
         if let index = tabBar.items?.firstIndex(of: item), index != selectedIndex {
