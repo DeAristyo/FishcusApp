@@ -36,10 +36,11 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     //Timer
     var timer: Timer?
-    var timerStart: Int = 0
+    var timerStart: Int = 280
     
     //show info toggle to show more info in pause mode
     var showInfo = false
+    var isGuidedTutorialDone: Bool?
 
     
     //CountDown label
@@ -1343,9 +1344,9 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         
         NSLayoutConstraint.activate([
             infoPullOutLabel.centerYAnchor.constraint(equalTo: infoPullOut.centerYAnchor),
-            infoPullOutLabel.leadingAnchor.constraint(equalTo: infoPullOutIcon.trailingAnchor, constant: 17),
-            infoPullOutLabel.widthAnchor.constraint(equalToConstant: 231),
-            infoPullOutLabel.heightAnchor.constraint(equalToConstant: 50)
+            infoPullOutLabel.leadingAnchor.constraint(equalTo: infoPullOutIcon.trailingAnchor),
+            infoPullOutLabel.widthAnchor.constraint(equalToConstant: 260),
+            infoPullOutLabel.heightAnchor.constraint(equalToConstant: 55)
         ])
     }
     
@@ -1635,7 +1636,10 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
                 timer?.invalidate()
                 timeRecap.append(timerStart)
                 print(timeRecap)
-                checkRaisePhone()
+                DispatchQueue.main.asyncAfter(deadline: .now()+2.05){
+                    self.checkRaisePhone()
+                }
+               
                 ShowInfoPullOut()
                 SwipeUpAction()
             }
@@ -1668,7 +1672,10 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
         if timer != nil {
            
             if timerStart >= focusDuration && timerPauseContainer.totalPauseTimer != 0{
-                guidedShakeRemove()
+                if isGuidedFinish() == false{
+                    guidedShakeRemove()
+                }
+               
                 UIView.animate(withDuration: 0.5, animations: {
                     self.breakAlert.alpha = 1.0
                 })
@@ -1693,6 +1700,16 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
             
             
         }
+    }
+    
+    func isGuidedFinish()-> Bool{
+        
+        if((self.myUserDefault.data(forKey: "focusData")?.isEmpty) == nil){
+            return false
+        }else{
+            return true
+        }
+    
     }
     
     

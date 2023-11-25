@@ -9,6 +9,8 @@ import UIKit
 
 class SetupFocusViewController: UIViewController, DelegateButtonStart {
     
+    let smallScreen = UIScreen.main.bounds.size.height <= 667
+    
     // setup focus var
     weak var delegateProtocol: DelegateSetupFocus?
     let myUserDefault = UserDefaults.standard
@@ -81,6 +83,7 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
     override func viewDidLoad() {
         super.viewDidLoad()
       
+        self.navigationController?.isNavigationBarHidden = false
         view.backgroundColor = UIColor.MyColors.primaryColor
         
         /// Create a custom view for the back button
@@ -100,6 +103,7 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
         
         // Setup Layouts
         SetupLayouts()
+       
         
         // Setup Delegate
         SetupDelegate()
@@ -147,12 +151,26 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
     }
     
     func SetupLayouts(){
+        
+        if smallScreen{
+            NSLayoutConstraint.activate([
+                cycleBg.topAnchor.constraint(equalTo: view.topAnchor),
+                cycleBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                cycleBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+                cycleBg.heightAnchor.constraint(equalToConstant: 200)
+            ])
+        }else{
+            NSLayoutConstraint.activate([
+                cycleBg.topAnchor.constraint(equalTo: view.topAnchor),
+                cycleBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+                cycleBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            ])
+          
+        }
+        
         NSLayoutConstraint.activate([
-            cycleBg.topAnchor.constraint(equalTo: view.topAnchor),
-            cycleBg.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            cycleBg.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            horizontalStack.topAnchor.constraint(equalTo: cycleBg.bottomAnchor, constant: view.bounds.height * 0.03),
+
+            horizontalStack.topAnchor.constraint(equalTo: cycleBg.bottomAnchor, constant: smallScreen ? view.bounds.height * 0.1  : view.bounds.height * 0.03),
             horizontalStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             startFocusSetup.topAnchor.constraint(equalTo: horizontalStack.bottomAnchor, constant: 15),
@@ -218,7 +236,8 @@ class SetupFocusViewController: UIViewController, DelegateButtonStart {
                 cycleContainer.addSubview(iconBtn)
                 break
             case 2:
-                iconBtn.image = UIImage(systemName: "sun.horizon.fill")
+                iconBtn.image = smallScreen ? UIImage(named: "horizon.fill") : UIImage(systemName: "sun.horizon.fill")
+                iconBtn.frame = CGRect(x: 0, y: 0, width: 5, height: 5)
                 cycleContainer.addSubview(iconBtn)
                 break
             case 3:

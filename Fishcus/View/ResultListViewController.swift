@@ -39,7 +39,7 @@ class ResultListViewController: UIViewController, UITableViewDelegate, UITableVi
 
         let titleAttributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.rounded(ofSize: 28, weight: .heavy),
-            .foregroundColor: UIColor.white
+            .foregroundColor: UIColor.MyColors.primaryColor
         ]
         
         navigationItem.setHidesBackButton(true, animated: false)
