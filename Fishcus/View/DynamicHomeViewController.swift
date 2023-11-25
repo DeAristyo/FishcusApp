@@ -381,7 +381,7 @@ class DynamicHomeViewController: UIViewController{
     func SetupGuidedTutorial(){
         if(myUserDefault.data(forKey: "focusData")?.isEmpty == nil){
             let initialGuidedTutorial = guidedTutorials[0]
-            initialGuidedTutorial.layer.zPosition = 99
+            initialGuidedTutorial.layer.zPosition = 999
             
             view.addSubview(initialGuidedTutorial)
             
@@ -401,7 +401,7 @@ class DynamicHomeViewController: UIViewController{
     func SetupFinishGuidedTutorial(){
         if(getSumFishingData == 1){
             let initialFinishTutorial = finishGuidedTutorial
-            initialFinishTutorial.layer.zPosition = 99
+            initialFinishTutorial.layer.zPosition = 999
             
             view.addSubview(initialFinishTutorial)
             

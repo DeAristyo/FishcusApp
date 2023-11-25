@@ -41,15 +41,15 @@
 		CC9713172AFEC16500A5D733 /* ModelFishing.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9713162AFEC16500A5D733 /* ModelFishing.swift */; };
 		CC9DAB762AF3E53A0000B271 /* Font.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9DAB752AF3E53A0000B271 /* Font.swift */; };
 		CC9ECB582AF1020900E6E2CD /* ResultListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */; };
+		CCB9210F2B12238500118B9E /* reeling-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCB9210C2B12238400118B9E /* reeling-evening.mov */; };
+		CCB921102B12238500118B9E /* transition-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCB9210D2B12238400118B9E /* transition-evening.mov */; };
+		CCB921112B12238500118B9E /* focus-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCB9210E2B12238500118B9E /* focus-evening.mov */; };
+		CCB921132B12238E00118B9E /* transition-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCB921122B12238E00118B9E /* transition-night.mov */; };
 		CCBEDD342B07744A004D23A0 /* CustomPickerTime.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCBEDD332B07744A004D23A0 /* CustomPickerTime.swift */; };
-		CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD382B089B4C004D23A0 /* focus-evening.mov */; };
-		CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */; };
 		CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */; };
-		CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */; };
 		CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD402B089C49004D23A0 /* focus-night.mov */; };
 		CCBEDD432B089C68004D23A0 /* reeling-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD422B089C68004D23A0 /* reeling-night.mov */; };
 		CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD442B089C7F004D23A0 /* pause-night.mov */; };
-		CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */ = {isa = PBXBuildFile; fileRef = CCBEDD462B089CA2004D23A0 /* transition-night.mov */; };
 		CCE17E672B0276320036D455 /* NotificationServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E662B0276320036D455 /* NotificationServices.swift */; };
 		CCE17E692B02A02C0036D455 /* MotionServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E682B02A02C0036D455 /* MotionServices.swift */; };
 		CCE17E6B2B02AC270036D455 /* DataPersistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCE17E6A2B02AC270036D455 /* DataPersistence.swift */; };
@@ -102,15 +102,15 @@
 		CC9713162AFEC16500A5D733 /* ModelFishing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelFishing.swift; sourceTree = "<group>"; };
 		CC9DAB752AF3E53A0000B271 /* Font.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Font.swift; sourceTree = "<group>"; };
 		CC9ECB572AF1020900E6E2CD /* ResultListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultListViewController.swift; sourceTree = "<group>"; };
+		CCB9210C2B12238400118B9E /* reeling-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "reeling-evening.mov"; sourceTree = "<group>"; };
+		CCB9210D2B12238400118B9E /* transition-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-evening.mov"; sourceTree = "<group>"; };
+		CCB9210E2B12238500118B9E /* focus-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "focus-evening.mov"; sourceTree = "<group>"; };
+		CCB921122B12238E00118B9E /* transition-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-night.mov"; sourceTree = "<group>"; };
 		CCBEDD332B07744A004D23A0 /* CustomPickerTime.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomPickerTime.swift; sourceTree = "<group>"; };
-		CCBEDD382B089B4C004D23A0 /* focus-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "focus-evening.mov"; sourceTree = "<group>"; };
-		CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-evening.mov"; sourceTree = "<group>"; };
 		CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "pause-evening.mov"; sourceTree = "<group>"; };
-		CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "reeling-evening.mov"; sourceTree = "<group>"; };
 		CCBEDD402B089C49004D23A0 /* focus-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "focus-night.mov"; sourceTree = "<group>"; };
 		CCBEDD422B089C68004D23A0 /* reeling-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "reeling-night.mov"; sourceTree = "<group>"; };
 		CCBEDD442B089C7F004D23A0 /* pause-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "pause-night.mov"; sourceTree = "<group>"; };
-		CCBEDD462B089CA2004D23A0 /* transition-night.mov */ = {isa = PBXFileReference; lastKnownFileType = video.quicktime; path = "transition-night.mov"; sourceTree = "<group>"; };
 		CCE17E652B0221E70036D455 /* Fishcus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Fishcus.entitlements; sourceTree = "<group>"; };
 		CCE17E662B0276320036D455 /* NotificationServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationServices.swift; sourceTree = "<group>"; };
 		CCE17E682B02A02C0036D455 /* MotionServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MotionServices.swift; sourceTree = "<group>"; };
@@ -272,10 +272,10 @@
 		CCBEDD362B089B0E004D23A0 /* evening */ = {
 			isa = PBXGroup;
 			children = (
-				CCBEDD3E2B089C07004D23A0 /* reeling-evening.mov */,
+				CCB9210E2B12238500118B9E /* focus-evening.mov */,
+				CCB9210C2B12238400118B9E /* reeling-evening.mov */,
+				CCB9210D2B12238400118B9E /* transition-evening.mov */,
 				CCBEDD3C2B089BE8004D23A0 /* pause-evening.mov */,
-				CCBEDD3A2B089BA1004D23A0 /* transition-evening.mov */,
-				CCBEDD382B089B4C004D23A0 /* focus-evening.mov */,
 			);
 			path = evening;
 			sourceTree = "<group>";
@@ -283,7 +283,7 @@
 		CCBEDD372B089B16004D23A0 /* night */ = {
 			isa = PBXGroup;
 			children = (
-				CCBEDD462B089CA2004D23A0 /* transition-night.mov */,
+				CCB921122B12238E00118B9E /* transition-night.mov */,
 				CCBEDD442B089C7F004D23A0 /* pause-night.mov */,
 				CCBEDD422B089C68004D23A0 /* reeling-night.mov */,
 				CCBEDD402B089C49004D23A0 /* focus-night.mov */,
@@ -400,17 +400,17 @@
 				CC0509BB2B105C88000962A9 /* HomeScreenEvening.mov in Resources */,
 				CCBEDD412B089C49004D23A0 /* focus-night.mov in Resources */,
 				CC7AB1A12B0A8BEA00918F8B /* PauseModeAnimation.mov in Resources */,
+				CCB921102B12238500118B9E /* transition-evening.mov in Resources */,
+				CCB921132B12238E00118B9E /* transition-night.mov in Resources */,
+				CCB9210F2B12238500118B9E /* reeling-evening.mov in Resources */,
 				CCBEDD3D2B089BE8004D23A0 /* pause-evening.mov in Resources */,
 				CC7AB19D2B0A8BB400918F8B /* FocusModeAnimation.mov in Resources */,
-				CCBEDD3F2B089C07004D23A0 /* reeling-evening.mov in Resources */,
+				CCB921112B12238500118B9E /* focus-evening.mov in Resources */,
 				CC0509BA2B105C88000962A9 /* HomeScreenDay.mov in Resources */,
 				CC7AB1A52B0A8C1600918F8B /* ReelingAnimation.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
-				CCBEDD472B089CA2004D23A0 /* transition-night.mov in Resources */,
 				CCBEDD452B089C7F004D23A0 /* pause-night.mov in Resources */,
-				CCBEDD392B089B4C004D23A0 /* focus-evening.mov in Resources */,
 				1FF8F4A8C17C951165DB875D /* LaunchScreen.storyboard in Resources */,
-				CCBEDD3B2B089BA1004D23A0 /* transition-evening.mov in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -563,7 +563,7 @@
 				);
 				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.dev.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.dev.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -652,7 +652,7 @@
 				);
 				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(PRODUCT_BUNDLE_IDENTIFIER)";
-				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.dimas.fishcus;
+				"PRODUCT_BUNDLE_IDENTIFIER[sdk=iphoneos*]" = com.vicky.fishcus;
 				PRODUCT_NAME = Fishcus;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

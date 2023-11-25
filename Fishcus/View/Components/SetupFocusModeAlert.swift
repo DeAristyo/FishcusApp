@@ -8,7 +8,7 @@
 import UIKit
 
 
-class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
+class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch, UITextFieldDelegate{
 
     
     let smallScreen = UIScreen.main.bounds.size.height <= 667
@@ -240,15 +240,23 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
     func SetupDelegate(){
         inputTimePicker.timerDelegate = self
         toggleSwitcher.toggleSwitch = self
+        inputTaskTextField.delegate = self
     }
     
-    func SetupLayout(){
-        if smallScreen {
-            print("Iphone se")
-        }else{
-            print("iphone biasa")
+    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
+           let currentText = textField.text ?? ""
+           let newText = (currentText as NSString).replacingCharacters(in: range, with: string)
            
-        }
+           if newText.count > 20 {
+               delegateChangeScreen?.ShowAlertMinFocusDuration("Maximum input length is 20 characters")
+               
+               return false
+           }
+           
+           return true
+       }
+    
+    func SetupLayout(){
         
         NSLayoutConstraint.activate([
             titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 15),
@@ -264,7 +272,7 @@ class SetupFocusModeAlert: UIView, DelegatePickerTime, DelegateToggleSwitch{
             
             buttonPicker.topAnchor.constraint(equalTo: inputTaskTextField.bottomAnchor, constant: smallScreen ? 22 : 32),
             buttonPicker.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -35),
-            buttonPicker.widthAnchor.constraint(equalToConstant: smallScreen ? 150  : UIScreen.main.bounds.size.width/3),
+            buttonPicker.widthAnchor.constraint(equalToConstant: smallScreen ? 150  : UIScreen.main.bounds.size.width/3 ),
             buttonPicker.heightAnchor.constraint(equalToConstant: 30),
             
             breakDurationTitleLabel.topAnchor.constraint(equalTo: focusDurationLabel.bottomAnchor, constant: smallScreen ? 22 : 35),

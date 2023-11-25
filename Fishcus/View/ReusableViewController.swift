@@ -8,6 +8,7 @@
 import UIKit
 
 class ReuseableInfoView: UIView{
+    private let isiPhoneSE = UIScreen.main.bounds.height <= 667
     
     enum bgStyleEnum {
         case type1
@@ -127,7 +128,7 @@ class ReuseableInfoView: UIView{
             userInfoOverlay.bottomAnchor.constraint(equalTo: bottomAnchor),
             
             mascotImage.centerXAnchor.constraint(equalTo: centerXAnchor, constant: position ? 0 : 100),
-            mascotImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: 100),
+            mascotImage.centerYAnchor.constraint(equalTo: centerYAnchor, constant: isiPhoneSE ? 0 : 100),
             mascotImage.widthAnchor.constraint(equalToConstant: 117),
             mascotImage.heightAnchor.constraint(equalToConstant: 182),
             
