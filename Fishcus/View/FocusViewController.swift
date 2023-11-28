@@ -36,7 +36,7 @@ class FocusViewController: UIViewController, DelegateProtocol, UITextFieldDelega
     
     //Timer
     var timer: Timer?
-    var timerStart: Int = 280
+    var timerStart: Int = 0
     
     //show info toggle to show more info in pause mode
     var showInfo = false
